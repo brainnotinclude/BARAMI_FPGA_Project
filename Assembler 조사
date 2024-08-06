@@ -1,14 +1,15 @@
 희준 선배님 자료
-컴파일러와 어셈블러가 엄연히 다른 것은 맞는데 코드>기계어라는 함수 구조라는 부분에선 비슷함.
-사실상 결과물이 기계어인 것만 배제하면 컴파일러랑 다를바 없는거 같다고 생각되어 컴파일러의 구조도 조사함.
-1. https://drive.google.com/file/d/1VqtLl5Ru0FDBvysamyZQxzF08B4UXtk3/view?usp=sharing
-2. https://edykim.com/ko/post/the-super-tiny-compiler/
-3. https://blockdmask.tistory.com/382
+  컴파일러와 어셈블러가 엄연히 다른 것은 맞는데 코드>기계어라는 함수 구조라는 부분에선 비슷함.
+  사실상 결과물이 기계어인 것만 배제하면 컴파일러랑 다를바 없는거 같다고 생각되어 컴파일러의 구조도 조사함.
+  strtok 함수?
+    1. https://drive.google.com/file/d/1VqtLl5Ru0FDBvysamyZQxzF08B4UXtk3/view?usp=sharing
+    2. https://edykim.com/ko/post/the-super-tiny-compiler/
+    3. https://blockdmask.tistory.com/382
 
 병찬 자료
-strtok 함수?
-1. https://www.geeksforgeeks.org/introduction-of-assembler/
-2. https://it-eldorado.tistory.com/23
-3. https://software-dl.ti.com/codegen/docs/tiarmclang/compiler_tools_user_guide/compiler_manual/runtime_environment/interfacing-c-and-c-with-assembly-language-stdz0544217.html
-4. https://en.cppreference.com/w/cpp/language/asm
+  asmfunc 함수?
+    1. https://www.geeksforgeeks.org/introduction-of-assembler/
+    2. https://it-eldorado.tistory.com/23
+    3. https://software-dl.ti.com/codegen/docs/tiarmclang/compiler_tools_user_guide/compiler_manual/runtime_environment/interfacing-c-and-c-with-assembly-language-stdz0544217.html
+    4. https://en.cppreference.com/w/cpp/language/asm
 
