@@ -21,8 +21,8 @@ wire [31:0] PCNext2;
 wire [31:0] imm_shift;
 wire [31:0] imm_jal_shift;
 
-assign imm_shift = {19'b0, imm << 1};  // for  branch  01
-assign imm_jal_shift = {11'b0, imm_jal<<1};   // for jal  10
+    assign imm_shift = {11'b0, imm << 1};  // for  branch  01
+    assign imm_jal_shift = {19'b0, imm_jal<<1};   // for jal  10
 
 ripple_carry_adder u_pc_plus_4(
 .a  (pcF1),
