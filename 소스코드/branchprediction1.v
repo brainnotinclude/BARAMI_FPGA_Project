@@ -1,6 +1,6 @@
 module branchprediction1 (
     input wire clk,
-    input wire rst,
+    input wire rst_n,
     input wire [31:0] pc,               // 현재 프로그램 카운터 (PC)
     input wire [31:0] target_addr,      // 분기 타겟 주소
     input wire branch_taken,            // 분기 예측 결과
@@ -25,8 +25,8 @@ module branchprediction1 (
     assign tag = pc[31:10];             // PC의 상위 비트를 태그로 사용
     
     integer i;
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
             // 초기화 
             for (i = 0; i < BTB_SIZE; i = i + 1) begin
                 valid_table[i] <= 0;      // 모든 엔트리 무효화

@@ -1,37 +1,37 @@
 module branchprediction (
-    input wire clk,
-    input wire rst,
-    input wire [31:0] pc,           // í”„ë¡œê·¸ë¨ ì¹´ìš´í„° (PC)
-    input wire branch_taken,        // ì‹¤ì œ ë¶„ê¸° ê²°ê³¼
-    input wire branch,              // ë¶„ê¸° ëª…ë ¹ ë°œìƒ ì—¬ë¶€
-    output wire prediction          // ë¶„ê¸° ì˜ˆì¸¡ ê²°ê³¼
+    input clk,
+    input rst_n,
+    input [31:0] pc,           // ÇÁ·Î±×·¥ Ä«¿îÅÍ (PC)
+    input branch_taken,        // ½ÇÁ¦ ºĞ±â °á°ú
+    input branch,              // ºĞ±â ¸í·É ¹ß»ı ¿©ºÎ
+    output wire prediction          // ºĞ±â ¿¹Ãø °á°ú
 );
 
-    // LUT í¬ê¸° ì •ì˜
-    parameter TABLE_SIZE = 16;      // LUT í¬ê¸° (16 ì—”íŠ¸ë¦¬)
-    parameter INDEX_BITS = 4;        // LUT ì¸ë±ìŠ¤ë¡œ ì‚¬ìš©í•  ë¹„íŠ¸ ìˆ˜ (4ë¹„íŠ¸)
+    // LUT Å©±â Á¤ÀÇ
+    parameter TABLE_SIZE = 16;      // LUT Å©±â (16 ¿£Æ®¸®)
+    parameter INDEX_BITS = 4;        // LUT ÀÎµ¦½º·Î »ç¿ëÇÒ ºñÆ® ¼ö (4ºñÆ®)
 
-    // LUT ì„ ì–¸
+    // LUT ¼±¾ğ
     reg [1:0] prediction_table [0:TABLE_SIZE-1];
 
-    // LUT ì¸ë±ìŠ¤
+    // LUT ÀÎµ¦½º
     wire [INDEX_BITS-1:0] index;
-    assign index = pc[INDEX_BITS+1:2]; // PCì˜ í•˜ìœ„ ë¹„íŠ¸ë¥¼ ì¸ë±ìŠ¤ë¡œ ì‚¬ìš©
+    assign index = pc[INDEX_BITS+1:2]; // PCÀÇ ÇÏÀ§ ºñÆ®¸¦ ÀÎµ¦½º·Î »ç¿ë
 
-    // ë¶„ê¸° ì˜ˆì¸¡ ê²°ê³¼
-    assign prediction = (prediction_table[index] >= 2'b10) ? 1'b1 : 1'b0;  // 2'b10 ì´ìƒì¼ ê²½ìš° Taken ì˜ˆì¸¡
+    // ºĞ±â ¿¹Ãø °á°ú
+    assign prediction = (prediction_table[index] >= 2'b10) ? 1'b1 : 1'b0;  // 2'b10 ÀÌ»óÀÏ °æ¿ì Taken ¿¹Ãø
 
 
     integer i;
-    // ë¶„ê¸° ì˜ˆì¸¡ í…Œì´ë¸” ì—…ë°ì´íŠ¸
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
-            // ì˜ˆì¸¡ í…Œì´ë¸” ì´ˆê¸°í™”
+    // ºĞ±â ¿¹Ãø Å×ÀÌºí ¾÷µ¥ÀÌÆ®
+    always @(posedge clk or negedge rst_n) begin
+        if (rst_n) begin
+            // ¿¹Ãø Å×ÀÌºí ÃÊ±âÈ­
             for (i = 0; i < TABLE_SIZE; i = i + 1) begin
-                prediction_table[i] <= 2'b00; // ëª¨ë“  ì—”íŠ¸ë¦¬ë¥¼ 'Strongly Not Taken'ìœ¼ë¡œ ì´ˆê¸°í™”
+                prediction_table[i] <= 2'b00; // ¸ğµç ¿£Æ®¸®¸¦ 'Strongly Not Taken'À¸·Î ÃÊ±âÈ­
             end
         end else if (branch) begin
-            // ë¶„ê¸° ë°œìƒ ì‹œ, ì‹¤ì œ ê²°ê³¼ì— ë”°ë¼ í…Œì´ë¸” ì—…ë°ì´íŠ¸
+            // ºĞ±â ¹ß»ı ½Ã, ½ÇÁ¦ °á°ú¿¡ µû¶ó Å×ÀÌºí ¾÷µ¥ÀÌÆ®
             if (branch_taken) begin
                 case(prediction_table[index])
                     2'b11: prediction_table[index] <= 2'b11;
