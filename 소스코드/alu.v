@@ -10,7 +10,7 @@ module alu(
     output reg [31:0] sltu
     );
 
-    // add sub part
+    // add sub lui auipc part
     wire [31:0] sum;
     wire [31:0] bar_aluin2;
     assign bar_aluin2 = (aluop[0] ? ~aluin2 :aluin2);    // 덧셈은 aluin2 그대로, 뺄셈은 aluin2 각 비트를 inverse한 값으로 계산
