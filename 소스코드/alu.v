@@ -71,6 +71,33 @@ module alu(
     assign mul_out = mult_out[31:0];       // 하위 32비트
     assign mulh_out = mult_out[63:32];     // 상위 32비트
     
+    // divide part                  // div = 11000 divu = 11010 rem = 11100 remu = 11110
+    wire [31:0] aluin1_unsigned;         // 나눗셈 연산은 기본적으로 절대값을 씌운 다음 진행
+    wire [31:0] aluin2_unsigned;         // 그러기 위해서는 명령어가 unsign인지 아닌지 구분 필요
+    wire [31:0] quotient;                // aluop[1]을 div와 rem 같게(0), divu, remu(1)같게 설정
+    wire [31:0] remainder;               // 이를 이용해 나눗셈 모듈에 넣을 입력을 정해줌
+    assign aluin1_unsigned = (aluop[1] ? aluin1 : (aluin1[31] ? ~aluin1+1 : aluin1));       // 만약 div인데 음수인경우 2의 보수로 양수로 만듦
+    assign aluin2_unsigned = (aluop[1] ? aluin1 : (aluin1[31] ? ~aluin1+1 : aluin1));
+    
+    divide u_divide(                    
+    .dividend(aluin1_unsigned),
+    .divisor(aluin2_unsigned),
+    .quotient(quotient),
+    .remainder(remainder));
+    // 나눗셈 결과를 div, divu, rem, remu에 모두 올바른 값으로 저장 필요
+    // 이를 위해 처음 받은 두 입력의 최상위 비트를 붙여 2비트 짜리 mod_div라는 변수를 만듦
+    // 이 변수를 이용해 나눗셈 몫과 나머지가 양수를 가져야 하는지 음수를 가져야 하는지 결정
+    // divu, remu인 경우는 양 음 관계없는 연산이므로 나눗셈 몫과 나머지를 그대로 받음
+    wire [31:0] div;
+    wire [31:0] divu;
+    wire [31:0] rem;
+    wire [31:0] remu;
+    wire [1:0] mod_div;
+    assign mod_div = {aluin1[31],aluin2[31]};    
+    assign div = ((mod_div == 2'b00 | mod_div == 2'b11) ? quotient : ~quotient +1);
+    assign rem = ((mod_div == 2'b00 | mod_div == 2'b11) ? remainder : ~remainder +1);
+    assign divu = quotient;
+    assign remu = remainder;
     
     // output part
     always @(posedge clk or negedge rst_n) begin
@@ -88,9 +115,12 @@ module alu(
             5'h17: aluout <= mulh_out;
             5'h18: aluout <= mulh_out;
             5'h22: aluout <= mul_out;
+            5'h24: aluout <= div;
+            5'h26: aluout <= divu;
+            5'h28: aluout <= rem;
+            5'h30: aluout <= remu;
                   
-                  
-                  
+                 
     endcase
 end   
 endmodule
