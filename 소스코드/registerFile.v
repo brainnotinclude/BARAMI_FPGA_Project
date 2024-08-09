@@ -22,6 +22,7 @@
 //4 read port and 2 write port: maximum 2 instructions are decoded at one cycle
 //Assuming there a two instructions A and B. Then 2 read port and one write port is allocated to each instruction
 //Finished: Source read(need modification), Destination allocation, write to RRF, register update
+//Last modified: 2024-08-09 by jeyun park: 
 module registerFile (
     input clk,
     input rst_n,
@@ -105,7 +106,7 @@ module registerFile (
         else begin
             //Change tag, valid, busy bits when write operation occurs(destination allocation process)
             if(map_en_A) begin
-                if(!arfBusy[wraddrA_map] && !rrfEmptyValid[0]) begin
+                if(!arfBusy[wraddrA_map] && rrfEmptyValid[0]) begin
                     arfBusy[wraddrA_map] <= 1;              //ARF busy bit set
                     arfTag[wraddrA_map] <= emptyRRFentry1;//Empty RRF tag 
                     rrfBusy[emptyRRFentry1] <= 1'b1;  //RRF busy bit set
@@ -117,7 +118,7 @@ module registerFile (
                 end
             end
             if(map_en_B) begin
-                if(!arfBusy[wraddrB_map] && !rrfEmptyValid[1]) begin
+                if(!arfBusy[wraddrB_map] && rrfEmptyValid[1]) begin
                     arfBusy[wraddrB_map] <= 1;              //ARF busy bit set
                     arfTag[wraddrB_map] <= emptyRRFentry2;//Empty RRF tag 
                     rrfBusy[emptyRRFentry2] <= 1'b1;  //RRF busy bit set
@@ -160,43 +161,43 @@ module registerFile (
         //Check if there is one available RRF entry
         casex(rrfBusy)
             8'b0xxxxxxx: begin
-                emptyRRFentry1 = 3'd0;
-                rrfBusyTemp[0] = 1'b1;
+                emptyRRFentry1 = 3'd7;
+                rrfBusyTemp[7] = 1'b1;
                 rrfEmptyValid[0] = 1'b1;
             end
             8'b10xxxxxx: begin
-                emptyRRFentry1 = 3'd1;
-                rrfBusyTemp[1] = 1'b1;
-                rrfEmptyValid[0] = 1'b1;
-            end
-            8'b110xxxxx: begin
-                emptyRRFentry1 = 3'd2;
-                rrfBusyTemp[2] = 1'b1;
-                rrfEmptyValid[0] = 1'b1;
-            end
-            8'b1110xxxx: begin
-                emptyRRFentry1 = 3'd3;
-                rrfBusyTemp[3] = 1'b1;
-                rrfEmptyValid[0] = 1'b1;
-            end
-            8'b11110xxx: begin
-                emptyRRFentry1 = 3'd4;
-                rrfBusyTemp[4] = 1'b1;
-                rrfEmptyValid[0] = 1'b1;
-            end
-            8'b111110xx: begin
-                emptyRRFentry1 = 3'd5;
-                rrfBusyTemp[5] = 1'b1;
-                rrfEmptyValid[0] = 1'b1;
-            end
-            8'b1111110x: begin
                 emptyRRFentry1 = 3'd6;
                 rrfBusyTemp[6] = 1'b1;
                 rrfEmptyValid[0] = 1'b1;
             end
+            8'b110xxxxx: begin
+                emptyRRFentry1 = 3'd5;
+                rrfBusyTemp[5] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                emptyRRFentry1 = 3'd4;
+                rrfBusyTemp[4] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b11110xxx: begin
+                emptyRRFentry1 = 3'd3;
+                rrfBusyTemp[3] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b111110xx: begin
+                emptyRRFentry1 = 3'd2;
+                rrfBusyTemp[2] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b1111110x: begin
+                emptyRRFentry1 = 3'd1;
+                rrfBusyTemp[1] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
             8'b11111110: begin
-                emptyRRFentry1 = 3'd7;
-                rrfBusyTemp[7] = 1'b1;
+                emptyRRFentry1 = 3'd0;
+                rrfBusyTemp[0] = 1'b1;
                 rrfEmptyValid[0] = 1'b1;
             end
             8'b11111111: begin
@@ -207,31 +208,31 @@ module registerFile (
         //Check if there is two available RRF entry
         casex(rrfBusyTemp)
             8'b10xxxxxx: begin
-                emptyRRFentry2 = 3'd1;
-                rrfEmptyValid[1] = 1'b1;
-            end
-            8'b110xxxxx: begin
-                emptyRRFentry2 = 3'd2;
-                rrfEmptyValid[1] = 1'b1;
-            end
-            8'b1110xxxx: begin
-                emptyRRFentry2 = 3'd3;
-                rrfEmptyValid[1] = 1'b1;
-            end
-            8'b11110xxx: begin
-                emptyRRFentry2 = 3'd4;
-                rrfEmptyValid[1] = 1'b1;
-            end
-            8'b111110xx: begin
-                emptyRRFentry2 = 3'd5;
-                rrfEmptyValid[1] = 1'b1;
-            end
-            8'b1111110x: begin
                 emptyRRFentry2 = 3'd6;
                 rrfEmptyValid[1] = 1'b1;
             end
+            8'b110xxxxx: begin
+                emptyRRFentry2 = 3'd5;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                emptyRRFentry2 = 3'd4;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b11110xxx: begin
+                emptyRRFentry2 = 3'd3;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b111110xx: begin
+                emptyRRFentry2 = 3'd2;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b1111110x: begin
+                emptyRRFentry2 = 3'd1;
+                rrfEmptyValid[1] = 1'b1;
+            end
             8'b11111110: begin
-                emptyRRFentry2 = 3'd7;
+                emptyRRFentry2 = 3'd0;
                 rrfEmptyValid[1] = 1'b1;
             end
             default: begin
