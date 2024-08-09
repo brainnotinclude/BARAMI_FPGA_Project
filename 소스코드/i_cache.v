@@ -1,6 +1,7 @@
 // cache line이 끊기는 경우 -> 감지를 하는 모듈이 필요할 듯, 그 모듈에서 이 모듈로 1을 주면 끊겼다고 
 //판단하고 다음 라인까지 읽을 수 있도록 하는 것이 필요할 듯. 사실상 책의 내용이 완전히 이해가 가지 않음...
 // T_logic 모듈
+// T_logic 모듈
 module T_logic (
     input [21:0] tag,       // 입력 주소의 태그 부분 (31:10)
     input [21:0] cache_tag, // 캐시 라인의 태그
@@ -71,7 +72,7 @@ module Dual_Cache_Subarray (
     output [1:0] evict_line0,         // 첫 번째 캐시 서브어레이에서 교체할 라인 번호 (0 또는 1)
     output [1:0] evict_line1,         // 두 번째 캐시 서브어레이에서 교체할 라인 번호 (0 또는 1)
     output reg [31:0] memory_data0,   // 첫 번째 메모리 데이터 출력
-    output reg [31:0] memory_data1,   // 두 번째 메모리 데이터 출력
+    output reg [31:32] memory_data1,   // 두 번째 메모리 데이터 출력
     input [31:0] memory_in0,          // 메모리에서 읽어온 첫 번째 데이터
     input [31:0] memory_in1,          // 메모리에서 읽어온 두 번째 데이터
     output reg memory_read0,          // 첫 번째 메모리 읽기 신호
@@ -143,13 +144,26 @@ module Dual_Cache_Subarray (
         .evict_line(evict_line1)
     );
 
-    // 캐시 미스 처리 및 메모리에서 데이터 가져오기
+    // 캐시 초기화 및 캐시 미스 처리 로직
+    integer i, j;
+
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             memory_read0 <= 0;
             memory_read1 <= 0;
+
+            // 캐시 라인과 태그 초기화
+            for (i = 0; i < 256; i = i + 1) begin
+                for (j = 0; j < 2; j = j + 1) begin
+                    cache_lines0[i][j] <= 32'b0;
+                    cache_tags0[i][j] <= 22'b0;
+                    cache_lines1[i][j] <= 32'b0;
+                    cache_tags1[i][j] <= 22'b0;
+                end
+            end
+
         end else begin
-            // 첫 번째 PC에 대해 캐시 미스 발생 시 메모리에서 데이터 가져오기
+            // 캐시 미스 처리
             if (!hit0) begin
                 memory_read0 <= 1;
                 memory_data0 <= memory_in0;
@@ -160,7 +174,6 @@ module Dual_Cache_Subarray (
                 memory_read0 <= 0;
             end
 
-            // 두 번째 PC에 대해 캐시 미스 발생 시 메모리에서 데이터 가져오기
             if (!hit1) begin
                 memory_read1 <= 1;
                 memory_data1 <= memory_in1;
@@ -174,3 +187,4 @@ module Dual_Cache_Subarray (
     end
 
 endmodule
+
