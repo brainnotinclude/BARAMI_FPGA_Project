@@ -11,15 +11,15 @@ module alu(
     // add sub lui auipc part
     wire [31:0] sum;
     wire [31:0] bar_aluin2;
-    assign bar_aluin2 = (aluop[0]|aluop[4] ? ~aluin2 :aluin2);    // 덧셈은 aluin2 그대로, 뺄셈은 aluin2 각 비트를 inverse한 값으로 계산
+    assign bar_aluin2 = (aluop[0]|aluop[3] ? ~aluin2 :aluin2);    // 덧셈은 aluin2 그대로, 뺄셈은 aluin2 각 비트를 inverse한 값으로 계산
     
     ripple_carry_adder add_ripple_carry_adder(
     .a(aluin1),                       
     .b(bar_aluin2),
-    .cin(aluop[0]|aluop[4]),
+    .cin(aluop[0]|aluop[3]),
     .sum(sum),
     .cout()
-    );            // aluop[0]|aluop[4]으로 덧셈과 뺄셈 구분, 뺄셈은 cin으로 1이 들어가야 함 sub는 00001, slt는 01000으로 주기 때문에 둘을 or한 것
+    );            // aluop[0]|aluop[3]으로 덧셈과 뺄셈 구분, 뺄셈은 cin으로 1이 들어가야 함 sub는 00001, slt는 01000으로 주기 때문에 둘을 or한 것
    
     // slt sltu part  
     wire overflow;
