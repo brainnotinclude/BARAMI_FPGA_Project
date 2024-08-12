@@ -26,7 +26,7 @@ module alu(
     wire [31:0] slt_alu;    //slt 연산 결과
     wire [31:0] sltu_alu;    // sltu 연산 결과
     
-    assign overflow = (aluin1[31] != aluin2[31]) && (sum[31] != aluin1[31]);
+    assign overflow = (!((aluop[0]|aluop[3])^aluin1[31]^aluin2[31]))&(aluin1[31]^sum[31])&(!aluop[0]|aluop[3]);
     assign slt_alu = {31'b0, (sum[31]^overflow)};             
     assign sltu_alu = ((aluin1 < aluin2) ? 32'b1 :32'b0); // unsigned를 위한 단순 비교
     
