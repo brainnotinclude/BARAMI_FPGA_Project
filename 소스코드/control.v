@@ -38,7 +38,7 @@ module control(
             end
             3'b011:
             begin
-            aluop_A = 5'b01000;
+            aluop_A = 5'b01001;
             end
             3'b100:
             begin
@@ -77,7 +77,7 @@ module control(
             end
             3'b011:
             begin
-            aluop_A = 5'b01000;
+            aluop_A = 5'b01001;
             end
             3'b100:
             begin
@@ -174,7 +174,7 @@ module control(
             end
             3'b011:
             begin
-            aluop_B = 5'b01000;
+            aluop_B = 5'b01001;
             end
             3'b100:
             begin
@@ -215,7 +215,7 @@ module control(
             end
             3'b011:
             begin
-            aluop_B = 5'b01000;
+            aluop_B = 5'b01001;
             aluin2_mux = 2'b10;
             end
             3'b100:
