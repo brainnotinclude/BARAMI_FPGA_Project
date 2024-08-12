@@ -113,7 +113,8 @@ module alu(
             5'd5: aluout <= sra;
             5'd6: aluout <= or_alu;
             5'd7: aluout <= and_alu;
-            5'd8: aluout <= slt_alu|sltu_alu;
+            5'd8: aluout <= slt_alu;
+            5'd9: aluout <= sltu_alu;
             5'd16: aluout <= mulh_out;
             5'd17: aluout <= mulh_out;
             5'd18: aluout <= mulh_out;
