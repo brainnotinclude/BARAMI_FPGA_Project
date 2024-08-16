@@ -101,6 +101,8 @@ module registerFile (
             arfBusy <= 32'h00000000;
             rrfBusy <= 8'h00;
             rrfValid <=8'h00;
+            wrA_rrError <= 1'b0;
+            wrB_rrError <= 1'b0;
         end
         
         else begin
