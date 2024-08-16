@@ -60,6 +60,9 @@ module core_simple(
     reg [dispatched_inst_bit-1:0] rs_complex_1;
     reg [dispatched_inst_bit-1:0] rs_fp_0;
     reg [dispatched_inst_bit-1:0] rs_fp_1;
+    reg rs_selector_complex;
+    reg rs_selector_simple;
+    reg rs_selector_fp;
 
     wire [dispatched_inst_bit-1:0] complex_0_data;          
     wire complex_0_valid;
@@ -198,6 +201,7 @@ module core_simple(
     );
     
     //Update RS(RS is the FF between Dispatch/Execution)
+    //RS structure: 2 entries per FU. 
     //Assume RS entry is compriesed of rs2_vt(32bit) + valid bit(1bit) + rs1_vt(32bit) + valid bit(1bit) + rd(5bit) + ALU_ctrl(5bit) = 76bit
     //Caution: if control signal bit changes, this assignment should also be changed
     //Meaning of variable name: rs_(reservation station type)_(reservation station #)_(source register #)
@@ -237,20 +241,27 @@ module core_simple(
             simple_empty <= 2'b11;
             complex_empty <= 2'b11;
             fp_empty <= 2'b11;
+            
+            rs_selector_complex <= 1'b0;
+            rs_selector_simple <= 1'b0;
+            rs_selector_fp <= 1'b0;
         end
         else begin
             //Needs modification? ->Depends on synthesizer. Maybe we should put assignment to same reg into one if~else if~else
             if(complex_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                 rs_complex_0 <= complex_0_data;
                 complex_empty[0] <= 1'b1;
+                rs_selector_complex <= 1'b0;
             end
             if(complex_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                 rs_complex_1 <= complex_1_data;
                 complex_empty[1] <= 1'b1;
+                rs_selector_complex <= 1'b1;
             end
             if(simple_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                 rs_simple_0 <= simple_0_data;
                 simple_empty[0] <= 1'b1;
+                rs_selector_simple <= 1'b0;
             end
             if(simple_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                 rs_simple_1 <= simple_1_data;
@@ -258,11 +269,13 @@ module core_simple(
             end
             if(fp_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                 rs_fp_0 <= fp_0_data;
-                fp_empty[0] <= 1'b1;
+                fp_empty[0] <= 1'b1;                
+                rs_selector_fp <= 1'b0;
             end
             if(fp_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                 rs_fp_1 <= fp_1_data;
                 fp_empty[1] <= 1'b1;
+                rs_selector_fp <= 1'b1;
             end
             
             //Forwarding -> Now editing!!!!!: We will make wrTag and wrdata at later stages 
