@@ -1,231 +1,605 @@
-`include "range.v"
-`include "state.v"
+`timescale 1ns / 1ps
 
-module TLB 
-#(
-    parameter SADDR=32, // size of address
-    parameter SPAGE=12, // size of page
-    parameter NSET=8,   // set number
-    parameter SPCID=12, // size of pcid
-    parameter NWAY=8    // way number
-)
-(
+module TLB_16 #(parameter PABITS=36) (
+    input  clock,
+    input  reset,
+    // Instruction Memory Port
+    input  [19:0] VPN_I,             // Instruction memory VPN
+    input  [7:0]  ASID_I,            // Instruction memory ASID
+    output reg       Hit_I,             // Instruction memory page hit
+    output reg [(PABITS-13):0] PFN_I,    // Instruction memory physical page translation
+    output reg [2:0]  Cache_I,           // Instruction memory physical page cache attributes
+    output reg        Dirty_I,           // Instruction memory physical page dirty attribute
+    output reg        Valid_I,           // Instruction memory physical page valid attribute
+    input         Stall_I,           // Instruction memory physical page stall attribute
+    // Data Memory Port
+    input  [19:0] VPN_D,             // Data memory or tlbp (EntryHi) VPN
+    input  [7:0]  ASID_D,            // Data memory or tlbp (EntryHi) ASID
+    output reg       Hit_D,             // Data memory or tlbp (~Index[31]) page hit
+    output reg [(PABITS-13):0] PFN_D,    // Data memory physical page translation
+    output reg [2:0]  Cache_D,           // Data memory physical page cache attributes
+    output reg        Dirty_D,           // Data memory physical page dirty attribute
+    output reg        Valid_D,           // Data memory physical page valid attribute
+    input         Stall_D,           // Processor data memory pipeline stage is stalled
+    // Control Input
+    input  [3:0]  Index_In,          // Index used for tlbr, tlbwi/tlbwr
+    input  [18:0] VPN2_In,           // VPN2 written on tlbwi/tlbwr
+    input  [15:0] Mask_In,           // Mask written on tlbwi/tlbwr
+    input  [7:0]  ASID_In,           // ASID written on tlbwi/tlbwr
+    input         G_In,              // Global bit written on tlbwi/tlbwr
+    input  [(PABITS-13):0] PFN0_In,  // Even PFN written on tlbwi/tlbwr
+    input  [2:0]  C0_In,             // Even Cache bits written on tlbwi/tlbwr
+    input         D0_In,             // Even Dirty bit written on tlbwi/tlbwr
+    input         V0_In,             // Even Valid bit written on tlbwi/tlbwr
+    input  [(PABITS-13):0] PFN1_In,  // Odd PFN written on tlbwi/tlbwr
+    input  [2:0]  C1_In,             // Odd Cache bits written on tlbwi/tlbwr
+    input         D1_In,             // Odd Dirty bit written on tlbwi/tlbwr
+    input         V1_In,             // Odd Valid bit written on tlbwi/tlbwr
+    // Control Output
+    output reg [3:0]  Index_Out,         // Index output for tlbp
+    output reg [18:0] VPN2_Out,          // VPN2 output for tlbr (EntryHi)
+    output reg [15:0] Mask_Out,          // Mask output for tlbr (PageMask)
+    output reg [7:0]  ASID_Out,          // ASID output for tlbr (EntryHi)
+    output reg        G_Out,             // Global output for tlbr (EntryLo{0,1})
+    output reg [(PABITS-13):0] PFN0_Out, // Even physical address for tlbr (EntryLo0)
+    output reg [2:0]  C0_Out,            // Even physical address cache attributes for tlbr (EntryLo0)
+    output reg        D0_Out,            // Even physical address dirty attribute for tlbr (EntryLo0)
+    output reg        V0_Out,            // Even physical address valid attribute for tlbr (EntryLo0)
+    output reg [(PABITS-13):0] PFN1_Out, // Odd physical address for tlbr (EntryLo1)
+    output reg [2:0]  C1_Out,            // Odd physical address cache attributes for tlbr (EntryLo1)
+    output reg        D1_Out,            // Odd physical address dirty attribute for tlbr (EntryLo1)
+    output reg        V1_Out,            // Odd physical address valid attribute for tlbr (EntryLo1)
+    // Control Command
+    input         Read,              // Tlbr instruction
+    input         Write,             // Tlbwi/Tlbwr instruction
+    // Segment information
+    input         Useg_MC,           // useg (addresses [0:2GB)) is mapped and cached (else neither)
+    input  [2:0]  Kseg0_C            // kseg0 (addresses [2GB:2.5GB)) cacheability attributes
+    );
+
+    // Local signals
+    wire [(PABITS-13):0] PFN0_Mask;
+    wire [(PABITS-13):0] PFN1_Mask;
+    wire        hold_a;
+    wire        hold_b;
+    wire        using_hold_data_a;
+    wire        using_hold_data_b;
+    wire        r_cmd_read;
+    wire        r_cmd_write;
+    wire [3:0]  r_idx_index;
+    wire [18:0] r_idx_vpn2;
+    wire [15:0] r_idx_mask;
+    wire [7:0]  r_idx_asid;
+    wire        r_idx_g;
+    wire [19:0] r_vpn_a;
+    wire [19:0] r_vpn_b;
+    wire        r_unmapped_a;
+    wire        r_unmapped_b;
+    wire        r_uncached_a;
+    wire        r_uncached_b;
+    wire [7:0]  r_asid_a;
+    wire [7:0]  r_asid_b;
+    wire [((2*(PABITS-12))+9):0] r_write_data;   // TLB translation data to be written: {PFN0[23:0],C0[2:0],D0,V0,PFN1[23:0],C1[2:0],D1,V1}
+    wire [2:0]  r_kseg0c;
+    wire        r_use_kseg0c_a;
+    wire        r_use_kseg0c_b;
+    wire        s_unmapped_a;
+    wire        s_unmapped_b;
+    wire        s_uncached_a;
+    wire        s_uncached_b;
+    wire [2:0]  s_kseg0c_a;
+    wire [2:0]  s_kseg0c_b;
+    wire        s_use_kseg0c_a;
+    wire        s_use_kseg0c_b;
+    wire        s_hit_a_e;
+    wire        s_hit_b_e;
+    wire        s_hit_a_d;
+    wire        s_hit_b_d;
+    wire        s_oddPage_a_e;
+    wire        s_oddPage_b_e;
+    wire [(PABITS-13):0] s_pfn_a_e;
+    wire [(PABITS-13):0] s_pfn_b_e;
+    wire [(PABITS-13):0] s_pfn_a_d;
+    wire [(PABITS-13):0] s_pfn_b_d;
+    wire [(PABITS-13):0] s_unmapped_pfn_a_e;  // 20-24 bits (for 32-36 PABITS)
+    wire [(PABITS-13):0] s_unmapped_pfn_b_e;
+    wire [(PABITS-13):0] s_unmapped_pfn_a_d;
+    wire [(PABITS-13):0] s_unmapped_pfn_b_d;
+    wire [2:0]  s_c_a_e;
+    wire [2:0]  s_c_b_e;
+    wire [2:0]  s_c_a_d;
+    wire [2:0]  s_c_b_d;
+    wire        s_d_a_e;
+    wire        s_d_b_e;
+    wire        s_d_a_d;
+    wire        s_d_b_d;
+    wire        s_v_a_e;
+    wire        s_v_b_e;
+    wire        s_v_a_d;
+    wire        s_v_b_d;
+    wire [3:0]  s_idx_out_e;
+    wire [3:0]  s_idx_out_d;
+    wire [18:0] s_vpn2_out_e;
+    wire [18:0] s_vpn2_out_d;
+    wire [15:0] s_mask_out_e;
+    wire [15:0] s_mask_out_d;
+    wire [7:0]  s_asid_out_e;
+    wire [7:0]  s_asid_out_d;
+    wire        s_g_out_e;
+    wire        s_g_out_d;
+    wire [(PABITS-13):0] s_pfn0_out_e;
+    wire [(PABITS-13):0] s_pfn0_out_d;
+    wire [2:0]  s_c0_out_e;
+    wire [2:0]  s_c0_out_d;
+    wire        s_d0_out_e;
+    wire        s_d0_out_d;
+    wire        s_v0_out_e;
+    wire        s_v0_out_d;
+    wire [(PABITS-13):0] s_pfn1_out_e;
+    wire [(PABITS-13):0] s_pfn1_out_d;
+    wire [2:0]  s_c1_out_e;
+    wire [2:0]  s_c1_out_d;
+    wire        s_d1_out_e;
+    wire        s_d1_out_d;
+    wire        s_v1_out_e;
+
+    // Virtual large page signals
+    generate
+        if (PABITS < 28) begin: g
+            wire [(PABITS-13):0] s_vlpn_a_e;
+            wire [(PABITS-13):0] s_vlpn_b_e;
+            reg  [(PABITS-13):0] s_vlpn_a_d;    // XXX possibly not needed
+            reg  [(PABITS-13):0] s_vlpn_b_d;    // XXX possibly not needed
+        end
+        else begin: g
+            wire [15:0] s_vlpn_a_e;
+            wire [15:0] s_vlpn_b_e;
+            reg  [15:0] s_vlpn_a_d; // XXX possibly not needed
+            reg  [15:0] s_vlpn_b_d; // XXX possibly not needed
+        end
+    endgenerate
+
+    // Unmapped translation
+    generate
+        if (PABITS < 32) begin
+            reg  [(PABITS-13):0] s_unmapped_pfn_part_a;
+            reg  [(PABITS-13):0] s_unmapped_pfn_part_b;
+            wire [(PABITS-13):0] r_unmapped_pfn_part_a;
+            wire [(PABITS-13):0] r_unmapped_pfn_part_b;
+            assign s_unmapped_pfn_a_e = s_unmapped_pfn_part_a;
+            assign s_unmapped_pfn_b_e = s_unmapped_pfn_part_b;
+            always @(posedge clock) begin
+                if (reset) begin
+                    s_unmapped_pfn_part_a <= {(PABITS-12){1'b0}};
+                    s_unmapped_pfn_part_b <= {(PABITS-12){1'b0}};
+                end
+                else begin
+                    s_unmapped_pfn_part_a <= r_unmapped_pfn_part_a;
+                    s_unmapped_pfn_part_b <= r_unmapped_pfn_part_b;
+                end
+            end
+            if (PABITS < 30) begin
+                assign r_unmapped_pfn_part_a = r_vpn_a[(PABITS-13):0];
+                assign r_unmapped_pfn_part_b = r_vpn_b[(PABITS-13):0];
+            end
+            else if (PABITS < 31) begin
+                assign r_unmapped_pfn_part_a = {(r_vpn_a[17] & ~r_vpn_a[19]), r_vpn_a[(PABITS-14):0]};
+                assign r_unmapped_pfn_part_b = {(r_vpn_b[17] & ~r_vpn_b[19]), r_vpn_b[(PABITS-14):0]};
+            end
+            else begin
+                assign r_unmapped_pfn_part_a = {(r_vpn_a[18] & ~r_vpn_a[19]), (r_vpn_a[17] & ~r_vpn_a[19]), r_vpn_a[(PABITS-15):0]};
+                assign r_unmapped_pfn_part_b = {(r_vpn_b[18] & ~r_vpn_b[19]), (r_vpn_b[17] & ~r_vpn_b[19]), r_vpn_b[(PABITS-15):0]};
+            end
+        end
+        else begin
+            reg  [18:0] s_unmapped_pfn_part_a;
+            reg  [18:0] s_unmapped_pfn_part_b;
+            wire [18:0] r_unmapped_pfn_part_a = {(r_vpn_a[18] & ~r_vpn_a[19]), (r_vpn_a[17] & ~r_vpn_a[19]), r_vpn_a[16:0]};   // kuseg logic
+            wire [18:0] r_unmapped_pfn_part_b = {(r_vpn_b[18] & ~r_vpn_b[19]), (r_vpn_b[17] & ~r_vpn_b[19]), r_vpn_b[16:0]};
+            assign s_unmapped_pfn_a_e = {{(PABITS-31){1'b0}}, s_unmapped_pfn_part_a};
+            assign s_unmapped_pfn_b_e = {{(PABITS-31){1'b0}}, s_unmapped_pfn_part_b};
+            always @(posedge clock) begin
+                if (reset) begin
+                    s_unmapped_pfn_part_a <= {19{1'b0}};
+                    s_unmapped_pfn_part_b <= {19{1'b0}};
+                end
+                else begin
+                    s_unmapped_pfn_part_a <= r_unmapped_pfn_part_a;
+                    s_unmapped_pfn_part_b <= r_unmapped_pfn_part_b;
+                end
+            end
+        end
+    endgenerate
+
+    // Unmapped translation upper-bit padding
+    generate
+        if (PABITS < 31) begin
+            DFF_E #(.WIDTH(PABITS-12)) S_Unmapped_PFN_A_D (.clock(clock), .enable(~using_hold_data_a), .D(s_unmapped_pfn_a_e), .Q(s_unmapped_pfn_a_d));
+            DFF_E #(.WIDTH(PABITS-12)) S_Unmapped_PFN_B_D (.clock(clock), .enable(~using_hold_data_b), .D(s_unmapped_pfn_b_e), .Q(s_unmapped_pfn_b_d));
+        end
+        else begin
+            wire [18:0] s_unmapped_pfn_part_a_d;
+            wire [18:0] s_unmapped_pfn_part_b_d;
+            DFF_E #(.WIDTH(19)) S_Unmapped_PFN_A_D (.clock(clock), .enable(~using_hold_data_a), .D(s_unmapped_pfn_a_e[18:0]), .Q(s_unmapped_pfn_part_a_d));
+            DFF_E #(.WIDTH(19)) S_Unmapped_PFN_B_D (.clock(clock), .enable(~using_hold_data_b), .D(s_unmapped_pfn_b_e[18:0]), .Q(s_unmapped_pfn_part_b_d));
+            assign s_unmapped_pfn_a_d = {{(PABITS-31){1'b0}}, s_unmapped_pfn_part_a_d};
+            assign s_unmapped_pfn_b_d = {{(PABITS-31){1'b0}}, s_unmapped_pfn_part_b_d};
+        end
+    endgenerate
+
+    // Content-Addressable Memory signals
+    wire [3:0]  CAM_Idx_Index;
+    wire        CAM_Idx_Write;
+    wire [18:0] CAM_Idx_VPN2;
+    wire [15:0] CAM_Idx_Mask;
+    wire [7:0]  CAM_Idx_ASID;
+    wire        CAM_Idx_G;
+    wire [18:0] CAM_Idx_VPN2_Out;
+    wire [15:0] CAM_Idx_Mask_Out;
+    wire [7:0]  CAM_Idx_ASID_Out;
+    wire        CAM_Idx_G_Out;
+    wire [19:0] CAM_VPN_A,        CAM_VPN_B;
+    wire [7:0]  CAM_ASID_A,       CAM_ASID_B;
+    wire        CAM_Match_A,      CAM_Match_B;
+    wire [3:0]  CAM_MatchIndex_A, CAM_MatchIndex_B;
+    wire        CAM_OddPage_A,    CAM_OddPage_B;
+    wire [15:0] CAM_Mask_A,       CAM_Mask_B;
+
+    // Translation RAM signals
+    wire [3:0]  RAM_addra, RAM_addrb;
+    wire        RAM_wea,   RAM_web;
+    wire [((2*(PABITS-12))+9):0] RAM_dina,  RAM_dinb;
+    wire [((2*(PABITS-12))+9):0] RAM_douta, RAM_doutb;
+
+    // **** Assignments **** //
+
+    // Top-level assignments
+    always @(*) begin
+        Hit_I     = (s_unmapped_b) ? 1'b1              : ((using_hold_data_b) ? s_hit_b_d : s_hit_b_e);
+        PFN_I     = (s_unmapped_b) ? ((using_hold_data_b) ? s_unmapped_pfn_b_d : s_unmapped_pfn_b_e) : ((using_hold_data_b) ? s_pfn_b_d : s_pfn_b_e);
+        Cache_I   = (s_uncached_b) ? 3'b010            : ((using_hold_data_b) ? s_c_b_d   : s_c_b_e);
+        Dirty_I   = (s_unmapped_b) ? 1'b1              : ((using_hold_data_b) ? s_d_b_d   : s_d_b_e);
+        Valid_I   = (s_unmapped_b) ? 1'b1              : ((using_hold_data_b) ? s_v_b_d   : s_v_b_e);
+        Hit_D     = (s_unmapped_a) ? 1'b1              : ((using_hold_data_a) ? s_hit_a_d : s_hit_a_e);
+        PFN_D     = (s_unmapped_a) ? ((using_hold_data_a) ? s_unmapped_pfn_a_d : s_unmapped_pfn_a_e) : ((using_hold_data_a) ? s_pfn_a_d : s_pfn_a_e);
+        Cache_D   = (s_uncached_a) ? 3'b010            : ((using_hold_data_a) ? s_c_a_d   : s_c_a_e);
+        Dirty_D   = (s_unmapped_a) ? 1'b1              : ((using_hold_data_a) ? s_d_a_d   : s_d_a_e);
+        Valid_D   = (s_unmapped_a) ? 1'b1              : ((using_hold_data_a) ? s_v_a_d   : s_v_a_e);
+        Index_Out = (using_hold_data_a) ? s_idx_out_d  : s_idx_out_e;
+        VPN2_Out  = (using_hold_data_a) ? s_vpn2_out_d : s_vpn2_out_e;
+        Mask_Out  = (using_hold_data_a) ? s_mask_out_d : s_mask_out_e;
+        ASID_Out  = (using_hold_data_a) ? s_asid_out_d : s_asid_out_e;
+        G_Out     = (using_hold_data_a) ? s_g_out_d    : s_g_out_e;
+        PFN0_Out  = (using_hold_data_a) ? s_pfn0_out_d : s_pfn0_out_e;
+        C0_Out    = (using_hold_data_a) ? s_c0_out_d   : s_c0_out_e;
+        D0_Out    = (using_hold_data_a) ? s_d0_out_d   : s_d0_out_e;
+        V0_Out    = (using_hold_data_a) ? s_v0_out_d   : s_v0_out_e;
+        PFN1_Out  = (using_hold_data_a) ? s_pfn1_out_d : s_pfn1_out_e;
+        C1_Out    = (using_hold_data_a) ? s_c1_out_d   : s_c1_out_e;
+        D1_Out    = (using_hold_data_a) ? s_d1_out_d   : s_d1_out_e;
+        V1_Out    = (using_hold_data_a) ? s_v1_out_d   : s_v1_out_e;
+    end
+
+    // CAM assignments
+    assign CAM_Idx_Index = r_idx_index;
+    assign CAM_Idx_Write = r_cmd_write;
+    assign CAM_Idx_VPN2  = r_idx_vpn2;
+    assign CAM_Idx_Mask  = r_idx_mask;
+    assign CAM_Idx_ASID  = r_idx_asid;
+    assign CAM_Idx_G     = r_idx_g;
+    assign CAM_VPN_A     = r_vpn_a;
+    assign CAM_ASID_A    = r_asid_a;
+    assign CAM_VPN_B     = r_vpn_b;
+    assign CAM_ASID_B    = r_asid_b;
+
+    // RAM assignments
+    assign RAM_addra     = (r_cmd_read | r_cmd_write) ? r_idx_index : CAM_MatchIndex_A;
+    assign RAM_wea       = r_cmd_write;
+    assign RAM_dina      = r_write_data;
+    assign RAM_addrb     = CAM_MatchIndex_B;
+    assign RAM_web       = 1'b0;
+    assign RAM_dinb      = {((2*(PABITS-12))+10){1'b0}};
+
+    // Local assignments
+    assign hold_a        = Stall_D;
+    assign hold_b        = Stall_I;
+    assign r_cmd_read    = Read;
+    assign r_cmd_write   = Write;
+    assign r_idx_index   = Index_In;
+    assign r_idx_vpn2    = VPN2_In;
+    assign r_idx_mask    = Mask_In;
+    assign r_idx_asid    = ASID_In;
+    assign r_idx_g       = G_In;
+    assign r_vpn_a       = VPN_D;
+    assign r_vpn_b       = VPN_I;
+    assign r_unmapped_a  = (r_vpn_a[19:18] == 2'b10)  | ((r_vpn_a[19] == 1'b0) & ~Useg_MC);
+    assign r_unmapped_b  = (r_vpn_b[19:18] == 2'b10)  | ((r_vpn_b[19] == 1'b0) & ~Useg_MC);
+    assign r_uncached_a  = (r_vpn_a[19:17] == 3'b101) | ((r_vpn_a[19] == 1'b0) & ~Useg_MC);
+    assign r_uncached_b  = (r_vpn_b[19:17] == 3'b101) | ((r_vpn_b[19] == 1'b0) & ~Useg_MC);
+    assign r_asid_a      = ASID_D;
+    assign r_asid_b      = ASID_I;
+    assign r_write_data  = {PFN0_Mask, C0_In, D0_In, V0_In, PFN1_Mask, C1_In, D1_In, V1_In};
+    assign r_kseg0c      = Kseg0_C;
+    assign r_use_kseg0c_a = (r_vpn_a[19:17] == 3'b100);
+    assign r_use_kseg0c_b = (r_vpn_b[19:17] == 3'b100);
+    assign s_pfn_a_e     = g.s_vlpn_a_e | ((s_oddPage_a_e) ? RAM_douta[(PABITS-8):5] : RAM_douta[((2*(PABITS-12))+9):(PABITS-2)]);
+    assign s_pfn_b_e     = g.s_vlpn_b_e | ((s_oddPage_b_e) ? RAM_doutb[(PABITS-8):5] : RAM_doutb[((2*(PABITS-12))+9):(PABITS-2)]);
+    assign s_c_a_e       = (s_use_kseg0c_a) ? s_kseg0c_a : ((s_oddPage_a_e) ? RAM_douta[4:2]  : RAM_douta[(PABITS-3):(PABITS-5)]);
+    assign s_c_b_e       = (s_use_kseg0c_b) ? s_kseg0c_b : ((s_oddPage_b_e) ? RAM_doutb[4:2]  : RAM_doutb[(PABITS-3):(PABITS-5)]);
+    assign s_d_a_e       = (s_oddPage_a_e) ? RAM_douta[1]    : RAM_douta[(PABITS-6)];
+    assign s_d_b_e       = (s_oddPage_b_e) ? RAM_doutb[1]    : RAM_doutb[(PABITS-6)];
+    assign s_v_a_e       = (s_oddPage_a_e) ? RAM_douta[0]    : RAM_douta[(PABITS-7)];
+    assign s_v_b_e       = (s_oddPage_b_e) ? RAM_doutb[0]    : RAM_doutb[(PABITS-7)];
+    // {PFN0[23:0],C0[2:0],D0,V0,PFN1[23:0],C1[2:0],D1,V1}
+    // 36-bit: {PFN0[57:34],C0[33:31],D0[30],V0[29],PFN1[28:5],C1[4:2],D1[1],V1[0]}
+    //         {Idx_VPN2[43:25], Idx_Mask[24:9], Idx_ASID[8:1], IDX_G[0]};
+    // 32-bit: {PFN0[49:30],C0[29:27],D0[26],V0[25],PFN1[24:5],C1[4:2],D1[1],V1[0]}
+    assign s_idx_out_e   = CAM_MatchIndex_A;
+    assign s_pfn0_out_e  = RAM_douta[((2*(PABITS-12))+9):(PABITS-2)];
+    assign s_c0_out_e    = RAM_douta[(PABITS-3):(PABITS-5)];
+    assign s_d0_out_e    = RAM_douta[(PABITS-6)];
+    assign s_v0_out_e    = RAM_douta[(PABITS-7)];
+    assign s_pfn1_out_e  = RAM_douta[(PABITS-8):5];
+    assign s_c1_out_e    = RAM_douta[4:2];
+    assign s_d1_out_e    = RAM_douta[1];
+    assign s_v1_out_e    = RAM_douta[0];
+
+    // Large page PFN masking
+    generate
+        if (PABITS < 28) begin
+            assign PFN0_Mask = PFN0_In & ~Mask_In[(PABITS-13):0];
+            assign PFN1_Mask = PFN1_In & ~Mask_In[(PABITS-13):0];
+        end
+        else if (PABITS == 28) begin
+            assign PFN0_Mask = PFN0_In & ~Mask_In;
+            assign PFN1_Mask = PFN1_In & ~Mask_In;
+        end
+        else begin
+            assign PFN0_Mask = {PFN0_In[(PABITS-13):16], (PFN0_In[15:0] & ~Mask_In)};
+            assign PFN1_Mask = {PFN1_In[(PABITS-13):16], (PFN1_In[15:0] & ~Mask_In)};
+        end
+    endgenerate
+
+    // Large page offset bits
+    generate
+        if (PABITS < 28) begin
+            wire [(PABITS-13):0] vlpn_a_in = VPN_D[(PABITS-13):0] & CAM_Mask_A[(PABITS-13):0];
+            wire [(PABITS-13):0] vlpn_b_in = VPN_I[(PABITS-13):0] & CAM_Mask_B[(PABITS-13):0];
+            DFF_E #(.WIDTH(PABITS-12)) S_VLPN_A_E (.clock(clock), .enable(1'b1), .D(vlpn_a_in), .Q(g.s_vlpn_a_e));
+            DFF_E #(.WIDTH(PABITS-12)) S_VLPN_B_E (.clock(clock), .enable(1'b1), .D(vlpn_b_in), .Q(g.s_vlpn_b_e));
+        end
+        else begin
+            wire [15:0] vlpn_a_in = VPN_D[15:0] & CAM_Mask_A;
+            wire [15:0] vlpn_b_in = VPN_I[15:0] & CAM_Mask_B;
+            DFF_E #(.WIDTH(16)) S_VLPN_A_E (.clock(clock), .enable(1'b1), .D(vlpn_a_in), .Q(g.s_vlpn_a_e));
+            DFF_E #(.WIDTH(16)) S_VLPN_B_E (.clock(clock), .enable(1'b1), .D(vlpn_b_in), .Q(g.s_vlpn_b_e));
+        end
+    endgenerate
+
+    // Hold data enable
+    DFF_E #(.WIDTH(1)) Using_Hold_Data_A (.clock(clock), .enable(1'b1), .D(hold_a), .Q(using_hold_data_a));
+    DFF_E #(.WIDTH(1)) Using_Hold_Data_B (.clock(clock), .enable(1'b1), .D(hold_b), .Q(using_hold_data_b));
+
+    // Service stage pseudo-ephemeral data
+    DFF_E #(.WIDTH(1))         S_Hit_A_E     (.clock(clock), .enable(1'b1), .D(CAM_Match_A),      .Q(s_hit_a_e));
+    DFF_E #(.WIDTH(1))         S_Hit_B_E     (.clock(clock), .enable(1'b1), .D(CAM_Match_B),      .Q(s_hit_b_e));
+    DFF_E #(.WIDTH(1))         S_OddPage_A_E (.clock(clock), .enable(1'b1), .D(CAM_OddPage_A),    .Q(s_oddPage_a_e));
+    DFF_E #(.WIDTH(1))         S_OddPage_B_E (.clock(clock), .enable(1'b1), .D(CAM_OddPage_B),    .Q(s_oddPage_b_e));
+    DFF_E #(.WIDTH(19))        S_VPN2_Out_E  (.clock(clock), .enable(1'b1), .D(CAM_Idx_VPN2_Out), .Q(s_vpn2_out_e));
+    DFF_E #(.WIDTH(16))        S_Mask_Out_E  (.clock(clock), .enable(1'b1), .D(CAM_Idx_Mask_Out), .Q(s_mask_out_e));
+    DFF_E #(.WIDTH(8))         S_ASID_Out_E  (.clock(clock), .enable(1'b1), .D(CAM_Idx_ASID_Out), .Q(s_asid_out_e));
+    DFF_E #(.WIDTH(1))         S_G_Out_E     (.clock(clock), .enable(1'b1), .D(CAM_Idx_G_Out),    .Q(s_g_out_e));
+
+    // Service stage and delay/stall data
+    DFF_E #(.WIDTH(1))         S_Unmapped_A       (.clock(clock), .enable(~hold_a),            .D(r_unmapped_a),       .Q(s_unmapped_a));
+    DFF_E #(.WIDTH(1))         S_Unmapped_B       (.clock(clock), .enable(~hold_b),            .D(r_unmapped_b),       .Q(s_unmapped_b));
+    DFF_E #(.WIDTH(1))         S_Uncached_A       (.clock(clock), .enable(~hold_a),            .D(r_uncached_a),       .Q(s_uncached_a));
+    DFF_E #(.WIDTH(1))         S_Uncached_B       (.clock(clock), .enable(~hold_b),            .D(r_uncached_b),       .Q(s_uncached_b));
+    DFF_E #(.WIDTH(3))         S_Kseg0c_A         (.clock(clock), .enable(~hold_a),            .D(r_kseg0c),           .Q(s_kseg0c_a));
+    DFF_E #(.WIDTH(3))         S_Kseg0c_B         (.clock(clock), .enable(~hold_b),            .D(r_kseg0c),           .Q(s_kseg0c_b));
+    DFF_E #(.WIDTH(1))         S_Use_Kseg0c_A     (.clock(clock), .enable(~hold_a),            .D(r_use_kseg0c_a),     .Q(s_use_kseg0c_a));
+    DFF_E #(.WIDTH(1))         S_Use_Kseg0c_B     (.clock(clock), .enable(~hold_b),            .D(r_use_kseg0c_b),     .Q(s_use_kseg0c_b));
+    DFF_E #(.WIDTH(1))         S_Hit_A_D          (.clock(clock), .enable(~using_hold_data_a), .D(s_hit_a_e),          .Q(s_hit_a_d));
+    DFF_E #(.WIDTH(1))         S_Hit_B_D          (.clock(clock), .enable(~using_hold_data_b), .D(s_hit_b_e),          .Q(s_hit_b_d));
+    DFF_E #(.WIDTH(PABITS-12)) S_PFN_A_D          (.clock(clock), .enable(~using_hold_data_a), .D(s_pfn_a_e),          .Q(s_pfn_a_d));
+    DFF_E #(.WIDTH(PABITS-12)) S_PFN_B_D          (.clock(clock), .enable(~using_hold_data_b), .D(s_pfn_b_e),          .Q(s_pfn_b_d));
+    DFF_E #(.WIDTH(3))         S_C_A_D            (.clock(clock), .enable(~using_hold_data_a), .D(s_c_a_e),            .Q(s_c_a_d));
+    DFF_E #(.WIDTH(3))         S_C_B_D            (.clock(clock), .enable(~using_hold_data_b), .D(s_c_b_e),            .Q(s_c_b_d));
+    DFF_E #(.WIDTH(1))         S_D_A_D            (.clock(clock), .enable(~using_hold_data_a), .D(s_d_a_e),            .Q(s_d_a_d));
+    DFF_E #(.WIDTH(1))         S_D_B_D            (.clock(clock), .enable(~using_hold_data_b), .D(s_d_b_e),            .Q(s_d_b_d));
+    DFF_E #(.WIDTH(1))         S_V_A_D            (.clock(clock), .enable(~using_hold_data_a), .D(s_v_a_e),            .Q(s_v_a_d));
+    DFF_E #(.WIDTH(1))         S_V_B_D            (.clock(clock), .enable(~using_hold_data_b), .D(s_v_b_e),            .Q(s_v_b_d));
+    DFF_E #(.WIDTH(4))         S_Idx_Out_D        (.clock(clock), .enable(~using_hold_data_b), .D(s_idx_out_e),        .Q(s_idx_out_d));
+    DFF_E #(.WIDTH(19))        S_VPN2_Out_D       (.clock(clock), .enable(~using_hold_data_b), .D(s_vpn2_out_e),       .Q(s_vpn2_out_d));
+    DFF_E #(.WIDTH(16))        S_Mask_Out_D       (.clock(clock), .enable(~using_hold_data_b), .D(s_mask_out_e),       .Q(s_mask_out_d));
+    DFF_E #(.WIDTH(8))         S_ASID_Out_D       (.clock(clock), .enable(~using_hold_data_b), .D(s_asid_out_e),       .Q(s_asid_out_d));
+    DFF_E #(.WIDTH(1))         S_G_Out_D          (.clock(clock), .enable(~using_hold_data_b), .D(s_g_out_e),          .Q(s_g_out_d));
+    DFF_E #(.WIDTH(PABITS-12)) S_PFN0_Out_D       (.clock(clock), .enable(~using_hold_data_b), .D(s_pfn0_out_e),       .Q(s_pfn0_out_d));
+    DFF_E #(.WIDTH(3))         S_C0_Out_D         (.clock(clock), .enable(~using_hold_data_b), .D(s_c0_out_e),         .Q(s_c0_out_d));
+    DFF_E #(.WIDTH(1))         S_D0_Out_D         (.clock(clock), .enable(~using_hold_data_b), .D(s_d0_out_e),         .Q(s_d0_out_d));
+    DFF_E #(.WIDTH(1))         S_V0_Out_D         (.clock(clock), .enable(~using_hold_data_b), .D(s_v0_out_e),         .Q(s_v0_out_d));
+    DFF_E #(.WIDTH(PABITS-12)) S_PFN1_Out_D       (.clock(clock), .enable(~using_hold_data_b), .D(s_pfn1_out_e),       .Q(s_pfn1_out_d));
+    DFF_E #(.WIDTH(3))         S_C1_Out_D         (.clock(clock), .enable(~using_hold_data_b), .D(s_c1_out_e),         .Q(s_c1_out_d));
+    DFF_E #(.WIDTH(1))         S_D1_Out_D         (.clock(clock), .enable(~using_hold_data_b), .D(s_d1_out_e),         .Q(s_d1_out_d));
+    DFF_E #(.WIDTH(1))         S_V1_Out_D         (.clock(clock), .enable(~using_hold_data_b), .D(s_v1_out_e),         .Q(s_v1_out_d));
+
+    // Content-Addressable Memory
+    TLB_CAM_DP_16 CAM (
+        .clock         (clock),             // input clock
+        .Idx_Index     (CAM_Idx_Index),     // input [3 : 0] Idx_Index
+        .Idx_Write     (CAM_Idx_Write),     // input Idx_Write
+        .Idx_VPN2      (CAM_Idx_VPN2),      // input [18 : 0] Idx_VPN2
+        .Idx_Mask      (CAM_Idx_Mask),      // input [15 : 0] Idx_Mask
+        .Idx_ASID      (CAM_Idx_ASID),      // input [7 : 0] Idx_ASID
+        .Idx_G         (CAM_Idx_G),         // input Idx_G
+        .Idx_VPN2_Out  (CAM_Idx_VPN2_Out),  // output [18 : 0] Idx_VPN2_Out
+        .Idx_Mask_Out  (CAM_Idx_Mask_Out),  // output [15 : 0] Idx_Mask_Out
+        .Idx_ASID_Out  (CAM_Idx_ASID_Out),  // output [7 : 0] Idx_ASID_Out
+        .Idx_G_Out     (CAM_Idx_G_Out),     // output Idx_G_Out
+        .VPN_A         (CAM_VPN_A),         // input [19 : 0] VPN_A
+        .ASID_A        (CAM_ASID_A),        // input [7 : 0] ASID_A
+        .Hit_A         (CAM_Match_A),       // output Match_A
+        .OddPage_A     (CAM_OddPage_A),     // output OddPage_A
+        .Mask_A        (CAM_Mask_A),        // output [15 : 0] Mask_A
+        .VPN_B         (CAM_VPN_B),         // input [19 : 0] VPN_B
+        .ASID_B        (CAM_ASID_B),        // input [7 : 0] ASID_B
+        .Hit_B         (CAM_Match_B),       // output Match_B
+        .OddPage_B     (CAM_OddPage_B),     // output OddPage_B
+        .Mask_B        (CAM_Mask_B)         // output [15 : 0] Mask_B
+    );
+
+    // Dual-port generic RAM
+    RAM_TDP_ZI #(
+        .DATA_WIDTH (((2*(PABITS-12))+10)),
+        .ADDR_WIDTH (4))
+        TLBRAM (
+        .clk    (clock),     // input clk
+        .rst    (reset),     // input rst
+        .addra  (RAM_addra), // input [3 : 0] addra
+        .wea    (RAM_wea),   // input wea
+        .dina   (RAM_dina),  // input [? : 0] dina
+        .douta  (RAM_douta), // output [? : 0] douta
+        .addrb  (RAM_addrb), // input [3 : 0] addrb
+        .web    (RAM_web),   // input web
+        .dinb   (RAM_dinb),  // input [? : 0] dinb
+        .doutb  (RAM_doutb)  // output [? : 0] doutb
+    );
+
+endmodule
+
+// TLB_CAM_DP_16 - 16-entry Dual-Port Content-Addressable Memory (CAM) for TLB
+
+module TLB_CAM_DP_16 (
+    input        clock,
+    input  [3:0] Idx_Index,
+    input        Idx_Write,
+    input  [18:0] Idx_VPN2,
+    input  [15:0] Idx_Mask,
+    input  [7:0]  Idx_ASID,
+    input        Idx_G,
+    output [18:0] Idx_VPN2_Out,
+    output [15:0] Idx_Mask_Out,
+    output [7:0]  Idx_ASID_Out,
+    output       Idx_G_Out,
+    input  [19:0] VPN_A,
+    input  [7:0]  ASID_A,
+    output reg   Hit_A,             // 변경: wire -> reg
+    output reg [3:0] MatchIndex_A,  // 변경: wire -> reg
+    output reg   OddPage_A,         // 변경: wire -> reg
+    output reg [15:0] Mask_A,       // 변경: wire -> reg
+    input  [19:0] VPN_B,
+    input  [7:0]  ASID_B,
+    output reg   Hit_B,             // 변경: wire -> reg
+    output reg [3:0] MatchIndex_B,  // 변경: wire -> reg
+    output reg   OddPage_B,         // 변경: wire -> reg
+    output reg [15:0] Mask_B        // 변경: wire -> reg
+    );
+
+    // CAM memory (16 entries)
+    reg [18:0] VPN2_CAM[0:15];
+    reg [15:0] Mask_CAM[0:15];
+    reg [7:0]  ASID_CAM[0:15];
+    reg        G_CAM[0:15];
+
+    // Outputs for Index_Out
+    assign Idx_VPN2_Out = VPN2_CAM[Idx_Index];
+    assign Idx_Mask_Out = Mask_CAM[Idx_Index];
+    assign Idx_ASID_Out = ASID_CAM[Idx_Index];
+    assign Idx_G_Out    = G_CAM[Idx_Index];
+
+    // CAM logic for A and B ports
+    integer i;
+
+    always @(posedge clock) begin
+        if (Idx_Write) begin
+            VPN2_CAM[Idx_Index] <= Idx_VPN2;
+            Mask_CAM[Idx_Index] <= Idx_Mask;
+            ASID_CAM[Idx_Index] <= Idx_ASID;
+            G_CAM[Idx_Index]    <= Idx_G;
+        end
+    end
+
+    always @(*) begin
+        Hit_A = 0;
+        Hit_B = 0;
+        MatchIndex_A = 4'b0;
+        MatchIndex_B = 4'b0;
+        OddPage_A = 0;
+        OddPage_B = 0;
+
+        for (i = 0; i < 16; i = i + 1) begin
+            // Port A
+            if (((VPN_A & Mask_CAM[i]) == (VPN2_CAM[i] & Mask_CAM[i])) &&
+                ((ASID_CAM[i] == ASID_A) || G_CAM[i])) begin
+                Hit_A = 1;
+                MatchIndex_A = i[3:0];
+                OddPage_A = VPN_A[0];
+                Mask_A = Mask_CAM[i];
+            end
+
+            // Port B
+            if (((VPN_B & Mask_CAM[i]) == (VPN2_CAM[i] & Mask_CAM[i])) &&
+                ((ASID_CAM[i] == ASID_B) || G_CAM[i])) begin
+                Hit_B = 1;
+                MatchIndex_B = i[3:0];
+                OddPage_B = VPN_B[0];
+                Mask_B = Mask_CAM[i];
+            end
+        end
+    end
+
+endmodule
+
+// Dual-port Zero-Initialized RAM
+module RAM_TDP_ZI #(parameter DATA_WIDTH = 72, parameter ADDR_WIDTH = 4) (
     input clk,
-    input shutdown,             // clear tlb
-    input insert,               // forcibly insert PTE
-    input  [SADDR-1:0] va,      // virtual address
-    input  [SADDR-1:0] pa,      // physical address
-    input  [SPCID-1:0] pcid,    // process-context identifier
-    output reg [SADDR-1:0] ta,  // translated address
-    output reg hit,
-    output reg miss
-);
+    input rst,
+    input [ADDR_WIDTH-1:0] addra,
+    input wea,
+    input [DATA_WIDTH-1:0] dina,
+    output reg [DATA_WIDTH-1:0] douta,
+    input [ADDR_WIDTH-1:0] addrb,
+    input web,
+    input [DATA_WIDTH-1:0] dinb,
+    output reg [DATA_WIDTH-1:0] doutb
+    );
 
-function [6:0] new_plru(input [6:0] old_plru, input [6:0] mask, input [6:0] value);
-    begin 
-        new_plru = (old_plru & ~mask) | (mask & value); // Update the PLRU state
-    end
-endfunction 
+    // RAM array
+    reg [DATA_WIDTH-1:0] ram[0:(1<<ADDR_WIDTH)-1];
+    integer j;
 
-`STATE
-
-// Extracting local address, set, and tag from the virtual address
-wire [SPAGE-1:0]                    local_addr      = va[SPAGE-1:0];
-wire [$clog2(NSET)-1:0]             set             = va[SPAGE+$clog2(NSET)-1:SPAGE];
-wire [SADDR-1-SPAGE-$clog2(NSET):0] tag             = va[SADDR-1:SPAGE+$clog2(NSET)];
-
-reg [`STATE_R] state; // Register to store the current state of the FSM
-reg [NWAY-2:0] plru [NSET-1:0];    // Array for storing PLRU state for each set
-reg [SADDR-1:0] prev_addr = 0;     // Previous address
-reg [SPCID-1:0] prev_pcid = 0;     // Previous PCID
-
-// Array for storing TLB entries (valid bit, tag, PCID, physical address)
-reg [SADDR-$clog2(NSET)-SPAGE+SPCID+SADDR-SPAGE:0] entries [NSET-1:0][NWAY-1:0];
-
-// Initial block to reset PLRU and TLB entries
-initial begin: init_plru_and_entries
-    integer  w_ind, s_ind, a;
-    state[`STATE_R] = state_waiting; // Initialize the state to waiting
-
-    for (a = 0; a < NSET; a = a + 1)
-        plru[a] = 0; // Initialize PLRU for each set
-    
-    for (s_ind = 0; s_ind < NSET; s_ind = s_ind + 1) begin
-        for (w_ind = 0; w_ind < NWAY; w_ind = w_ind + 1) begin
-            entries[s_ind][w_ind]`VALIDE_BIT    = 0; // Initialize valid bit
-            entries[s_ind][w_ind]`TAG_RANGE     = 0; // Initialize tag
-            entries[s_ind][w_ind]`PCID_RANGE    = 0; // Initialize PCID
-            entries[s_ind][w_ind]`PA_RANGE      = 0; // Initialize physical address
-        end
-    end
-end
-
-/********************************************************************
-                             STATE MACHINE
-********************************************************************/
-// Generate block to handle TLB shutdown and clear all entries
-genvar s_ind;
-generate
-    for (s_ind = 0; s_ind < NSET; s_ind = s_ind + 1) begin: clear
-        always @(posedge clk) begin: shutdown_stlb
-            if (state == state_shutdown) begin: shutdown_tlb
-                integer  w_ind;
-                for (w_ind = 0; w_ind < NWAY; w_ind = w_ind + 1) begin
-                    entries[s_ind][w_ind]`VALIDE_BIT    <= 0; // Clear valid bit
-                    entries[s_ind][w_ind]`TAG_RANGE     <= 0; // Clear tag
-                    entries[s_ind][w_ind]`PCID_RANGE    <= 0; // Clear PCID
-                    entries[s_ind][w_ind]`PA_RANGE      <= 0; // Clear physical address
-                end
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            // RAM 전체를 0으로 초기화
+            for (j = 0; j < (1 << ADDR_WIDTH); j = j + 1) begin
+                ram[j] <= {DATA_WIDTH{1'b0}};
             end
+            douta <= {DATA_WIDTH{1'b0}};
+            doutb <= {DATA_WIDTH{1'b0}};
+        end
+        else begin
+            if (wea)
+                ram[addra] <= dina;
+            douta <= ram[addra];
+
+            if (web)
+                ram[addrb] <= dinb;
+            doutb <= ram[addrb];
         end
     end
-endgenerate 
 
-// Main always block for state transitions
-always @(posedge clk) begin
-    // Check if a new request is made or shutdown/insert signals are asserted
-    if (state != state_shutdown && ( prev_addr != va || pcid != prev_pcid)) begin
-       state <= state_req; // Move to request state
-       prev_addr <= va;    // Update previous address
-       prev_pcid <= pcid;  // Update previous PCID
-    end else if (shutdown != 0) begin
-        state <= state_shutdown; // Move to shutdown state
-    end else if (insert != 0) begin
-        state <= state_insert; // Move to insert state
+endmodule
+
+// D flip-flop with enable
+module DFF_E #(parameter WIDTH = 1) (
+    input clock,
+    input enable,
+    input [WIDTH-1:0] D,
+    output reg [WIDTH-1:0] Q
+    );
+
+    always @(posedge clock) begin
+        if (enable)
+            Q <= D;
     end
-
-    // State machine
-    case (state)
-        state_waiting: begin
-            miss <= 0; // Reset miss signal
-            hit  <= 0; // Reset hit signal
-        end
-        
-        state_req: begin
-            ta[SPAGE-1:0] <= local_addr; // Set the lower bits of the translated address
-            hit <= 1'b1; // Default to a hit (this may be reset later if there's a miss)
-            state <= state_waiting; // Return to waiting state
-
-            // Check each way in the set for a tag and PCID match
-            if(entries[set][0]`TAG_RANGE == tag && entries[set][0]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b0001011, 7'b0000000); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][0]`PA_RANGE; // Set physical address
-
-            end else if(entries[set][1]`TAG_RANGE == tag && entries[set][1]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b0001011, 7'b0001000); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][1]`PA_RANGE;
-
-            end else if(entries[set][2]`TAG_RANGE == tag && entries[set][2]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b0001011, 7'b0000010); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][2]`PA_RANGE;
-
-            end else if(entries[set][3]`TAG_RANGE == tag && entries[set][3]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b0010011, 7'b0010010); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][3]`PA_RANGE;
-
-            end else if(entries[set][4]`TAG_RANGE == tag && entries[set][4]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b0100101, 7'b0000001); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][4]`PA_RANGE;
-
-            end else if(entries[set][5]`TAG_RANGE == tag && entries[set][5]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b0100101, 7'b0100001); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][5]`PA_RANGE;
-
-            end else if(entries[set][6]`TAG_RANGE == tag && entries[set][6]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b1000101, 7'b0000101); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][6]`PA_RANGE;
-
-            end else if(entries[set][7]`TAG_RANGE == tag && entries[set][7]`PCID_RANGE == pcid) begin
-                plru[set] = new_plru(plru[set], 7'b1000101, 7'b1000101); // Update PLRU state
-                ta[SADDR-1:SPAGE] <= entries[set][7]`PA_RANGE;
-            end else begin
-                miss <= 1'b1; // Set miss signal if no match is found
-                hit <= 1'b0;  // Reset hit signal
-                state <= state_miss; // Move to miss state
-            end
-        // end state_req
-        end
-        
-        state_miss: begin
-            miss <= 1'b0; // Reset miss signal
-            state <= state_waiting; // Return to waiting state
-        end
-
-        state_insert: begin
-            // Insert the new entry based on PLRU state
-            if (plru[set][0]) begin
-                plru[set][0] = !plru[set][0];
-                if (plru[set][1]) begin
-                    plru[set][1] = !plru[set][1];
-                    plru[set][3] = !plru[set][3];
-                    
-                    if (plru[set][3]) begin
-                        entries[set][1]`TAG_RANGE  <= tag; // Update tag
-                        entries[set][1]`PCID_RANGE <= pcid; // Update PCID
-                        entries[set][1]`PA_RANGE   <= pa[SADDR-1:SPAGE]; // Update physical address
-                    end
-                    else begin
-                        entries[set][0]`TAG_RANGE  <= tag;
-                        entries[set][0]`PCID_RANGE <= pcid;
-                        entries[set][0]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                end else begin
-                    plru[set][1] = !plru[set][1];
-                    plru[set][4] = !plru[set][4];
-                    
-                    if (plru[set][4]) begin
-                        entries[set][3]`TAG_RANGE  <= tag;
-                        entries[set][3]`PCID_RANGE <= pcid;
-                        entries[set][3]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                    else begin
-                        entries[set][2]`TAG_RANGE  <= tag;
-                        entries[set][2]`PCID_RANGE <= pcid;
-                        entries[set][2]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                end
-            end else begin
-                plru[set][0] = !plru[set][0];
-                if (plru[set][2]) begin
-                    plru[set][2] = !plru[set][2];
-                    plru[set][5] = !plru[set][5];
-
-                    if (plru[set][5]) begin
-                        entries[set][5]`TAG_RANGE  <= tag;
-                        entries[set][5]`PCID_RANGE <= pcid;
-                        entries[set][5]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                    else begin
-                        entries[set][4]`TAG_RANGE  <= tag;
-                        entries[set][4]`PCID_RANGE <= pcid;
-                        entries[set][4]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                end else begin
-                    plru[set][2] = !plru[set][2];
-                    plru[set][6] = !plru[set][6];
-
-                    if (plru[set][6]) begin
-                        entries[set][7]`TAG_RANGE  <= tag;
-                        entries[set][7]`PCID_RANGE <= pcid;
-                        entries[set][7]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                    else begin
-                        entries[set][6]`TAG_RANGE  <= tag;
-                        entries[set][6]`PCID_RANGE <= pcid;
-                        entries[set][6]`PA_RANGE   <= pa[SADDR-1:SPAGE];
-                    end
-                end
-            end
-            state <= state_waiting; // Return to waiting state
-        // end state_insert
-        end
-
-        state_shutdown: begin
-            // another always block: line 66 handles the shutdown
-            state <= state_waiting; // Return to waiting state after shutdown
-        // end state_shutdown
-        end
-        default: ;
-    endcase
-end
 endmodule
