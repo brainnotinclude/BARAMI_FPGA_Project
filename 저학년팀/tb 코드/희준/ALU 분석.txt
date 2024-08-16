@@ -1,0 +1,332 @@
+결론:
+slt, sltu 의 경우 이미 수정사안에 대해 논의 완료.
+mul계열의 경우 본인의 이해가 부족한 것이지 계산 자체에는 문제가 없는 것으로 사료됨.
+divider 계열의 경우 0으로 나누는 것에 대한 abort 구현 필요. + 나머지의 부호가 몫의 부호를 따라가는 것을 유의할 필요 있음.
+sra(산술적 우측 쉬프트)의 경우 베릴로그에서 제공하는 기본 명령어를 이용하여 구성하였음에도 불구하고, 부호유지가 되지 않음.
+
+코드 분석 노트:
+
+`timescale 1ns/1ps
+module alu(
+    input clk,
+    input rst_n,
+    input [4:0] aluop,
+    input [31:0] aluin1,     // pc는 aluin1으로 받겠음
+    input [31:0] aluin2,     // imm, shamt는 aluin2으로 받겠음
+    output reg [31:0] aluout
+    );
+
+    // add sub lui auipc part > lui auipc는 구현 안되어 있음
+    wire [31:0] sum;
+    wire [31:0] bar_aluin2;
+    assign bar_aluin2 = (aluop[0]|aluop[4] ? ~aluin2 :aluin2);    // 덧셈은 aluin2 그대로, 뺄셈은 aluin2 각 비트를 inverse한 값으로 계산
+    
+    ripple_carry_adder add_ripple_carry_adder(
+    .a(aluin1),                       
+    .b(bar_aluin2),
+    .cin(aluop[0]|aluop[4]),
+    .sum(sum),
+    .cout()
+    );            // aluop[0]|aluop[4]으로 덧셈과 뺄셈 구분, 뺄셈은 cin으로 1이 들어가야 함 sub는 00001, slt는 01000으로 주기 때문에 둘을 or한 것
+   
+    // slt sltu part  
+    wire overflow;
+    wire [31:0] slt_alu;    //slt 연산 결과
+    wire [31:0] sltu_alu;    // sltu 연산 결과
+    
+    assign overflow = (aluin1[31] != aluin2[31]) && (sum[31] != aluin1[31]); 
+오버플로우 = (두 수의 최고 비트가 같은 가?) and (두 수를 합친 값의 최고 비트와 첫번째 숫자의 최고 비트가 같은가?)
+    assign slt_alu = {31'b0, (sum[31]^overflow)};  최하 비트 제외 모든 비트 0으로 초기화 + 최하비트 = (합의 최고 비트 or overflow)     
+    assign sltu_alu = ((aluin1 < aluin2) ? 32'b1 :32'b0); // unsigned를 위한 단순 비교
+    
+    // sll part
+    wire [31:0] sll;
+    assign sll = aluin1 << aluin2;
+    
+    // xor part 
+    wire [31:0] xor_alu;
+    assign xor_alu = aluin1 ^ aluin2;
+    
+    // srl part
+    wire [31:0] srl;
+    assign srl = aluin1 >> aluin2;
+    
+    // sra part
+    wire [31:0] sra;
+    assign sra = aluin1 >>> aluin2;
+    
+    // or part 
+    wire [31:0] or_alu;
+    assign or_alu = aluin1 | aluin2;
+    
+    // and part 
+    wire [31:0] and_alu;
+    assign and_alu = aluin1 & aluin2;
+    
+    // mul part
+    wire [1:0] mode;
+    wire [63:0] mult_out;
+    assign mode = aluop[1:0];
+    
+    multiplier_all u_multiplier_all(
+    .mode(mode),
+    .a(aluin1),
+    .b(aluin2),
+    .out(mult_out)               // 곱셈 계산 결과
+    );
+    
+    wire [31:0] mul_out;
+    wire [31:0] mulh_out;
+    assign mul_out = mult_out[31:0];       // 하위 32비트
+    assign mulh_out = mult_out[63:32];     // 상위 32비트
+
+    // divide part                  // div = 11000 divu = 11010 rem = 11100 remu = 11110
+    wire [31:0] aluin1_unsigned;         // 나눗셈 연산은 기본적으로 절대값을 씌운 다음 진행
+    wire [31:0] aluin2_unsigned;         // 그러기 위해서는 명령어가 unsign인지 아닌지 구분 필요
+    wire [31:0] quotient;                // aluop[1]을 div와 rem 같게(0), divu, remu(1)같게 설정
+    wire [31:0] remainder;               // 이를 이용해 나눗셈 모듈에 넣을 입력을 정해줌
+    assign aluin1_unsigned = (aluop[1] ? aluin1 : (aluin1[31] ? ~aluin1+1 : aluin1));       // 만약 div인데 음수인경우 2의 보수로 양수로 만듦
+    assign aluin2_unsigned = (aluop[1] ? aluin2 : (aluin2[31] ? ~aluin2+1 : aluin2));
+    
+    divide u_divide(                    
+    .dividend(aluin1_unsigned),
+    .divisor(aluin2_unsigned),
+    .quotient(quotient),
+    .remainder(remainder));
+    // 나눗셈 결과를 div, divu, rem, remu에 모두 올바른 값으로 저장 필요
+    // 이를 위해 처음 받은 두 입력의 최상위 비트를 붙여 2비트 짜리 mod_div라는 변수를 만듦
+    // 이 변수를 이용해 나눗셈 몫과 나머지가 양수를 가져야 하는지 음수를 가져야 하는지 결정
+    // divu, remu인 경우는 양 음 관계없는 연산이므로 나눗셈 몫과 나머지를 그대로 받음
+    wire [31:0] div;
+    wire [31:0] divu;
+    wire [31:0] rem;
+    wire [31:0] remu;
+    wire [1:0] mod_div;
+    assign mod_div = {aluin1[31],aluin2[31]};    
+    assign div = ((mod_div == 2'b00 | mod_div == 2'b11) ? quotient : ~quotient +1);
+    assign rem = ((mod_div == 2'b00 | mod_div == 2'b11) ? remainder : ~remainder +1);
+    assign divu = quotient;
+    assign remu = remainder;
+    
+    // output part
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) 
+        aluout <= 32'b0;
+        else begin
+        case(aluop)
+            5'd0: aluout <= sum;     //sum
+            5'd1: aluout <= sum;     //sub
+            5'd2: aluout <= sll;
+            5'd3: aluout <= xor_alu;
+            5'd4: aluout <= srl;
+            5'd5: aluout <= sra;
+            5'd6: aluout <= or_alu;
+            5'd7: aluout <= and_alu;
+            5'd8: aluout <= slt_alu;
+            5'd9: aluout <= sltu_alu;
+            5'd16: aluout <= mulh_out;     //mulhu 부호 없는 32비트 정수 곱셈의 상위 32비트 
+            5'd17: aluout <= mulh_out;     //mulhsu (부호있는 32비트 정수 X 부호 없는 32비트 정수)의 상위 32비트 
+            5'd18: aluout <= mulh_out;     //mulh 부호 있는 32비트 정수 곱셈의 상위 32비트
+            5'd22: aluout <= mul_out;      //mul 부호 있는 32비트 정수 곱셈의 하위 32비트 반환.
+            5'd24: aluout <= div;
+            5'd26: aluout <= divu;
+            5'd28: aluout <= rem;
+            5'd30: aluout <= remu;
+                 
+                 
+    endcase
+    end
+end   
+endmodule
+
+
+각 연산별 체크리스트 및 결과
+
+1. ADD (덧셈 연산)
+설명: 두 입력 피연산자를 더합니다.
+체크리스트:
+양의 정수 덧셈: 5 + 3 = 8  오케이
+음수 덧셈: -5 + -3 = -8  오케이
+양수와 음수 덧셈: 5 + -3 = 2  오케이
+오버플로우 테스트: 최대 값 + 1  오버플로우는 애초에 고려하지 않음.
+0과의 덧셈: 5 + 0 = 5  오케이
+
+2. SUB (뺄셈 연산)
+설명: 두 입력 피연산자 중 첫 번째에서 두 번째를 뺍니다.
+체크리스트:
+양의 정수 뺄셈: 5 - 3 = 2 오케이
+음수 뺄셈: -5 - (-3) = -2  오케이
+양수와 음수 뺄셈: 5 - (-3) = 8  오케이
+0과의 뺄셈: 5 - 0 = 5   오케이
+
+3. SLT (Set Less Than, 부호 있는 비교)  ?
+설명: 첫 번째 피연산자가 두 번째 피연산자보다 작으면 1을 반환하고, 그렇지 않으면 0을 반환합니다. 부호 있는 비교를 수행합니다.
+체크리스트:
+5 < 3 = 0  오케이
+-5 < 3 = 1
+5 < -3 = 0
+-5 < -3 = 1
+동일한 값: 3 < 3 = 0
+
+4. SLTU (Set Less Than Unsigned, 부호 없는 비교)  ?
+설명: 첫 번째 피연산자가 두 번째 피연산자보다 작으면 1을 반환하고, 그렇지 않으면 0을 반환합니다. 부호 없는 비교를 수행합니다.
+체크리스트:
+5 < 3 = 0 (부호 없는 값으로 비교)  오케이
+3 < 5 = 1  오케이
+최대값 < 최소값 = 0 (언더플로우 확인)
+동일한 값: 3 < 3 = 0
+
+5. SLL (Shift Left Logical, 논리적 왼쪽 시프트)
+설명: 두 번째 피연산자의 값만큼 첫 번째 피연산자를 왼쪽으로 시프트합니다.
+체크리스트:
+왼쪽으로 1 비트 시프트: 5 << 1 = 10 오케이
+왼쪽으로 여러 비트 시프트: 5 << 2 = 20 오케이
+0 비트 시프트: 5 << 0 = 5   오케이
+시프트 값이 32 이상인 경우: 5 << 32 = 0   오케이
+
+6. XOR (배타적 OR 연산)
+설명: 두 피연산자 간의 배타적 OR 연산을 수행합니다. 각 비트가 다를 경우 1, 같을 경우 0을 반환합니다.
+체크리스트:
+동일한 값: 5 ^ 5 = 0  오케이
+다를 때: 5 ^ 3 = 6 오케이
+0과 XOR: 5 ^ 0 = 5 오케이
+반전 테스트: 5 ^ 0xFFFFFFFF = 0xfffffffa  오케이
+
+7. SRL (Shift Right Logical, 논리적 오른쪽 시프트)
+설명: 두 번째 피연산자의 값만큼 첫 번째 피연산자를 오른쪽으로 논리적 시프트합니다. 빈 자리는 0으로 채워집니다.
+체크리스트:
+오른쪽으로 1 비트 시프트: 8 >> 1 = 4 오케이
+오른쪽으로 여러 비트 시프트: 8 >> 3 = 1 오케이
+0 비트 시프트: 8 >> 0 = 8 오케이
+시프트 값이 32 이상인 경우: 8 >> 32 = 0 오케이
+
+8. SRA (Shift Right Arithmetic, 산술적 오른쪽 시프트)
+설명: 두 번째 피연산자의 값만큼 첫 번째 피연산자를 오른쪽으로 산술적 시프트합니다. 빈 자리는 부호 비트로 채워집니다.
+체크리스트:
+양수에 대한 시프트: 8 >> 1 = 4 오케이
+음수에 대한 시프트: -8 >> 1 = -4 (부호 유지 확인) > 0x7ffffffc 확인 필요
+0 비트 시프트: -8 >> 0 = -8 오케이
+시프트 값이 32 이상인 경우: -8 >> 32 = -1 > 0 확인 필요
+
+9. OR (논리적 OR 연산) 
+설명: 두 피연산자 간의 논리적 OR 연산을 수행합니다. 두 비트 중 하나라도 1이면 1을 반환합니다.
+체크리스트:
+동일한 값: 5 | 5 = 5 오케이
+다른 값: 5 | 3 = 7  오케이
+0과 OR: 5 | 0 = 5 오케이
+최대 값과 OR: 5 | 0xFFFFFFFF = 0xFFFFFFFF 오케이
+
+10. AND (논리적 AND 연산)
+설명: 두 피연산자 간의 논리적 AND 연산을 수행합니다. 두 비트가 모두 1일 때만 1을 반환합니다.
+체크리스트:
+동일한 값: 5 & 5 = 5 오케이
+다른 값: 5 & 3 = 1 오케이
+0과 AND: 5 & 0 = 0 오케이
+최대 값과 AND: 5 & 0xFFFFFFFF = 5 오케이
+
+11.mulhu(16) 부호 없는 32비트 정수 곱셈의 상위 32비트 
+부호 없는 값 두 개의 곱셈. 오케이
+: 18 * 2 > 0
+: 0x88888888 * 0x80000000 > 0x44444444
+최대값(0xFFFFFFFF) 곱셈. 오케이
+결과가 상위 32비트로 잘리는지 확인. 오케이
+:0xffffffff * 0x00000002 > 0x00000001
+:0xffffffff * 0xffffffff > 0xfffffffe
+
+12.mulhsu(17) (부호있는 32비트 정수 X 부호 없는 32비트 정수)의 상위 32비트 
+부호 있는 값과 부호 없는 값의 곱셈. 결과가 상위 32비트로 잘리는지 확인.
+양수와 양수 곱셈.
+: 0x0000002 * 0xffffffff > 0x00000001 오케이
+음수와 양수 곱셈.
+: 0xffffffff * 0x0000002 > 0xffffffff 오케이 ... 계산결과는 맞는데 왜 multiplier_all에서 out이 2(16)로 나오는지 모르겠음. 
+음수와 최대값(0xFFFFFFFF) 곱셈.
+: 0x8000000 * 0xffffffff > 0x80000000 오케이
+
+13.mulh(18) 부호 있는 32비트 정수 곱셈의 상위 32비트
+양수와 양수 곱셈의 상위 비트 계산.
+0x00000002 * 0x00000003 > 0x00000000 오케이
+음수와 양수 곱셈의 상위 비트 계산.
+0x80000000 * 0x00000002 > 0xffffffff ..? 구체적으로 어떤 계산이 맞는지 모르겠음.
+음수와 음수 곱셈의 상위 비트 계산.
+0xFFFFFFFF * 0xFFFFFFFF > 0x0 ...?
+최대값과 최소값 곱셈 시 상위 32비트 확인. ..? 마찬가지로 구체적으로 어떤 계산이 맞는지 모르겠음.
+0x8000000 * 0x7fffffff > 0xc0000000..?
+
+14.. MUL(22) (곱셈 연산)
+설명: 부호 있는 32비트 정수 곱셈의 하위 32비트 반환.
+체크리스트:
+양수 곱셈: 2 * 3 = 6 오케이
+음수 곱셈: -5 * 3 = -15 오케이
+음수끼리 곱셈: -2 * -8 = 16 오케이
+0과 곱셈: 2 * 0 = 0 오케이
+최대값(0x7FFFFFFF)과 최소값(0x80000000) 곱셈. 오케이
+곱셈 결과가 하위 32비트가 맞는지 확인. 오케이
+
+5'd24: aluout <= div;
+            5'd26: aluout <= divu;
+            5'd28: aluout <= rem;
+            5'd30: aluout <= remu;
+
+DIV(24) (부호 있는 나눗셈):
+설명: 첫 번째 피연산자를 두 번째 피연산자로 나눕니다.
+체크리스트:
+나눗셈에서 부호의 영향 확인
+15 / 3 = 5 오케이
+-15 / 3 = -5  오케이
+-15 / -3 = 5 오케이
+0x80000000 / 0xFFFFFFFF = 0x80000000 : -2^31 / -1 = 2^31..? 일단 16진법 표기대로의 계산은 나옴. 문제는 이게 타당한지..
+0x80000000 / 0x7FFFFFFF = -1 : -2^31 / (2^31 - 1) = -1 오케이
+0으로 나누기 (분모가 0일 경우 예외 처리)
+: 5 / 0 > -1...????? 이전 값에서 변화하지 않은 것 같기도.. 다음걸 보면 아닌것 같기도 하고..
+-1/0 > 1...?????
+나머지 확인: 17 / 3 = 5 (나머지 2, 결과는 정수형으로 표현) 오케이
+
+DIVU(26) (부호 없는 나눗셈):
+부호 없는 나눗셈에서 정확한 결과 도출 확인
+15 / 3 = 5 오케이
+최대값과 최소값에서의 경계 테스트
+0xFFFFFFFF/0x00000001 = 0xFFFFFFFF 오케이
+0xFFFFFFFF/0x00000003 = 0x5555555 오케이
+0으로 나눌 때의 처리 확인
+: 5 / 0 > 0xffffffff..?
+나머지 확인: 17 / 3 = 5 (나머지 2, 결과는 정수형으로 표현)  오케이
+
+REM(28) (부호 있는 나머지): 계산 구조상 나머지의 부호는 몫의 부호를 따라감.
+부호 있는 나눗셈에서 나머지의 부호와 값을 확인
+5%2=1 오케이
+-5%2=-1 오케이
+-5%-2=1 오케이
+0으로 나눌 때 예외처리
+5%0 > 5 .. 확인 필요.
+-1%0 > -1 확인 필요.
+최댓값에서 음수 나눗셈 나머지
+0x80000000 % 0x00000003 = -2  오케이
+0x80000000 % 0x7FFFFFFF = -1  오케이
+0x80000000 % 0xFFFFFFFF > 0 오케이(-1로 나눈 것이므로.)
+
+REMU(30) (부호 없는 나머지):
+부호 없는 나머지 연산에서 정확한 결과 확인
+5%2=1 오케이
+0으로 나눌 때의 처리 확인
+: 5 % 0 > 5 ... 확인 필요
+0xFFFFFFFF % 0 > 0xffffffff 확인 필요.
+최대값과 최소값에서의 경계 테스트
+0xFFFFFFFF/0x00000001 = 0  오케이
+0xFFFFFFFF/0x00000003 = 0  오케이
+0x80000000 % 0xFFFFFFFF = 0x80000000 오케이
+
+
+
+
+각 연산별 구조 분석 및 분석하며 배운 잡다한 지식들
+32비트에서 최고비트가 1이 되는 지점: 7fffffff(16)
+ALU.v는 rst_n이 1에서 0이 되거나, clk가 0에서 1이 될 때 output이 갱신.
+또한 output도 rst값이 0일 때는 aluout을 0으로 초기화 시키는 역할
+> 위의 분석들로 그냥 클럭 상관 없이 바로바로 값이 나오게 만들길 원했으나, 
+clk가 변해야만 작동하는 특성상 결국 alu파일에 손대지 않는다는 조건 하에서는 입력값 변화가 반영되려면 적어도 한 주기의 대기시간이 필요했음..
+mul, mulh, mulhu, mulhsu:
+기본적으로 multiplier.v에서 모든 입력을 부호 없는 32비트로 받아 64비트 결과 값 도출.
+multiplier_all.v에서 네 명령의 모든 경우에 따라 입력 값의 부호를 없애(=2의 보수를 취해) multiplier.v에 입력.
+이후 나온 계산 값을 본래 계산값이 음일 경우에만 음수를 취하여(=2의 보수를 취하여) 출력. > alu의 mult_out
+이후 alu.v에서 mul_out에 하위 32비트를 담아 mul의 출력값으로, mulh_out에 상위 32비트를 담아 나머지 세 명령어의 출력 값으로 이용.  
+...
