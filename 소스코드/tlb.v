@@ -483,16 +483,16 @@ module TLB_CAM_DP_16 (
     output       Idx_G_Out,
     input  [19:0] VPN_A,
     input  [7:0]  ASID_A,
-    output reg   Hit_A,             // º¯°æ: wire -> reg
-    output reg [3:0] MatchIndex_A,  // º¯°æ: wire -> reg
-    output reg   OddPage_A,         // º¯°æ: wire -> reg
-    output reg [15:0] Mask_A,       // º¯°æ: wire -> reg
+    output reg   Hit_A,             
+    output reg [3:0] MatchIndex_A,  
+    output reg   OddPage_A,         
+    output reg [15:0] Mask_A,       
     input  [19:0] VPN_B,
     input  [7:0]  ASID_B,
-    output reg   Hit_B,             // º¯°æ: wire -> reg
-    output reg [3:0] MatchIndex_B,  // º¯°æ: wire -> reg
-    output reg   OddPage_B,         // º¯°æ: wire -> reg
-    output reg [15:0] Mask_B        // º¯°æ: wire -> reg
+    output reg   Hit_B,             
+    output reg [3:0] MatchIndex_B,  
+    output reg   OddPage_B,        
+    output reg [15:0] Mask_B        
     );
 
     // CAM memory (16 entries)
@@ -570,7 +570,7 @@ module RAM_TDP_ZI #(parameter DATA_WIDTH = 72, parameter ADDR_WIDTH = 4) (
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            // RAM ÀüÃ¼¸¦ 0À¸·Î ÃÊ±âÈ­
+            // RAM ì „ì²´ë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”
             for (j = 0; j < (1 << ADDR_WIDTH); j = j + 1) begin
                 ram[j] <= {DATA_WIDTH{1'b0}};
             end
