@@ -57,7 +57,7 @@ begin
 if (!rst_n) begin
     pcF1 <= RESET_PC;
     pcF2 <= RESET_PC;
-end else if(EN) begin    
+end else if(!EN) begin    
     pcF1 <= pcF1;
     pcF2 <= pcF2;
 end else begin

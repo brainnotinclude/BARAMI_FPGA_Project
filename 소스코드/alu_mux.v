@@ -14,7 +14,7 @@ module alu_mux(
     
     wire [31:0]sign_imm;
     wire [31:0]sign_imm_20;
-    assign sign_imm = {imm, 20'b0};
+    assign sign_imm = {20*{imm[11]},imm};
     assign sign_imm_20 = {imm_20, 12'b0};
     
     wire [31:0]shamt_temp;

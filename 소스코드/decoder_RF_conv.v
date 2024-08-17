@@ -27,8 +27,24 @@ module decoder_RF_conv(
     input rst_n,
     input [31:0] instA,                 //1st instruction
     input [31:0] instB,                 //2nd instruction
-    output [70:0] decoded_instA,               //Decoded instructions: need to be vectorized!!
-    output [70:0] decoded_instB,
+    input [31:0] pc,
+    
+    input [31:0] rs1_ex_forwarding_A,
+    input [31:0] rs2_ex_forwarding_A,
+    input [31:0] rs1_mem_forwarding_A,
+    input [31:0] rs2_mem_forwarding_A,
+    input [1:0] rs1_forwarding_bit_A,
+    input [1:0] rs2_forwarding_bit_A,
+    
+    input [31:0] rs1_ex_forwarding_B,
+    input [31:0] rs2_ex_forwarding_B,
+    input [31:0] rs1_mem_forwarding_B,
+    input [31:0] rs2_mem_forwarding_B,
+    input [1:0] rs1_forwarding_bit_B,
+    input [1:0] rs2_forwarding_bit_B,
+    
+    output [82:0] decoded_instA,               //Decoded instructions: need to be vectorized!!
+    output [82:0] decoded_instB,
     output errorA,                      //Connected to Fetch/Decode FF and Decode/Dispatch FF. If error, then value of (corresponding) Fetch/Decode FF should be preserved. Insert bubble to Decode/Dispatch. 
     output errorB,
     
@@ -44,22 +60,6 @@ module decoder_RF_conv(
     input wr_enable_A,
     input wr_enable_B
     );
-    //Disassemble instruction
-    wire [6:0] opcodeA;
-    wire [6:0] opcodeB;
-    wire [4:0] rdA;
-    wire [4:0] rdB;
-    wire [4:0] rs1A;
-    wire [4:0] rs1B;
-    wire [4:0] rs2A;
-    wire [4:0] rs2B;
-    wire [11:0] imm_for_i_A;
-    wire [11:0] imm_for_i_B;
-    wire [2:0] function3A;
-    wire [2:0] function3B;
-    wire [6:0] function7A;
-    wire [6:0] function7B;
-
     
     //Connect to RF
     wire map_en_A;
@@ -78,6 +78,13 @@ module decoder_RF_conv(
         .s2(s2A),
         .rs1_valid(rs1A_valid),
         .rs2_valid(rs2A_valid),
+        .pc(pc),
+        .rs1_ex_forwarding(rs1_ex_forwarding_A),
+        .rs2_ex_forwarding(rs2_ex_forwarding_A),
+        .rs1_mem_forwarding(rs1_mem_forwarding_A),
+        .rs2_mem_forwarding(rs2_mem_forwarding_A),
+        .rs1_forwarding_bit(rs1_forwarding_bit_A),
+        .rs2_forwarding_bit(rs2_forwarding_bit_A),
         
         .map_en(map_en_A),
         .rs1(rs1A),
@@ -92,6 +99,13 @@ module decoder_RF_conv(
         .s2(s2B),
         .rs1_valid(rs1B_valid),
         .rs2_valid(rs2B_valid),
+        .pc(pc),
+        .rs1_ex_forwarding(rs1_ex_forwarding_B),
+        .rs2_ex_forwarding(rs2_ex_forwarding_B),
+        .rs1_mem_forwarding(rs1_mem_forwarding_B),
+        .rs2_mem_forwarding(rs2_mem_forwarding_B),
+        .rs1_forwarding_bit(rs1_forwarding_bit_B),
+        .rs2_forwarding_bit(rs2_forwarding_bit_B),
         
         .map_en(map_en_B),
         .rs1(rs1B),

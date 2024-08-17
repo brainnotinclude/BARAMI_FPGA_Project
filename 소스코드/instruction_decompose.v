@@ -26,12 +26,20 @@ module instruction_decompose(
     input [31:0] s2,
     input rs1_valid,
     input rs2_valid,
+    input [31:0] pc,
+    input [31:0] rs1_ex_forwarding,
+    input [31:0] rs2_ex_forwarding,
+    input [31:0] rs1_mem_forwarding,
+    input [31:0] rs2_mem_forwarding,
+    input [1:0] rs1_forwarding_bit,
+    input [1:0] rs2_forwarding_bit,           // for forwarding, 00 -> rs1 , 01 -> ex forwarding, 10 -> mem forwarding
+    
     
     output reg map_en,
     output [4:0] rs1,
     output [4:0] rs2,
     output [4:0] rd,
-    output [70:0] decomposed_inst
+    output reg [82:0] decomposed_inst
     );
     
     //Disassemble instruction
@@ -47,8 +55,9 @@ module instruction_decompose(
     reg [31:0] rs2_vt;
     reg s1_valid;                        //If source1 is register, than it will be same as rs1_valid
     reg s2_valid;                        //If source2 is register, than it will be same as rs2_valid
-    
-    wire [4:0] ctrl_signal;                   //Caution! It's design is not completed!
+    wire [31:0] rs1_value;
+    wire [31:0] rs2_value;
+    wire [11:0] ctrl_signal;                   //Caution! It's design is not completed!
     
     assign opcode = inst[6:0];
     assign rd = inst[11:7];
@@ -59,71 +68,80 @@ module instruction_decompose(
     assign function3 = inst[14:12];
     assign function7 = inst[31:25];
     
-    assign ctrl_signal = 5'b00000;
     
-    assign decomposed_inst = {rs2_vt, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};
+    wire [4:0] aluop;
+    wire [1:0] alu_mux1;
+    wire [1:0] alu_mux2;
+    wire [1:0] dispatch_control;
+    wire memwrite;
+    wire memread;
+    wire regwrite;
+    wire branch;
+    wire memtoreg;
+    wire map_enable;
     
+    control u_control(
+    .opcode_A(opcode),
+    .funct3_A(function3),
+    .funct7_A(function7),
     
-    //
-    always@(*) begin
-        if(opcode == 7'b0110011) begin                     //For R-types and M-types
-            map_en = 1'b1;                                //because we are handing first instruction, we use map_en_A
-            
-            if(rs1_valid) begin
-                rs1_vt = s1;
-            end
-            else begin
-                rs1_vt = {27'b0, rs1}; 
-            end
-            
-            if(rs2_valid) begin
-                rs2_vt = s2;
-            end
-            else begin
-                rs2_vt = {27'b0, rs2};
-            end
-            
-            s1_valid = rs1_valid;
-            s2_valid = rs2_valid;
-        end
-        else if(opcode == 7'b0010011) begin                         //For I-types
-            map_en = 1'b1;
-            
-            if(function3 == 3'b001 || function3 == 3'b101) begin      //For shift
-                rs2_vt = rs2;                                      //In this case, it is not rs2A: it is shamt
-            end
-            else begin
-                rs2_vt = imm_for_i;                     //Other I-type instructions have imm field
-            end
-            
-            if(rs1_valid) begin
-                rs1_vt = s1;
-            end
-            else begin
-                rs1_vt = {27'b0, rs1}; 
-            end
-            s1_valid = rs1_valid;
-            s2_valid = 1'b1;
-        end
-        else if(opcode == 7'b0110111) begin                      //lui
-            map_en = 1'b1;
-            rs1_vt = {12'b0, imm_for_ui};
-            s2_valid = 1'b1;                        //In fact, lui doesn't have any source reg: so it is always valid
-            s1_valid = 1'b1;
-        end
-        else if(opcode == 7'b0010111) begin                     //auipc: it is similar to lui
-            map_en = 1'b1;
-            rs1_vt = {12'b0, imm_for_ui};
-            s2_valid = 1'b1;                        
-            s1_valid = 1'b1;
-        end
-        else begin                                  //illegal instruction: Mainly, control siganl logic will handle this, but we need instruction decomposing because abort is performed in ROB. Note that there can be illegal instructions even if opcode is legal(==illegal funct field), but even in that case, instruction is decomposed, so it is OK.
-            map_en = 1'b0;
-            s2_valid = 1'b1;
-            s1_valid = 1'b1;
-            rs1_vt = 32'b0;
-            rs2_vt = 32'b0;
-        end
-             
+    .aluop_A(aluop),
+    .aluin1_mux(alu_mux1),
+    .aluin2_mux(alu_mux2),
+    .map_en(map_enable),
+    .dispatch_control(dispatch_control),
+    .memwrite(memwrite), 
+    .memread(memread),
+    .memtoreg(memtoreg),
+    .branch(branch),
+    .regwrite(regwrite)
+    );
+    
+    wire [3:0] forwarding_bit;                                         // for forwarding, 00 -> rs1 , 01 -> ex forwarding, 10 -> mem forwarding
+    assign forwarding_bit = {rs1_forwarding_bit, rs2_forwarding_bit};
+    
+    assign crtl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //5+1+1+1+1+1+2 =12
+    
+    always@(*) begin   
+    map_en = map_enable;                           // 추후 forwarding을 위한 부분 
+    rs1_vt = rs1_value;
+    rs2_vt = rs2_value;
+    if (rs1_forwarding_bit != 2'b00)
+    s1_valid = 1;
+    else 
+    s1_valid = rs1_valid;
+    
+    if (rs2_forwarding_bit != 2'b00)
+    s2_valid = 1;
+    else 
+    s2_valid = rs2_valid;
+    
+    case(forwarding_bit)
+        4'b0000: decomposed_inst = {rs2_vt, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};                      //32+1+32+1+5+12 =83
+        4'b0001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_vt, s1_valid, rd, crtl_signal};
+        4'b0100: decomposed_inst = {rs2_vt, s2_valid, rs1_ex_forwarding, s1_valid, rd, crtl_signal};
+        4'b0010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_vt, s1_valid, rd, crtl_signal};
+        4'b1000: decomposed_inst = {rs2_vt, s2_valid, rs1_mem_forwarding, s1_valid, rd, crtl_signal};
+        4'b0101: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, crtl_signal};
+        4'b0110: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, crtl_signal};
+        4'b1001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, crtl_signal};
+        4'b1010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, crtl_signal};
+    endcase
     end
+   
+
+    alu_mux u_alu_mux(
+    .mux1(aluin_mux1),
+    .mux2(aluin_mux2),
+    .rs1(s1),
+    .rs2(s2),
+    .pc(pc),
+    .imm(imm_for_i),
+    .imm_20(imm_for_ui),
+    .shamt(rs2),
+    .aluin1(rs1_value),
+    .aluin2(rs2_value)
+    );
+    
+    
 endmodule

@@ -3,16 +3,23 @@ module control(
     input [6:0]opcode_A,
     input [2:0]funct3_A,
     input [6:0]funct7_A,
-    input [6:0]opcode_B,
+    /*input [6:0]opcode_B,
     input [2:0]funct3_B,
     input [6:0]funct7_B,
     //input clk,
     //input rst_n,
-    
+    */
     output reg [4:0]aluop_A,
     output reg [1:0]aluin1_mux,          //mux 00 -> rs1, 01 -> pc, 10 -> 0 for lui
-    output reg [4:0]aluop_B,
-    output reg [1:0]aluin2_mux           //mux 00 -> rs2, 01 -> shamt 10-> imm_12 11->imm_20
+    //output reg [4:0]aluop_B,
+    output reg [1:0]aluin2_mux,           //mux 00 -> rs2, 01 -> shamt 10-> imm_12 11->imm_20
+    output reg map_en,
+    output reg [1:0] dispatch_control,     //11: Both simple/complex, 01: Complex only, 10:FP only
+    output reg memwrite,
+    output reg memread,
+    output reg memtoreg,
+    output reg branch,
+    output reg regwrite
     );
     
     
@@ -22,6 +29,14 @@ module control(
         7'b0110011:
         begin
         aluin1_mux = 2'b00;
+        aluin2_mux = 2'b00;
+        map_en = 1;
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
         // 공통된 control 신호 넣기
         case(funct3_A)                         // add, sub 등 r형 명령어에 대한 aluop 값
             3'b000:
@@ -62,38 +77,53 @@ module control(
         7'b0010011:
         begin 
         aluin1_mux = 2'b00;
+        map_en = 1;
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;     
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
         case(funct3_A)                         // addi, subi 등 i형 명령어에 대한 aluop 값
             3'b000:
             begin
             aluop_A = 5'b00000;
+            aluin2_mux = 2'b10;
             end
             3'b001:
             begin
             aluop_A = 5'b00010;
+            aluin2_mux = 2'b01;
             end
             3'b010:
             begin
             aluop_A = 5'b01000;
+            aluin2_mux = 2'b10;
             end
             3'b011:
             begin
             aluop_A = 5'b01001;
+            aluin2_mux = 2'b10;
             end
             3'b100:
             begin
             aluop_A = 5'b00011;
+            aluin2_mux = 2'b10;
             end
             3'b101:
             begin
             aluop_A = (funct7_A == 7'b0100000 ? 5'b00101: 5'b00100);
+            aluin2_mux = 2'b01;
             end
             3'b110:
             begin
             aluop_A = 5'b00110;
+            aluin2_mux = 2'b10;
             end
             3'b111:
             begin
             aluop_A = 5'b00111;
+            aluin2_mux = 2'b10;
             end
         endcase
         end
@@ -101,18 +131,42 @@ module control(
         7'b0110111:
         begin                //lui
         aluop_A = 5'b00000;
-        aluin1_mux = 2'b10;   
+        map_en = 1;
+        aluin1_mux = 2'b10;  
+        aluin2_mux = 2'b11; 
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
         end
         
         7'b0010111:
         begin                 //auipc
         aluop_A = 5'b00000;
+        map_en = 1;
         aluin1_mux = 2'b01;
+        aluin2_mux = 2'b11;   
+        dispatch_control = 2'b11;    
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
         end
         
         7'b0110011:
         begin
+        map_en = 1;
         aluin1_mux = 2'b00;
+        aluin2_mux = 2'b00; 
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
         case(funct3_A)                // mul divide
             3'b000:
             begin
@@ -146,6 +200,8 @@ module control(
             begin
             aluop_A = 5'b11110;
             end
+        default: 
+                map_en = 0;
         endcase
         end
     endcase
@@ -153,7 +209,7 @@ module control(
     
     // 명령어 두 개니까 둘 나눠서 동시에? 음 같은 always에 둬야할까요
     
-    always@(*) begin
+    /*always@(*) begin
     case(opcode_B) 
         7'b0110011:
         begin
@@ -294,6 +350,6 @@ module control(
     endcase
     end
     
-    
+    */
    
 endmodule

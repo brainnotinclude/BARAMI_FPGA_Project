@@ -74,6 +74,7 @@ module alu(
     // divide part                  // div = 11000 divu = 11010 rem = 11100 remu = 11110
     wire [31:0] aluin1_unsigned;         // 나눗셈 연산은 기본적으로 절대값을 씌운 다음 진행
     wire [31:0] aluin2_unsigned;         // 그러기 위해서는 명령어가 unsign인지 아닌지 구분 필요
+    wire error;
     wire [31:0] quotient;                // aluop[1]을 div와 rem 같게(0), divu, remu(1)같게 설정
     wire [31:0] remainder;               // 이를 이용해 나눗셈 모듈에 넣을 입력을 정해줌
     assign aluin1_unsigned = (aluop[1] ? aluin1 : (aluin1[31] ? ~aluin1+1 : aluin1));       // 만약 div인데 음수인경우 2의 보수로 양수로 만듦
@@ -82,6 +83,7 @@ module alu(
     divide u_divide(                    
     .dividend(aluin1_unsigned),
     .divisor(aluin2_unsigned),
+    .error(error),
     .quotient(quotient),
     .remainder(remainder));
     // 나눗셈 결과를 div, divu, rem, remu에 모두 올바른 값으로 저장 필요
@@ -100,29 +102,29 @@ module alu(
     assign remu = remainder;
     
     // output part
-    always @(posedge clk or negedge rst_n) begin
+    always @(*) begin
         if (!rst_n) 
-        aluout <= 32'b0;
+        aluout = 32'b0;
         else begin
         case(aluop)
-            5'd0: aluout <= sum;
-            5'd1: aluout <= sum;
-            5'd2: aluout <= sll;
-            5'd3: aluout <= xor_alu;
-            5'd4: aluout <= srl;
-            5'd5: aluout <= sra;
-            5'd6: aluout <= or_alu;
-            5'd7: aluout <= and_alu;
-            5'd8: aluout <= slt_alu;
-            5'd9: aluout <= sltu_alu;
-            5'd16: aluout <= mulh_out;
-            5'd17: aluout <= mulh_out;
-            5'd18: aluout <= mulh_out;
-            5'd22: aluout <= mul_out;
-            5'd24: aluout <= div;
-            5'd26: aluout <= divu;
-            5'd28: aluout <= rem;
-            5'd30: aluout <= remu;
+            5'd0: aluout = sum;
+            5'd1: aluout = sum;
+            5'd2: aluout = sll;
+            5'd3: aluout = xor_alu;
+            5'd4: aluout = srl;
+            5'd5: aluout = sra;
+            5'd6: aluout = or_alu;
+            5'd7: aluout = and_alu;
+            5'd8: aluout = slt_alu;
+            5'd9: aluout = sltu_alu;
+            5'd16: aluout = mulh_out;
+            5'd17: aluout = mulh_out;
+            5'd18: aluout = mulh_out;
+            5'd22: aluout = mul_out;
+            5'd24: aluout = div;
+            5'd26: aluout = divu;
+            5'd28: aluout = rem;
+            5'd30: aluout = remu;
                  
                  
     endcase
