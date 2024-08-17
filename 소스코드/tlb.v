@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module TLB_16 #(parameter PABITS=36) (
+module TLB_16 #(parameter PABITS=32) (
     input  clock,
     input  reset,
     // Instruction Memory Port
