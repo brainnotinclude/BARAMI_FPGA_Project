@@ -22,6 +22,12 @@ module TLB_16 #(parameter PABITS=32) (
     output reg        Valid_D,           // Data memory physical page valid attribute
     input         Stall_D,           // Processor data memory pipeline stage is stalled
     // Control Input
+
+    //tlbr: TLB의 특정 인덱스에서 내용을 읽어 CPU의 특수 레지스터로 복사.
+    //tlbwi: CPU의 특수 레지스터 내용을 TLB의 특정 인덱스에 기록.
+    //tlbwr: CPU의 특수 레지스터 내용을 TLB의 랜덤 인덱스에 기록.
+    //tlbp: TLB에서 특정 가상 주소를 검색하여 그 인덱스를 Index 레지스터에 저장.
+
     input  [3:0]  Index_In,          // Index used for tlbr, tlbwi/tlbwr
     input  [18:0] VPN2_In,           // VPN2 written on tlbwi/tlbwr
     input  [15:0] Mask_In,           // Mask written on tlbwi/tlbwr
