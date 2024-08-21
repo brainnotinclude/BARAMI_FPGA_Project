@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="decoder_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="decoder_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="10833fs"></ZoomStartTime>
+      <ZoomEndTime time="17823fs"></ZoomEndTime>
+      <Cursor1Time time="65000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="218"></NameColumnWidth>
+      <ValueColumnWidth column_width="174"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="8" />
+   <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="group39" type="group">
+      <obj_property name="label">tb</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/decoder_tb/pc" type="array">
+         <obj_property name="ElementShortName">pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/instA" type="array">
+         <obj_property name="ElementShortName">instA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instA[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/instB" type="array">
+         <obj_property name="ElementShortName">instB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instB[31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/decoded_instA" type="array">
+         <obj_property name="ElementShortName">decoded_instA[82:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_instA[82:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/decoded_instB" type="array">
+         <obj_property name="ElementShortName">decoded_instB[82:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_instB[82:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/errorA" type="logic">
+         <obj_property name="ElementShortName">errorA</obj_property>
+         <obj_property name="ObjectShortName">errorA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/errorB" type="logic">
+         <obj_property name="ElementShortName">errorB</obj_property>
+         <obj_property name="ObjectShortName">errorB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/map_en_A" type="logic">
+         <obj_property name="ElementShortName">map_en_A</obj_property>
+         <obj_property name="ObjectShortName">map_en_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/map_en_B" type="logic">
+         <obj_property name="ElementShortName">map_en_B</obj_property>
+         <obj_property name="ObjectShortName">map_en_B</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group153" type="group">
+      <obj_property name="label">decoder</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs1A" type="array">
+         <obj_property name="ElementShortName">rs1A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs2A" type="array">
+         <obj_property name="ElementShortName">rs2A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rdA" type="array">
+         <obj_property name="ElementShortName">rdA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs1A_valid" type="logic">
+         <obj_property name="ElementShortName">rs1A_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1A_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs2A_valid" type="logic">
+         <obj_property name="ElementShortName">rs2A_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2A_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs1B_valid" type="logic">
+         <obj_property name="ElementShortName">rs1B_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1B_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs2B_valid" type="logic">
+         <obj_property name="ElementShortName">rs2B_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2B_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs1B" type="array">
+         <obj_property name="ElementShortName">rs1B[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1B[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rs2B" type="array">
+         <obj_property name="ElementShortName">rs2B[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2B[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/rdB" type="array">
+         <obj_property name="ElementShortName">rdB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/s1A" type="array">
+         <obj_property name="ElementShortName">s1A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/s2A" type="array">
+         <obj_property name="ElementShortName">s2A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/s1B" type="array">
+         <obj_property name="ElementShortName">s1B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/s2B" type="array">
+         <obj_property name="ElementShortName">s2B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2B[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group58" type="group">
+      <obj_property name="label">decompose</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/inst" type="array">
+         <obj_property name="ElementShortName">inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/s1" type="array">
+         <obj_property name="ElementShortName">s1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/s2" type="array">
+         <obj_property name="ElementShortName">s2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rs1_valid" type="logic">
+         <obj_property name="ElementShortName">rs1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rs2_valid" type="logic">
+         <obj_property name="ElementShortName">rs2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rs1" type="array">
+         <obj_property name="ElementShortName">rs1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rs2" type="array">
+         <obj_property name="ElementShortName">rs2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rd" type="array">
+         <obj_property name="ElementShortName">rd[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/function3" type="array">
+         <obj_property name="ElementShortName">function3[2:0]</obj_property>
+         <obj_property name="ObjectShortName">function3[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/function7" type="array">
+         <obj_property name="ElementShortName">function7[6:0]</obj_property>
+         <obj_property name="ObjectShortName">function7[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/imm_for_ui" type="array">
+         <obj_property name="ElementShortName">imm_for_ui[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_for_ui[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/imm_for_i" type="array">
+         <obj_property name="ElementShortName">imm_for_i[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_for_i[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rs1_value" type="array">
+         <obj_property name="ElementShortName">rs1_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_value[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/rs2_value" type="array">
+         <obj_property name="ElementShortName">rs2_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_value[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/ctrl_signal" type="array">
+         <obj_property name="ElementShortName">ctrl_signal[11:0]</obj_property>
+         <obj_property name="ObjectShortName">ctrl_signal[11:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group49" type="group">
+      <obj_property name="label">reg file</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/wr_enable_A" type="logic">
+         <obj_property name="ElementShortName">wr_enable_A</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/wr_enable_B" type="logic">
+         <obj_property name="ElementShortName">wr_enable_B</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/addrA_0" type="array">
+         <obj_property name="ElementShortName">addrA_0[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrA_0[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/addrA_1" type="array">
+         <obj_property name="ElementShortName">addrA_1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrA_1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/addrB_0" type="array">
+         <obj_property name="ElementShortName">addrB_0[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrB_0[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/addrB_1" type="array">
+         <obj_property name="ElementShortName">addrB_1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrB_1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/wraddrA" type="array">
+         <obj_property name="ElementShortName">wraddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/wraddrB" type="array">
+         <obj_property name="ElementShortName">wraddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/writeDataA" type="array">
+         <obj_property name="ElementShortName">writeDataA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/writeDataB" type="array">
+         <obj_property name="ElementShortName">writeDataB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataA_0" type="array">
+         <obj_property name="ElementShortName">dataA_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataA_0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataA_0_ready" type="logic">
+         <obj_property name="ElementShortName">dataA_0_ready</obj_property>
+         <obj_property name="ObjectShortName">dataA_0_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataA_1" type="array">
+         <obj_property name="ElementShortName">dataA_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataA_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataA_1_ready" type="logic">
+         <obj_property name="ElementShortName">dataA_1_ready</obj_property>
+         <obj_property name="ObjectShortName">dataA_1_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataB_0" type="array">
+         <obj_property name="ElementShortName">dataB_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataB_0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataB_0_ready" type="logic">
+         <obj_property name="ElementShortName">dataB_0_ready</obj_property>
+         <obj_property name="ObjectShortName">dataB_0_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataB_1" type="array">
+         <obj_property name="ElementShortName">dataB_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataB_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/RF_integer/dataB_1_ready" type="logic">
+         <obj_property name="ElementShortName">dataB_1_ready</obj_property>
+         <obj_property name="ObjectShortName">dataB_1_ready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group89" type="group">
+      <obj_property name="label">mux&apos;</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/mux1" type="array">
+         <obj_property name="ElementShortName">mux1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mux1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/mux2" type="array">
+         <obj_property name="ElementShortName">mux2[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mux2[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/rs1" type="array">
+         <obj_property name="ElementShortName">rs1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/rs2" type="array">
+         <obj_property name="ElementShortName">rs2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/pc" type="array">
+         <obj_property name="ElementShortName">pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/imm" type="array">
+         <obj_property name="ElementShortName">imm[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/shamt" type="array">
+         <obj_property name="ElementShortName">shamt[4:0]</obj_property>
+         <obj_property name="ObjectShortName">shamt[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/imm_20" type="array">
+         <obj_property name="ElementShortName">imm_20[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_20[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/sign_imm" type="array">
+         <obj_property name="ElementShortName">sign_imm[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_imm[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/sign_imm_20" type="array">
+         <obj_property name="ElementShortName">sign_imm_20[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_imm_20[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_alu_mux/shamt_temp" type="array">
+         <obj_property name="ElementShortName">shamt_temp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">shamt_temp[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group75" type="group">
+      <obj_property name="label">control</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/opcode_A" type="array">
+         <obj_property name="ElementShortName">opcode_A[6:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode_A[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/funct3_A" type="array">
+         <obj_property name="ElementShortName">funct3_A[2:0]</obj_property>
+         <obj_property name="ObjectShortName">funct3_A[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/funct7_A" type="array">
+         <obj_property name="ElementShortName">funct7_A[6:0]</obj_property>
+         <obj_property name="ObjectShortName">funct7_A[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/aluop_A" type="array">
+         <obj_property name="ElementShortName">aluop_A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop_A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/aluin1_mux" type="array">
+         <obj_property name="ElementShortName">aluin1_mux[1:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1_mux[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/aluin2_mux" type="array">
+         <obj_property name="ElementShortName">aluin2_mux[1:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2_mux[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/map_en" type="logic">
+         <obj_property name="ElementShortName">map_en</obj_property>
+         <obj_property name="ObjectShortName">map_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/dispatch_control" type="array">
+         <obj_property name="ElementShortName">dispatch_control[1:0]</obj_property>
+         <obj_property name="ObjectShortName">dispatch_control[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/memwrite" type="logic">
+         <obj_property name="ElementShortName">memwrite</obj_property>
+         <obj_property name="ObjectShortName">memwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/memread" type="logic">
+         <obj_property name="ElementShortName">memread</obj_property>
+         <obj_property name="ObjectShortName">memread</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/memtoreg" type="logic">
+         <obj_property name="ElementShortName">memtoreg</obj_property>
+         <obj_property name="ObjectShortName">memtoreg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/branch" type="logic">
+         <obj_property name="ElementShortName">branch</obj_property>
+         <obj_property name="ObjectShortName">branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/decoder_tb/u_decoder_RF_conv/decomposeA/u_control/regwrite" type="logic">
+         <obj_property name="ElementShortName">regwrite</obj_property>
+         <obj_property name="ObjectShortName">regwrite</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
