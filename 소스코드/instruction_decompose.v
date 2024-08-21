@@ -99,6 +99,21 @@ module instruction_decompose(
     
     wire [3:0] forwarding_bit;                                         // for forwarding, 00 -> rs1 , 01 -> ex forwarding, 10 -> mem forwarding
     assign forwarding_bit = {rs1_forwarding_bit, rs2_forwarding_bit};
+       
+       
+     alu_mux u_alu_mux(
+    .mux1(alu_mux1),
+    .mux2(alu_mux2),
+    .rs1(s1),
+    .rs2(s2),
+    .pc(pc),
+    .imm(imm_for_i),
+    .imm_20(imm_for_ui),
+    .shamt(rs2),
+    .aluin1(rs1_value),
+    .aluin2(rs2_value)
+    );
+    
     
     assign crtl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //5+1+1+1+1+1+2 =12
     
@@ -130,18 +145,7 @@ module instruction_decompose(
     end
    
 
-    alu_mux u_alu_mux(
-    .mux1(aluin_mux1),
-    .mux2(aluin_mux2),
-    .rs1(s1),
-    .rs2(s2),
-    .pc(pc),
-    .imm(imm_for_i),
-    .imm_20(imm_for_ui),
-    .shamt(rs2),
-    .aluin1(rs1_value),
-    .aluin2(rs2_value)
-    );
+
     
     
 endmodule
