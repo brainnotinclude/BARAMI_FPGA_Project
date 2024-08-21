@@ -1,0 +1,383 @@
+
+결론:
+질문사항:
+그럼 레지스터의 값에 1을 더해 그대로 저장하는 상황이라면 단계상 어떻게 처리되는가? assign과 always는 같이 도는 것이 아닌가?
+decode:
+레지스터에서 값을 꺼내오는 부분: 문제 없음.
+tag, valid, busy bit 작성 부분: 에러 도출 부분에서 제대로 작동은 하나 decode 단계가 시작될 때만 에러신호가 최신화됨. 유의 필요.
+
+complete:
+A처리 부분 만들고 B를 그대로 복사한 탓인지 writeDataA가 적혀있음. writeDataB로 수정 필요. 바꾸면 잘 작동함.
+
+컴플리트에서 제시한 주소가 빈 arf와 rrf인 경우 혹은 잘못된 주소(이미 valid한 rrf)인 경우.
+> 리타이어와 마찬가지로 컴플리트도 태그 여부 확인하지 않고 연결하는 편. 빈 arf의 경우 0번을 valid로 만들어버리고, 잘못된 주소의 경우도 덮어씌울 것으로 예상됨
+(오류 수정을 위해 의도적으로 컴플리트를 연달아 두번 하도록 허용하는 것이 아닌 경우 작업 필요.).
+
+retire:
+
+리타이어에서 제시한 주소가 빈 arf와 rrf인 경우 혹은 잘못된 주소(Valid하지 않은 rrf)인 경우. > 양측 모두 어떠한 에러(신호)도 도출하지 않음.
+
+(원래라면)valid하지 않은 rrf 참조시 > arf-rrf tag가 리타이어 이후 초기화 되지 않음에 따라 잘못된 값으로 덮어씌워짐. 작업 필요.
+빈 arf도 사실상 valid 하지 않은 rrf 참조 경우와 동일할 것으로 사료됨.(애초에 리타이어 부분에 valid 여부 확인하는 장치가 없음.)
+
+빈 rrf 찾는 모듈의 모든 경우의 수 - 완료. 이상 무.
+
+이외 A와 B 인스트럭션의 조합(디코드, 컴플리트, 리타이어 > 2의 6승?의 경우의 수)에 따른 오류 발생 가능성은 복잡하여 아직 고려해보지 못함. 
+
+
+`timescale 1ns / 1ps - 명령의 시간 단위: 1ns/ 기계의 시간 해상도: 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2024/07/28 22:36:49
+// Design Name: 
+// Module Name: registerFile
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+전제: 레지스터는 cpu내에 위치하는 저장장치. 작업기억 같은 것.
+명령당 참조 하는 정보는 2개고, 출력하는 정보는 하나.
+레지스터 파일은 여러 레지스터를 고정적으로 역할을 부여해 사용하지 않고, 다양하게 활용할 수 있도록 만들어 주는 코드.
+> 참조하려는 레지스터 주소를 받고, 결과를 담을 레지스터 주소도 불러 매칭시켜 주어야 함. > 중간다리 짜는 코드.
+우리 cpu는 명령어 실행에 있어 동시에 여러 명령어를 비순차적 실행으로 실행할 예정.
+따라서 이 코드는 작업 기억의 필요에 따라 참조 순서가 꼬이지 않도록 만들어야 함.
+(쓰고 읽기, 쓰고 또 쓰기. 등등의 경우.)
+
+//4 read port and 2 write port: maximum 2 instructions are decoded at one cycle
+한 사이클에 최대 두 명령(instruction)만 가능. 명령당 최대 2개의 입력과 1개의 출력. > 입력 포트 4개, 출력 포트 2개.
+
+//Assuming there a two instructions A and B. Then 2 read port and one write port is allocated to each instruction
+두 명령을 각각 A와 B라 명명. 각 명령당 입력 포트 2개와 출력 포트 1개 할당.
+A와 B는 늘 논리적 순서에 따라 실행됨. A와 B가 서로 동시에 실행되더라도 논리상 A가 먼저 끝남.(A가 B보다 먼저 명령 캐쉬에 저장되었다면.)
+
+
+레지스터에 접근하는 경우 3가지 - decode, complete(실행 완료 후 값이 rrf에 저장된 상태), retire(arf에 값 옮겨 쓴 상태)
+그럼 고려해야 할 경우: 3*3의 9가지 중 W&R(쓰다가 읽기),W&W(쓰고 쓰기)
+A=E, B=E A의 작성결과를 바탕으로 B가 명령을 시작해야 하는데 그냥 읽는 경우.
+
+
+
+//Finished: Source read(need modification), Destination allocation, write to RRF, register update
+//Last modified: 2024-08-09 by jeyun park: 
+module registerFile (
+    input clk,                                                        클럭
+    input rst_n,                                                     리셋 신호
+    input wr_enable_A,              //write enable  연산 완료 신호 - complete 단계 신호 및 rrf에 결과 적으라는 신호.
+    input wr_enable_B,	   //연산 완료 신호 - complete 단계 신호 및 rrf에 결과 적으라는 신호.
+    input map_en_A,                 //RRF mapping enable: this means that there is a GPR write instruction in decode stage, so we need destination allocation in this cycle arf와 rrf 매핑하라는 신호. > 디코드 단계라는 신호.
+    input map_en_B,		   //arf와 rrf 매핑하라는 신호. > 디코드 단계라는 신호.
+    input [4:0] addrA_0,            //read addresses A의 입력의 주소 0
+    input [4:0] addrA_1,	  // A의 입력의 주소 1
+    input [4:0] addrB_0,	  // B의 입력의 주소 0
+    input [4:0] addrB_1,	  // B의 입력의 주소 1
+    input [4:0] wraddrA,            //write addresses for real write -> happens when finishes execution 컴플리트 단계 인스트럭션 A의 결과 입력 주소.
+    input [4:0] wraddrB,	   // 컴플리트 단계 인스트럭션 B의 결과 입력 주소.
+    input [4:0] wraddrA_map,        //write addresses for destination allocation 디코드 단계에서 결과값 저장 레지스터 주소.
+    input [4:0] wraddrB_map,	      // 디코드 단계에서 결과값 저장 레지스터 주소.
+    input [31:0] writeDataA,        //write data 컴플리트 단계에서 결과 레지스터에 입력할 인스트럭션 A의 결과 데이터 내용.
+    input [31:0] writeDataB,	    //컴플리트 단계에서 결과 레지스터에 입력할 인스트럭션 B의 결과 데이터 내용.
+    input updateEnA,	    // retire 단계 신호. rrf에서 Arf로 저장된 내용 이동 및 tag, busy bit 등 초기화. 
+    input updateEnB,	    // retire 단계 신호. rrf에서 Arf로 저장된 내용 이동 및 tag, busy bit 등 초기화.
+    input [4:0] updateAddrA,	   // retire 단계인 A의 결과값 저장 레지스터 주소
+    input [4:0] updateAddrB,	   // retire 단계인 B의 결과값 저장 레지스터 주소
+    output [31:0] dataA_0,         //read data for A A의 입력0 이 저장된 레지스터의의 주소값.
+    output dataA_0_ready,          //check if data is valid. If not, decoder should not use the data and pass register tag to next stage A의 입력 0이 저장된 레지스터가 준비됨을 알림.
+    output [31:0] dataA_1,
+    output dataA_1_ready,
+    output [31:0] dataB_0,
+    output dataB_0_ready,
+    output [31:0] dataB_1,
+    output dataB_1_ready,
+    output reg wrA_rrError,             //If RRF is full then we can't use register renaming 레지스터 부족이나 연산 중에 의한 대기신호.
+    output reg wrB_rrError
+    );
+    
+    reg [31:0] arf[31:0];           //32 32bit registers(ARF)
+    reg [2:0] arfTag[31:0];         //Tag bit for ARF-RRF mapping 
+    reg [31:0] arfBusy;             //Busy bit for ARF: if busy, use data in RRF. Not busy means that there is no pending write to that entry. arf가 지목되어 rrf와 연결되었는지에 대한 정보. out of order이더라도 인스트럭션은 저장된 순서대로 진행되므로 연결된 arf의 정보를 가져와야 할 필요 없음. 참고로 tag는 기록시에만 이용됨.
+    reg [31:0] rrf[7:0];            //8 32bit registers(RRF)
+    reg [7:0] rrfBusy;              //8 RRF busy bits: set when the entry is mapped to ARF entry  - instruction A를 위한 rrf 조사에서 이용되는 rrf busy bit.
+    reg [7:0] rrfValid;             //If set, it indicates that the register-updating instruction has finished excution but not completed. This means that register writing is already finished, so we can use the entry value
+    integer i;
+    reg [2:0] emptyRRFentry1;       //Tag of empty RRF entry. If there is only one empty entry, then value in this variable is valid. A가 사용할 빈 rrf 자리의 주소.
+    reg [2:0] emptyRRFentry2;       //Tag of empty RRF entry. This value is chosen from the set of(empty RRF - emptyRRFentry1) B가 사용할 빈 rrf 자리의 주소.(A꺼 먼저 할당후 남은 것 중)
+    reg [1:0] rrfEmptyValid;        //Valid bit of emptyRRFentry1, 2 variable. 
+    reg [7:0] rrfBusyTemp;	   //   instruction B를 위한 rrf 조사에서 이용되는 rrf busy bit. A가 차지할 rrf의 자리가 busy처리됨.
+    
+    //read data and make ready signal: check ARF busy bit, then check RRF valid bit   -  instruction A에 대해 입력 데이터들이 준비되었는지 확인하는 부분. 가능하다면 해당 데이터와 준비신호가 참임을, 아니라면 0과 준비신호가 거짓임을 반환.
+    assign dataA_0 = (~arfBusy[addrA_0]) ? arf[addrA_0] :                              A의 주소에 대한 arfBusy 테이블 레지스터 값이 0이면 빈 거(dataA_0 = arf[addrA_0]), 1이면 안 빈거. + 안비었다면 rrf의 valid bit에 대한 판단.
+                     (rrfValid[arfTag[addrA_0]]) ? rrf[arfTag[addrA_0]] : 32'h00000000;
+    assign dataA_0_ready = (~arfBusy[addrA_0]) ? 1'b1 :                A가 준비됨을 알림.
+                     (rrfValid[arfTag[addrA_0]]) ? 1'b1 : 1'b0;
+    assign dataA_1 = (~arfBusy[addrA_1]) ? arf[addrA_1] :
+                     (rrfValid[arfTag[addrA_1]]) ? rrf[arfTag[addrA_1]] : 32'h00000000;
+    assign dataA_1_ready = (~arfBusy[addrA_1]) ? 1'b1 :
+                     (rrfValid[arfTag[addrA_1]]) ? 1'b1 : 1'b0;
+                       
+    //Need to add case: destination of A is source of B => B is behind A if in-order.  명령A의 결과가 명령B의 시작점인 경우. 고려 필요. > 그럼 A와 B가 서로 바뀌면? 이 부분은 고려 필요 없다.
+// instruction B에 대해 입력 데이터들이 준비되었는지 확인하는 부분. 가능하다면 해당 데이터와 준비신호가 참임을, 아니라면 0과 준비신호가 거짓임을 반환.
+    assign dataB_0 = (~arfBusy[addrB_0]) ? arf[addrB_0] :
+                     (rrfValid[arfTag[addrB_0]]) ? rrf[arfTag[addrB_0]] : 32'h00000000;
+    assign dataB_0_ready = (addrB_0 == wraddrA_map)? 1'b0 :          B의 경우 A의 결과가 명령 B 입력인 경우 추가로 고려 후 A와 같은 조건 고려 
+                     (~arfBusy[addrB_0]) ? 1'b1 :
+                     (rrfValid[arfTag[addrB_0]]) ? 1'b1 : 1'b0;  
+    assign dataB_1 = (~arfBusy[addrB_1]) ? arf[addrB_1] :
+                     (rrfValid[arfTag[addrB_1]]) ? rrf[arfTag[addrB_1]] : 32'h00000000;
+    assign dataB_1_ready = (addrB_1 == wraddrA_map)? 1'b0 :
+                     (~arfBusy[addrB_1]) ? 1'b1 :
+                     (rrfValid[arfTag[addrB_1]]) ? 1'b1 : 1'b0;                   
+    
+    always@(posedge clk, negedge rst_n) begin
+        //Initialization: every bit to zero            초기화. 부분
+        if(!rst_n) begin    // 리셋 신호 꺼졌을 때(이유는 모름. 늘 리셋 신호가 1일 때 작동하고 0일 때 리셋.)
+            for(i=0; i<32; i=i+1) begin
+                arf[i] <= 32'h00000000;
+                arfTag[i] <= 3'b000;
+                rrf[i] <= 32'h00000000;
+            end
+            arfBusy <= 32'h00000000;
+            rrfBusy <= 8'h00;
+            rrfValid <=8'h00;
+            wrA_rrError <= 1'b0;
+            wrB_rrError <= 1'b0;
+        end
+        // 이하로는 리셋 신호가 아닌 클락에 따른 레지스터 파일 실행 구간.
+        else begin
+            //Change tag, valid, busy bits when write operation occurs(destination allocation process) 디코드에서 tag, valid, busy bit 작성. A에 대해.
+            if(map_en_A) begin
+                if(!arfBusy[wraddrA_map] && rrfEmptyValid[0]) begin    //  지정된 arf가 다른 인스트럭션에 의해 결과 저장대상으로 지목되지 않음 && 빈 rrf가 존재함.
+                    arfBusy[wraddrA_map] <= 1;              //ARF busy bit set  지정된 arf를 busy로 변경.
+                    arfTag[wraddrA_map] <= emptyRRFentry1;//Empty RRF tag 빈 rrf 태그하여 연결. 
+                    rrfBusy[emptyRRFentry1] <= 1'b1;  //RRF busy bit set
+                    rrfValid[emptyRRFentry1] <= 1'b0; //RRF valid bit reset
+                    wrA_rrError <= 1'b0;
+                end
+                else begin                  //Case that there is already a pending instruction or there is no available RRF entry.
+                    wrA_rrError <= 1'b1;
+                end
+            end
+            if(map_en_B) begin
+                if(!arfBusy[wraddrB_map] && rrfEmptyValid[1]) begin
+                    arfBusy[wraddrB_map] <= 1;              //ARF busy bit set
+                    arfTag[wraddrB_map] <= emptyRRFentry2;//Empty RRF tag 
+                    rrfBusy[emptyRRFentry2] <= 1'b1;  //RRF busy bit set
+                    rrfValid[emptyRRFentry2] <= 1'b0; //RRF valid bit reset
+                    wrB_rrError <= 1'b0;
+                end
+                else begin                  //Case that there is already a pending instruction or there is no available RRF entry.
+                    wrB_rrError <= 1'b1;
+                end
+            end
+            
+            //Write to RRF 연산 결과 rrf에 작성 complete 단계
+            if(wr_enable_A) begin
+                rrf[arfTag[wraddrA]] <= writeDataA;
+                rrfValid[arfTag[wraddrA]] <= 1'b1;              //Modify valid bit because after RRF write, this value is valid
+            end
+            if(wr_enable_B) begin
+                rrf[arfTag[wraddrB]] <= writeDataA; > B로 수정 필요.
+                rrfValid[arfTag[wraddrB]] <= 1'b1;
+            end
+            
+            //Update ARF entry with the data from corresponding RRF entry retire 단계.
+            if(updateEnA) begin
+                arf[updateAddrA] <= rrf[arfTag[updateAddrA]];           //Data update
+                arfBusy[updateAddrA] <= 1'b0;                           //Now not busy
+                rrfBusy[arfTag[updateAddrA]] <= 1'b0;                   //RRF also not busy
+            end
+            if(updateEnB) begin
+                arf[updateAddrB] <= rrf[arfTag[updateAddrB]];
+                arfBusy[updateAddrB] <= 1'b0;
+                rrfBusy[arfTag[updateAddrB]] <= 1'b0;
+            end
+            
+        end
+    end
+    
+    //logic for empty rrf entry search 클락과 상관없이 상시 가동하는 빈 rrf 자리 찾는 코드. 찾아낸 rrf는 emptyRRFentry1에 저장됨.
+    always@(*) begin
+        rrfBusyTemp = rrfBusy;
+        //Check if there is one available RRF entry
+        casex(rrfBusy) //casex는 조건이 되는 수에 대해 x는 비트가 무시된다.
+            8'b0xxxxxxx: begin
+                emptyRRFentry1 = 3'd7;
+                rrfBusyTemp[7] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b10xxxxxx: begin
+                emptyRRFentry1 = 3'd6;
+                rrfBusyTemp[6] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b110xxxxx: begin
+                emptyRRFentry1 = 3'd5;
+                rrfBusyTemp[5] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                emptyRRFentry1 = 3'd4;
+                rrfBusyTemp[4] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b11110xxx: begin
+                emptyRRFentry1 = 3'd3;
+                rrfBusyTemp[3] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b111110xx: begin
+                emptyRRFentry1 = 3'd2;
+                rrfBusyTemp[2] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b1111110x: begin
+                emptyRRFentry1 = 3'd1;
+                rrfBusyTemp[1] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b11111110: begin
+                emptyRRFentry1 = 3'd0;
+                rrfBusyTemp[0] = 1'b1;
+                rrfEmptyValid[0] = 1'b1;
+            end
+            8'b11111111: begin
+                rrfEmptyValid[0] = 1'b0;
+            end
+        endcase
+        
+        //Check if there is two available RRF entry
+        casex(rrfBusyTemp)
+            8'b10xxxxxx: begin
+                emptyRRFentry2 = 3'd6;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b110xxxxx: begin
+                emptyRRFentry2 = 3'd5;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                emptyRRFentry2 = 3'd4;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b11110xxx: begin
+                emptyRRFentry2 = 3'd3;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b111110xx: begin
+                emptyRRFentry2 = 3'd2;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b1111110x: begin
+                emptyRRFentry2 = 3'd1;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            8'b11111110: begin
+                emptyRRFentry2 = 3'd0;
+                rrfEmptyValid[1] = 1'b1;
+            end
+            default: begin
+                rrfEmptyValid[1] = 1'b0;
+            end
+        endcase
+    end
+    
+endmodule
+
+의문사항:
+1.왜 동일한 주소를 두고 각 단계마다 다른 input 명을 부여하였는가? 실제로 경우에 따라 레지스터 파일이 동시에 6개의 인스트럭션을 동시에 처리.
+2. 각 단계에 대한 신호에 대해 리셋은 하지 않아도 되는가? 필요 없음. 리셋이 필요한 건 오로지 해당 모듈 내에서의 플립플롭들.
+2-2. 각 단계에 대한 신호들에 대해 한 번 작동까지는 납득이 되나, 이후 신호를 끄는 로직은 필요 없는가?
+3. A에만 다른 단계의 인스트럭션을 두 개 이상 때려박는 경우는 고려해야 하는가? abort를 여기서 제공해야 하는가? > fetch가 2개씩 일어나므로 문제 없음.
+4. 자신이 읽고 있는 arf를 바꾸려는 경우는 가능한가? (입 출력이 모두 동일 레지스터.) > 가능. 그럼 레지스터의 값에 1을 더해 그대로 저장하는 상황이라면 단계상 어떻게 처리되는가? assign과 always는 같이 도는 것이 아닌가?
+
+체크리스트
+리셋은 제대로 작동하는가? > 작동함.
+
+rrfemptyvaild를 활성화시키는 코드의 구조상 rrf가 둘 다 비어야 비었다고 표기된다. 구태여 그러한 이유는 무엇인가? > 해당 사항은 수정 가능함.
+
+단일 각각에 대해 조건문이 제대로 작동하는가?
+
+디코드:
+part A - 데이터 입력 준비여부 확인.
+data가 저장될 주소가 조건에 따라 제대로 저장되는지. ready 신호는 제대로 출력되는지.
+a1. arfBusy레지스터 값이 0인 경우
+> 디코드 단계 A에 대해 data 주소 그냥 입력하기. + 참조된 데이터가 지정한 arf의 데이터인지 맞는지 확인. > 오케이.
+a2. arfBusy레지스터 값은 1, rrfVaild가 1
+> 앞에서 입력한 컴플리트 단계의 동일 주소 입력해서 error = 0, 참조된 데이터는 rrf의 데이터로 나오는지 확인하기. > 오케이
+a3. 둘다 0 이라 data에 0이 입력됨. - 오케이
+>error = 1
+a4. B의 경우 명령 A의 결과가 B의 입력이 아닌 경우
+> 2020. 오케이
+a5. B의 경우 명령 A의 결과가 B의 입력인 경우 > ready 값이 0 반환이 제대로 되는지 오케이.
+> 제대로 0이 반환됨.
+
+tag, valid, busy bit 작성.
+map_en_A나 map_en_B가 1이면 조건을 실행하는지. 오케이
+b1. 지정된 arf가 busy하지 않고, 빈 rrf가 존재하면 > 지정된 arf를 busy로 변경, 빈 rrf 태그하여 연결&rrf busy와 valid 설정 잘 작동함.
+b2. 조건이 참이 되지 않아 에러 도출. > 제대로 작동은 하나 decode 단계가 시작될 때만 에러신호가 최신화됨. 유의 필요.
+
+
+컴플리트
+기본사항
+wr_enable_A나 wr_enable_B 나오면 complete단계 시작하는지?
+1. 정해진 rrf에 주어진 입력데이터가 그대로 입력되는지? >2024 입력. 오케이
+2. rrfValid가 제대로 1이 되는지? 오케이
+
+A 컴플리트 오케이
+B 컴플리트 - A처리 부분 만들고 B를 그대로 복사한 탓인지 writeDataA가 적혀있음. writeDataB로 수정 필요. 바꾸면 오케이
+
+추가 질의
+컴플리트에서 제시한 주소가 빈 arf와 rrf인 경우 혹은 잘못된 주소(이미 valid한 rrf)인 경우.
+
+> 마찬가지로 컴플리트도 태그 여부 확인하지 않고 연결하는 편. 빈 arf의 경우 0번을 valid로 만들어버리고, 잘못된 주소의 경우도 덮어씌울 것으로 예상됨
+(오류 수정을 위해 의도적으로 컴플리트를 연달아 두번 하도록 허용하는 것이 아닌 경우 작업 필요.).
+
+A 컴플리트
+B 컴플리트
+
+
+리타이어
+기본사항.
+updateEnA나 updateEnB가 나오면 제대로 리타이어 단계 시작하는지? 오케이
+1. 정해진 rrf에 입력된 데이터가 그대로 arf에 출력되는지? 오케이
+2. arf와 rrf의 busy bit가 초기화 되는지? 오케이
+
+A 리타이어 오케이
+B 리타이어 오케이
+
+추가 질의
+리타이어에서 제시한 주소가 빈 arf와 rrf인 경우 혹은 잘못된 주소(Valid하지 않은 rrf)인 경우. > 양측 모두 어떠한 에러(신호)도 도출하지 않음.
+
+(원래라면)valid하지 않은 rrf 참조시 > arf-rrf tag가 리타이어 이후 초기화 되지 않음에 따라 잘못된 값으로 덮어씌워짐. 작업 필요.
+빈 arf도 사실상 valid 하지 않은 rrf 참조 경우와 동일할 것으로 사료됨.(애초에 리타이어 부분에 valid 여부 확인하는 장치가 없음.)
+
+
+빈 rrf 찾는 모듈의 모든 경우의 수 - 완료. 이상 무.
+1. 애초에 비어있는 경우 > 제대로 입력됨.
+2. 밀렸을 때 다음 것 제대로 찾아내는 경우 > 의도한 순서대로 찾아냄
+3. 다 점유되어 에러 반환하는 경우 > 제대로 반환함.
+
+
+동시 작동에서 고려해야할 사안.
+고려해야 할 경우의 수: 각각 decode, complete, retire의 세 가지 존재.
+또한, A와 B는 논리상 먼저 들어간 인스트럭션이 먼저 시행됨.
+A B
+d d 
+d c
+d r
+c d
+c c
+c r
+r d
+r c
+r r
