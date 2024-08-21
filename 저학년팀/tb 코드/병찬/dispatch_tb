@@ -1,0 +1,75 @@
+`timescale 1ns / 1ps
+module dispatch_tb;
+
+    // Inputs
+    reg [77:0] instA;
+    reg [77:0] instB;
+    reg complex_empty_0;
+    reg complex_empty_1;
+    reg simple_empty_0;
+    reg simple_empty_1;
+    reg fp_empty_0;
+    reg fp_empty_1;
+
+    // Outputs
+    wire [75:0] complex_0_data;
+    wire complex_0_valid;
+    wire [75:0] complex_1_data;
+    wire complex_1_valid;
+    wire [75:0] simple_0_data;
+    wire simple_0_valid;
+    wire [75:0] simple_1_data;
+    wire simple_1_valid;
+    wire [75:0] fp_0_data;
+    wire fp_0_valid;
+    wire [75:0] fp_1_data;
+    wire fp_1_valid;
+    wire rs_full_A;
+    wire rs_full_B;
+
+    // Instantiate the Unit Under Test (UUT)
+    dispatch uut (
+        .instA(instA), 
+        .instB(instB), 
+        .complex_empty_0(complex_empty_0), 
+        .complex_empty_1(complex_empty_1), 
+        .simple_empty_0(simple_empty_0), 
+        .simple_empty_1(simple_empty_1), 
+        .fp_empty_0(fp_empty_0), 
+        .fp_empty_1(fp_empty_1), 
+        .complex_0_data(complex_0_data), 
+        .complex_0_valid(complex_0_valid), 
+        .complex_1_data(complex_1_data), 
+        .complex_1_valid(complex_1_valid), 
+        .simple_0_data(simple_0_data), 
+        .simple_0_valid(simple_0_valid), 
+        .simple_1_data(simple_1_data), 
+        .simple_1_valid(simple_1_valid), 
+        .fp_0_data(fp_0_data), 
+        .fp_0_valid(fp_0_valid), 
+        .fp_1_data(fp_1_data), 
+        .fp_1_valid(fp_1_valid), 
+        .rs_full_A(rs_full_A), 
+        .rs_full_B(rs_full_B)
+    );
+
+    initial begin
+        // Initialize Inputs
+        instA = 0;
+        instB = 0;
+        complex_empty_0 = 0;
+        complex_empty_1 = 0;
+        simple_empty_0 = 0;
+        simple_empty_1 = 0;
+        fp_empty_0 = 0;
+        fp_empty_1 = 0;
+
+        // Wait 100 ns for global reset to finish
+        #100;
+
+        
+        // End simulation
+        $finish;
+    end
+      
+endmodule
