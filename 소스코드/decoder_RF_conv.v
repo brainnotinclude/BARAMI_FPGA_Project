@@ -69,7 +69,12 @@ module decoder_RF_conv(
     wire [31:0] s1B;
     wire [31:0] s2B;
     
-    
+    wire [4:0] rs1A;
+    wire [4:0] rs2A;
+    wire [4:0] rs1B;
+    wire [4:0] rs2B;
+    wire [4:0] rdA;
+    wire [4:0] rdB;
     
     //Decode an instruction. We need two instance(decomposeA, decomposeB) because we should decode 2 inst/cycle.
     instruction_decompose decomposeA(

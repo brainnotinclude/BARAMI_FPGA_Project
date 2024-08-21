@@ -114,8 +114,8 @@ module instruction_decompose(
     .aluin2(rs2_value)
     );
     
-    
-    assign crtl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //5+1+1+1+1+1+2 =12
+   
+    assign ctrl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //5+1+1+1+1+1+2 =12
     
     always@(*) begin   
     map_en = map_enable;                           // 추후 forwarding을 위한 부분 
@@ -133,14 +133,14 @@ module instruction_decompose(
     
     case(forwarding_bit)
         4'b0000: decomposed_inst = {rs2_vt, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};                      //32+1+32+1+5+12 =83
-        4'b0001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_vt, s1_valid, rd, crtl_signal};
-        4'b0100: decomposed_inst = {rs2_vt, s2_valid, rs1_ex_forwarding, s1_valid, rd, crtl_signal};
-        4'b0010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_vt, s1_valid, rd, crtl_signal};
-        4'b1000: decomposed_inst = {rs2_vt, s2_valid, rs1_mem_forwarding, s1_valid, rd, crtl_signal};
-        4'b0101: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, crtl_signal};
-        4'b0110: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, crtl_signal};
-        4'b1001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, crtl_signal};
-        4'b1010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, crtl_signal};
+        4'b0001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};
+        4'b0100: decomposed_inst = {rs2_vt, s2_valid, rs1_ex_forwarding, s1_valid, rd, ctrl_signal};
+        4'b0010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};
+        4'b1000: decomposed_inst = {rs2_vt, s2_valid, rs1_mem_forwarding, s1_valid, rd, ctrl_signal};
+        4'b0101: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, ctrl_signal};
+        4'b0110: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, ctrl_signal};
+        4'b1001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, ctrl_signal};
+        4'b1010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, ctrl_signal};
     endcase
     end
    
