@@ -22,7 +22,7 @@
 //4 read port and 2 write port: maximum 2 instructions are decoded at one cycle
 //Assuming there a two instructions A and B. Then 2 read port and one write port is allocated to each instruction
 //Finished: Source read(need modification), Destination allocation, write to RRF, register update
-//Last modified: 2024-08-09 by jeyun park: 
+//Last modified: 2024-08-22 by jeyun park: 
 module registerFile (
     input clk,
     input rst_n,
@@ -138,7 +138,7 @@ module registerFile (
                 rrfValid[arfTag[wraddrA]] <= 1'b1;              //Modify valid bit because after RRF write, this value is valid
             end
             if(wr_enable_B) begin
-                rrf[arfTag[wraddrB]] <= writeDataA;
+                rrf[arfTag[wraddrB]] <= writeDataB;
                 rrfValid[arfTag[wraddrB]] <= 1'b1;
             end
             
