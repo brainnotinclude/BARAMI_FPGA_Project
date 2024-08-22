@@ -64,10 +64,7 @@ module dispatch_tb;
         fp_empty_0 = 1'b1;
         fp_empty_1 = 1'b1;
 
-        // Wait 100 ns for global reset to finish
-        #100;
-
-    #10
+        #10
         // Test Case 1: Both FP, all entries empty
         instA = {76'b0, 2'b10};  // FP instruction
         instB = {76'b0, 2'b10};  // FP instruction
