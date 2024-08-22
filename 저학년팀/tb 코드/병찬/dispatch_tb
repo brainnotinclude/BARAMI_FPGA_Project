@@ -65,28 +65,32 @@ module dispatch_tb;
         fp_empty_1 = 1'b1;
 
         #10
-        // Test Case 1: Both FP, all entries empty
+        // Test Case 1: Both instA and instB are FP instructions, and all FP entries are empty. 
+        // Both should be successfully dispatched to FP reservation stations.
         instA = {76'b0, 2'b10};  // FP instruction
         instB = {76'b0, 2'b10};  // FP instruction
         fp_empty_0 = 1'b1;
         fp_empty_1 = 1'b1;
         
         #10
-        // Test Case 2: Both FP, FP entries full
+        // Test Case 2: Both instA and instB are FP instructions, but both FP entries are full.
+        // Neither instruction should be dispatched, and rs_full_A and rs_full_B should be asserted.
         instA = {76'b0, 2'b10};  // FP instruction
         instB = {76'b0, 2'b10};  // FP instruction
         fp_empty_0 = 1'b0;
         fp_empty_1 = 1'b0;
         
         #10
-        // Test Case 3: Mixed: A is FP, B is Bubble
+        // Test Case 3: instA is an FP instruction, while instB is a bubble. 
+        // The FP instruction should be dispatched, and no dispatch should happen for instB.
         instA = {76'b0, 2'b10};  // FP instruction
         instB = {76'b0, 2'b00};  // Bubble instruction
         fp_empty_0 = 1'b1;
         fp_empty_1 = 1'b1;
         
         #10
-        // Test Case 4: Mixed: A is FP, B is Simple
+        // Test Case 4: instA is an FP instruction, and instB is a simple instruction. 
+        // Both should be dispatched to their respective reservation stations.
         instA = {76'b0, 2'b10};  // FP instruction
         instB = {76'b0, 2'b11};  // Simple instruction
         simple_empty_0 = 1'b1;
@@ -95,7 +99,8 @@ module dispatch_tb;
         fp_empty_1 = 1'b1;
         
         #10
-        // Test Case 5: Both FP, but only FP_1 is empty
+        // Test Case 5: Both instA and instB are FP instructions, but only fp_empty_1 is available. 
+        // Only one instruction should be dispatched, and rs_full_A or rs_full_B should be asserted.
         instA = {76'b0, 2'b10};  // FP instruction
         instB = {76'b0, 2'b10};  // FP instruction
         fp_empty_0 = 1'b0;
