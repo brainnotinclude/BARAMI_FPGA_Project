@@ -55,18 +55,54 @@ module dispatch_tb;
 
     initial begin
         // Initialize Inputs
-        instA = 0;
-        instB = 0;
-        complex_empty_0 = 0;
-        complex_empty_1 = 0;
-        simple_empty_0 = 0;
-        simple_empty_1 = 0;
-        fp_empty_0 = 0;
-        fp_empty_1 = 0;
+        instA = {76'b0, 2'b11};
+        instB = {76'b0, 2'b11};
+        complex_empty_0 = 1'b1;
+        complex_empty_1 = 1'b1;
+        simple_empty_0 = 1'b1;
+        simple_empty_1 = 1'b1;
+        fp_empty_0 = 1'b1;
+        fp_empty_1 = 1'b1;
 
         // Wait 100 ns for global reset to finish
         #100;
 
+    #10
+        // Test Case 1: Both FP, all entries empty
+        instA = {76'b0, 2'b10};  // FP instruction
+        instB = {76'b0, 2'b10};  // FP instruction
+        fp_empty_0 = 1'b1;
+        fp_empty_1 = 1'b1;
+        
+        #10
+        // Test Case 2: Both FP, FP entries full
+        instA = {76'b0, 2'b10};  // FP instruction
+        instB = {76'b0, 2'b10};  // FP instruction
+        fp_empty_0 = 1'b0;
+        fp_empty_1 = 1'b0;
+        
+        #10
+        // Test Case 3: Mixed: A is FP, B is Bubble
+        instA = {76'b0, 2'b10};  // FP instruction
+        instB = {76'b0, 2'b00};  // Bubble instruction
+        fp_empty_0 = 1'b1;
+        fp_empty_1 = 1'b1;
+        
+        #10
+        // Test Case 4: Mixed: A is FP, B is Simple
+        instA = {76'b0, 2'b10};  // FP instruction
+        instB = {76'b0, 2'b11};  // Simple instruction
+        simple_empty_0 = 1'b1;
+        simple_empty_1 = 1'b1;
+        fp_empty_0 = 1'b1;
+        fp_empty_1 = 1'b1;
+        
+        #10
+        // Test Case 5: Both FP, but only FP_1 is empty
+        instA = {76'b0, 2'b10};  // FP instruction
+        instB = {76'b0, 2'b10};  // FP instruction
+        fp_empty_0 = 1'b0;
+        fp_empty_1 = 1'b1;
         
         // End simulation
         $finish;
