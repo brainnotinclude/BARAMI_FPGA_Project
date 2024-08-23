@@ -4,7 +4,6 @@ module floating(
     input [31:0] b, 
     input [4:0] aluop,     // aluop
     input [2:0] mode,
-    output reg error_bit,    // 오버플로우 언더블로우 등 표현 범위 외 결과가 나오면 에러
     output reg [31:0] result // 결과
 );
 
@@ -14,7 +13,6 @@ wire sign_a;
 wire sign_b;
 assign sign_a = a[31];
 assign sign_b = b[31];
-
 
 
 wire [7:0] exp_a;                         //E = exp - bias 
@@ -34,16 +32,18 @@ assign norm_mant_b = {1'b1, mant_b};
 
 wire [7:0] exp_diff;               // 지수 낮은걸 지수 높이며 가수 자리수 낮추기
 wire [7:0] exp_big;                // big은 덧셈에서 최종 지수 구하는데에 사용
+wire [47:0] mant_48bit_a;
+wire [47:0] mant_48bit_b;
 wire [47:0] mant_round_a;
 wire [47:0] mant_round_b;
 wire [23:0] shifted_mant_a;
 wire [23:0] shifted_mant_b;
 assign exp_diff = (exp_a > exp_b) ? (exp_a - exp_b) : (exp_b - exp_a);                 // 두 수간 지수 차이를 저장
 assign exp_big = (exp_a > exp_b) ? exp_a : exp_b;                                      // 더 큰 지수를 저장 같으면 그냥 b 지수 저장
-assign mant_round_a = {norm_mant_a, 24'b0};
-assign mant_round_b = {norm_mant_b, 24'b0};
-assign mant_round_a = (exp_a > exp_b) ? mant_round_a : (mant_round_a >> exp_diff);     // 지수 작은 수는 가수를 차이만큼 shift
-assign mant_round_b = (exp_b > exp_a) ? mant_round_b : (mant_round_b >> exp_diff);
+assign mant_48bit_a = {norm_mant_a, 24'b0};
+assign mant_48bit_b = {norm_mant_b, 24'b0};
+assign mant_round_a = (exp_a > exp_b) ? mant_48bit_a : (mant_48bit_a >> exp_diff);     // 지수 작은 수는 가수를 차이만큼 shift
+assign mant_round_b = (exp_b > exp_a) ? mant_48bit_b : (mant_48bit_b >> exp_diff);
 // round를 위해 만들어둔 mant를 round 모듈에 넣어서 다시 24비트로 돌려받음     
 floating_round u_floating_round_a(
 .mant_in(mant_round_a),
@@ -93,9 +93,9 @@ exp_final_add = (exp_big == 8'b11111111) ? 8'b11111111:mant_cout ? exp_big +1 : 
 sign_result_add = 0;
 end 
 
-2'b01: begin         // a가 양, b가 음       // 지수 같으면 가수 비교, 가수 같으면 그대로, 양수의 가수나 지수가 더 크면 그대로, 음수의 가수나 지수가 더 크면 2의 보수 
+2'b01: begin         // a가 양, b가 음  지수 같으면 가수 비교, 가수 같으면 그대로, 양수의 가수나 지수가 더 크면 그대로, 음수의 가수나 지수가 더 크면 2의 보수 
     mant_sum_comple_add = (exp_a == exp_b) ? (mant_a == mant_b ? mant_sum : 
-                                             (mant_a > mant_b ? mant_sum : ~mant_sum + 1)) : (exp_a > exp_b) ? mant_sum :~mant_sum+1;     // b가 더 크면 결과도 음수, 결과 보수 취한 뒤 연산 진행
+                                             (mant_a > mant_b ? mant_sum : ~mant_sum + 1)) : (exp_a > exp_b) ? mant_sum :~mant_sum+1;          // b가 더 크면 결과도 음수, 결과 보수 취한 뒤 연산 진행
     exp_shift_count_add = (mant_sum_comple_add[23] ? 5'd0 : 
                          (mant_sum_comple_add[22] ? 5'd1 :  
                          (mant_sum_comple_add[21] ? 5'd2 :
@@ -130,7 +130,7 @@ end
 
 2'b10: begin
     mant_sum_comple_add = (exp_a == exp_b) ? (mant_a == mant_b ? mant_sum : 
-                                             (mant_a < mant_b ? mant_sum : ~mant_sum + 1)) : (exp_a < exp_b) ? mant_sum :~mant_sum+1; 
+                                             (mant_a < mant_b ? mant_sum : ~mant_sum + 1)) : (exp_a < exp_b) ? mant_sum :~mant_sum+1;
     exp_shift_count_add = (mant_sum_comple_add[23] ? 5'd0 : 
                          (mant_sum_comple_add[22] ? 5'd1 :  
                          (mant_sum_comple_add[21] ? 5'd2 :
@@ -156,7 +156,6 @@ end
                          (mant_sum_comple_add[1] ? 5'd22:
                          (mant_sum_comple_add[0] ? 5'd23: 5'd24))))))))))))))))))))))));
 
-     error_bit = 0;
      mant_final_add = mant_sum_comple_add[22:0] << exp_shift_count_add; 
      exp_final_add = (exp_big < exp_shift_count_add) ? 8'b00000000: exp_big - exp_shift_count_add;
      sign_result_add =  (exp_a == exp_b) ? (mant_a == mant_b ? 0 : 
@@ -169,7 +168,8 @@ end
     exp_final_add = (exp_big == 8'b11111111) ? 8'b11111111: mant_cout ? exp_big + 1 : exp_big;   
     sign_result_add = 1;                   
 end 
-default:begin error_bit = 1;
+default:begin
+    mant_sum_comple_add = 0; 
     mant_final_add = 0;
     exp_final_add = 0;
     sign_result_add =0;
@@ -275,7 +275,6 @@ end
     sign_result_sub = 1;                  
 end 
 default: begin
-    error_bit = 1;
     mant_final_sub = 0;
     exp_final_sub = 0;
     sign_result_sub =0;
@@ -457,19 +456,19 @@ end
 endcase
 end                                 
 
-reg [31:0] result_alu;       //round mode 적용 전
+
     
 always@(*) begin
 case(aluop)
-5'b00000: result_alu = add_result;
-5'b00001: result_alu = sub_result;
-5'b00010: result_alu = mult_result;
-5'b00011: result_alu = divide_result;
-5'b00100: result_alu = min_result;
-5'b00101: result_alu = max_result;
-5'b00110: result_alu = a;
-5'b00111: result_alu = a;
-default : result_alu = 32'b0;
+5'b00000: result = add_result;
+5'b00001: result = sub_result;
+5'b00010: result = mult_result;
+5'b00011: result = divide_result;
+5'b00100: result = min_result;
+5'b00101: result = max_result;
+5'b00110: result = a;
+5'b00111: result = a;
+default : result = 32'b0;
 endcase
 end         
 
