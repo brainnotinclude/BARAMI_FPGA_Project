@@ -28,6 +28,7 @@ module control(
     case(opcode_A) 
         7'b0110011:
         begin
+        if (funct7_A != 7'b0000001) begin
         aluin1_mux = 2'b00;
         aluin2_mux = 2'b00;
         map_en = 1;
@@ -71,7 +72,79 @@ module control(
             begin
             aluop_A = 5'b00111;
             end
+            default:
+            begin
+            aluop_A= 5'b0;
+            aluin1_mux = 2'b0;          
+            aluin2_mux = 2'b0;          
+            map_en= 0;
+            dispatch_control= 2'b0;    
+            memwrite= 0;
+            memread= 0;
+            memtoreg= 0;
+            branch= 0;
+            regwrite = 0;
+        end
         endcase
+        end
+        else begin
+        map_en = 1;
+        aluin1_mux = 2'b00;
+        aluin2_mux = 2'b00; 
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
+        case(funct3_A)                // mul divide
+            3'b000:
+            begin
+            aluop_A = 5'b10110;
+            end
+            3'b001:
+            begin
+            aluop_A = 5'b10010;
+            end
+            3'b010:
+            begin
+            aluop_A = 5'b10001;
+            end
+            3'b011:
+            begin
+            aluop_A = 5'b10000;
+            end
+            3'b100:
+            begin
+            aluop_A = 5'b11000;
+            end
+            3'b101:
+            begin
+            aluop_A = 5'b11010;
+            end
+            3'b110:
+            begin
+            aluop_A = 5'b11100;
+            end
+            3'b111:
+            begin
+            aluop_A = 5'b11110;
+            end
+            default:
+            begin
+            aluop_A= 5'b0;
+            aluin1_mux = 2'b0;          
+            aluin2_mux = 2'b0;          
+            map_en= 0;
+            dispatch_control= 2'b0;    
+            memwrite= 0;
+            memread= 0;
+            memtoreg= 0;
+            branch= 0;
+            regwrite = 0;
+        end
+        endcase
+        end
         end
         
         7'b0010011:
@@ -125,6 +198,19 @@ module control(
             aluop_A = 5'b00111;
             aluin2_mux = 2'b10;
             end
+            default:
+            begin
+            aluop_A= 5'b0;
+            aluin1_mux = 2'b0;          
+            aluin2_mux = 2'b0;          
+            map_en= 0;
+            dispatch_control= 2'b0;    
+            memwrite= 0;
+            memread= 0;
+            memtoreg= 0;
+            branch= 0;
+            regwrite = 0;
+        end
         endcase
         end
                 
@@ -156,53 +242,17 @@ module control(
         regwrite =1;
         end
         
-        7'b0110011:
-        begin
-        map_en = 1;
-        aluin1_mux = 2'b00;
-        aluin2_mux = 2'b00; 
-        dispatch_control = 2'b11;
-        memwrite = 0;
-        memread = 0;
-        memtoreg = 0;
-        branch = 0;
-        regwrite =1;
-        case(funct3_A)                // mul divide
-            3'b000:
-            begin
-            aluop_A = 5'b10110;
-            end
-            3'b001:
-            begin
-            aluop_A = 5'b10010;
-            end
-            3'b010:
-            begin
-            aluop_A = 5'b10001;
-            end
-            3'b011:
-            begin
-            aluop_A = 5'b10000;
-            end
-            3'b100:
-            begin
-            aluop_A = 5'b11000;
-            end
-            3'b101:
-            begin
-            aluop_A = 5'b11010;
-            end
-            3'b110:
-            begin
-            aluop_A = 5'b11100;
-            end
-            3'b111:
-            begin
-            aluop_A = 5'b11110;
-            end
-        default: 
-                map_en = 0;
-        endcase
+        default: begin
+        aluop_A= 5'b0;
+        aluin1_mux = 2'b0;          
+        aluin2_mux = 2'b0;          
+        map_en= 0;
+        dispatch_control= 2'b0;    
+        memwrite= 0;
+        memread= 0;
+        memtoreg= 0;
+        branch= 0;
+        regwrite = 0;
         end
     endcase
     end
@@ -215,7 +265,7 @@ module control(
         begin
         aluin2_mux = 2'b00;
         // 공통된 control 신호 넣기
-        case(funct3_B)                         // add, sub 등 r형 명령어에 대한 aluop 값
+        case(funct3_B)                         // add= 0 sub 등 r형 명령어에 대한 aluop 값
             3'b000:
             begin
             aluop_B = (funct7_B == 7'b0100000 ? 5'b00001 : 5'b00000);
