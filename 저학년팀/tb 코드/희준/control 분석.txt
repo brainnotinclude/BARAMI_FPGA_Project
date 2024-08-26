@@ -1,0 +1,388 @@
+결론:
+질문:
+1. 일단 주석처리가 되긴 했으나, B에 대해서는 A와 분리하여 또다른 output을 만들어주어야하는 것이 아닌지?
++ b의 경우 aluop를 제외한 다른 출력값들에 대한 수정이 마저 이루어져야 할 것으로 판단됨.(memwrite 등등)
+
+2. aluop가 작성되지 않은 것들에 한해선 일단 그대로 두는 것으로 이해하면 되는지?
+
+3. 잘못된 funct7이 입력될 경우 abort를 적용할 것인지?
+
+체크리스트에서 발견된 것.
+1.funct7을 고려하지 않아 remu 대신 and 발생. 조치 필요. - inst bit에서 mul,div가 나오는 부분이랑, add가 나오는 부분의 op코드가 같은데, funct7으로만 구분가능. but 코드는 funct 7을 거의 고려하지 않음.
+
+2. 이유는 모르지만 시작 직후 0인 op코드 값에 대해 디코드 신호가 0으로 나와야 하는데, 잘못된 op코드를 넣어도 0으로 초기화 되지 않음.
+
+
+
+`timescale 1ns/1ps  명령의 시간 단위: 1ns/ 기계의 시간 해상도: 1ps
+module control(    // 컨트롤 모듈 정의 시작 및 input output 정의.
+    input [6:0]opcode_A,  //instruction A의 오피코드
+    input [2:0]funct3_A,   //instruction A의 funct3
+    input [6:0]funct7_A,  //instruction A의 funct7
+    /*input [6:0]opcode_B, // 마찬가지로 B 시리즈의 오피코드, funct3, funct7인데 왜 주석처리인지는 의문.
+    input [2:0]funct3_B,
+    input [6:0]funct7_B,
+    //input clk, // 마찬가지 주석처리된 클락과 리셋신호.
+    //input rst_n,
+    */					// 여기서부터 출력부. - inst bit 파일 참조 요망.
+    output reg [4:0]aluop_A,		// 인스트럭션 A의 aluop. > aluop가 alu로 전달되면 그걸 토대로 alu가 연산. 즉, 연산자 설정 부분
+    output reg [1:0]aluin1_mux,          //mux 00 -> rs1, 01 -> pc, 10 -> 0 for lui 피연산자 1의 종류에 대한 부분
+    //output reg [4:0]aluop_B,		주석 처리된 B파트.
+    output reg [1:0]aluin2_mux,           //mux 00 -> rs2, 01 -> shamt 10-> imm_12 11->imm_20 피연산자 2의 종류에 대한 부분.
+    output reg map_en,		// 디코드 단계 신호 - 궁극적으로 레지스터 파일과 신호가 연계됨.
+    output reg [1:0] dispatch_control,     //11: Both simple/complex, 01: Complex only, 10:FP only 상위 모듈에서 컨트롤 시그널에 탑재됨. > 나중에 디스패치에서 쓰이는 듯.
+    output reg memwrite,		// 이하 내용들은 모두 마찬가지로 컨트롤 시그널에 탑재됨.. 용도는 의문..
+    output reg memread,
+    output reg memtoreg,
+    output reg branch,
+    output reg regwrite
+    );
+    
+    
+    
+    always@(*) begin // 어떠한 값이라도 변동이 있을 경우 즉각적으로 변함.
+    case(opcode_A) 
+        7'b0110011:    // 목록 중 첫번째 부분.
+        begin
+        aluin1_mux = 2'b00;  //피연산자를 레지스터에서 가져옴.
+        aluin2_mux = 2'b00;  //피연산자를 레지스터에서 가져옴.
+        map_en = 1; // 디코드 단계 활성화.
+        dispatch_control = 2'b11; // 디스패치 - 심플, 컴플렉스 모두 가능.
+        memwrite = 0; // 솔직히 얘네들은 모르겠음.
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
+        // 공통된 control 신호 넣기
+        case(funct3_A)                         // add, sub 등 r형 명령어에 대한 aluop 값
+            3'b000: // add나 sub
+            begin
+            aluop_A = (funct7_A == 7'b0100000 ? 5'b00001 : 5'b00000); //funct7값이 7'b0100000(=sub)인지 여부에 따라 sub / add 결정.
+            end
+            3'b001: // sll
+            begin
+            aluop_A = 5'b00010;
+            end
+            3'b010: // slt
+            begin
+            aluop_A = 5'b01000;
+            end
+            3'b011: // sltu
+            begin
+            aluop_A = 5'b01001;
+            end
+            3'b100: // xor
+            begin
+            aluop_A = 5'b00011;
+            end
+            3'b101: // srl나 sra
+            begin
+            aluop_A = (funct7_A == 7'b0100000 ? 5'b00100: 5'b00101); //위와 마찬가지로 sra/srl
+            end
+            3'b110: // or 
+            begin
+            aluop_A = 5'b00110;
+            end
+            3'b111: // and
+            begin
+            aluop_A = 5'b00111;
+            end
+        endcase
+        end
+        
+        7'b0010011: // opcode목록 중 다음 부분. 확장..?
+        begin 
+        aluin1_mux = 2'b00;  //피연산자를 레지스터에서 가져옴.
+        map_en = 1; // 디코드 단계 활성화.
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;     
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
+        case(funct3_A)                         // addi, subi 등 i형 명령어에 대한 aluop 값
+            3'b000:  // addi, jalr
+            begin
+            aluop_A = 5'b00000; // addi ... jalr은 어디로 갔는지?
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b001:  // slli
+            begin
+            aluop_A = 5'b00010; // slli
+            aluin2_mux = 2'b01;  //피연산자가 shamt - 비트 쉬프트의 양
+            end
+            3'b010: // slti, lw
+            begin
+            aluop_A = 5'b01000; // slti ... lw는 어디로 갔는지?
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b011: //sltiu
+            begin
+            aluop_A = 5'b01001;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b100: //xori
+            begin
+            aluop_A = 5'b00011; //xori
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b101: //srli, srai
+            begin
+            aluop_A = (funct7_A == 7'b0100000 ? 5'b00101: 5'b00100);  srai / srli
+            aluin2_mux = 2'b01;  //피연산자가 shamt - 비트 쉬프트의 양
+            end
+            3'b110: // ori
+            begin
+            aluop_A = 5'b00110; //
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b111: // andi
+            begin
+            aluop_A = 5'b00111;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+        endcase
+        end
+                
+        7'b0110111:
+        begin                //lui
+        aluop_A = 5'b00000;
+        map_en = 1; // 디코드 단계 활성화.
+        aluin1_mux = 2'b10;  //0 for lui연산
+        aluin2_mux = 2'b11;   //피연산자가 imm_20 = 즉시 값 20비트 즉시 값은 대개 0으로 채우는 듯.
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
+        end
+        
+        7'b0010111:
+        begin                 //auipc
+        aluop_A = 5'b00000;
+        map_en = 1; // 디코드 단계 활성화.
+        aluin1_mux = 2'b01;   //피연산자가 PC(프로그램 카운터.)
+        aluin2_mux = 2'b11;      //피연산자가 imm_20 = 즉시 값 20비트 즉시 값은 대개 0으로 채우는 듯.
+        dispatch_control = 2'b11;    
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
+        end
+        
+        7'b0110011: // 목록 중 파란 부분 - mul, div ...
+        begin
+        map_en = 1; // 디코드 단계 활성화.
+        aluin1_mux = 2'b00;  //피연산자를 레지스터에서 가져옴.
+        aluin2_mux = 2'b00;   //피연산자를 레지스터에서 가져옴.
+        dispatch_control = 2'b11;
+        memwrite = 0;
+        memread = 0;
+        memtoreg = 0;
+        branch = 0;
+        regwrite =1;
+        case(funct3_A)                // mul divide
+            3'b000: // mul
+            begin
+            aluop_A = 5'b10110;
+            end
+            3'b001: // mulh
+            begin
+            aluop_A = 5'b10010;
+            end
+            3'b010: // mulhsu
+            begin
+            aluop_A = 5'b10001;
+            end
+            3'b011: // mulhu
+            begin
+            aluop_A = 5'b10000;
+            end
+            3'b100: // div
+            begin
+            aluop_A = 5'b11000;
+            end
+            3'b101: // divu
+            begin
+            aluop_A = 5'b11010;
+            end
+            3'b110: // rem
+            begin
+            aluop_A = 5'b11100;
+            end
+            3'b111: // remu
+            begin
+            aluop_A = 5'b11110;
+            end
+        default: 
+                map_en = 0; // 디코드 단계 비활성화.
+        endcase
+        end
+    endcase
+    end
+    
+    // 명령어 두 개니까 둘 나눠서 동시에? 음 같은 always에 둬야할까요
+     // 주석처리된 b파트. - A와 동일하게 반복됨.
+    /*always@(*) begin
+    case(opcode_B) 
+        7'b0110011:    // 목록 중 첫번째 부분.
+        begin
+        aluin2_mux = 2'b00;  //피연산자를 레지스터에서 가져옴.
+        // 공통된 control 신호 넣기
+        case(funct3_B)                         // add, sub 등 r형 명령어에 대한 aluop 값
+            3'b000:
+            begin
+            aluop_B = (funct7_B == 7'b0100000 ? 5'b00001 : 5'b00000);
+            end
+            3'b001:
+            begin
+            aluop_B = 5'b00010;
+            end
+            3'b010:
+            begin
+            aluop_B = 5'b01000;
+            end
+            3'b011:
+            begin
+            aluop_B = 5'b01001;
+            end
+            3'b100:
+            begin
+            aluop_B = 5'b00011;
+            end
+            3'b101:
+            begin
+            aluop_B = (funct7_B == 7'b0100000 ? 5'b00100: 5'b00101);
+            end
+            3'b110:
+            begin
+            aluop_B = 5'b00110;
+            end
+            3'b111:
+            begin
+            aluop_B = 5'b00111;
+            end
+        endcase
+        end
+        
+        7'b0010011:
+        begin 
+        case(funct3_B)                         // addi, subi 등 i형 명령어에 대한 aluop 값
+            3'b000:
+            begin
+            aluop_B = 5'b00000;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b001:
+            begin
+            aluop_B = 5'b00010;
+            aluin2_mux = 2'b01;  //피연산자가 shamt - 비트 쉬프트의 양
+            end
+            3'b010:
+            begin
+            aluop_B = 5'b01000;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b011:
+            begin
+            aluop_B = 5'b01001;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b100:
+            begin
+            aluop_B = 5'b00011;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b101:
+            begin
+            aluop_B = (funct7_B == 7'b0100000 ? 5'b00101: 5'b00100);
+            aluin2_mux = 2'b01;  //피연산자가 shamt - 비트 쉬프트의 양
+            end
+            3'b110:
+            begin
+            aluop_B = 5'b00110;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+            3'b111:
+            begin
+            aluop_B = 5'b00111;
+            aluin2_mux = 2'b10;  //피연산자가 imm_12 = 즉시 값 12비트 즉시 값은 대개 0으로 채우는 듯.
+            end
+        endcase
+        end
+                
+        7'b0110111:
+        begin                //lui
+        aluop_B = 5'b00000;
+        aluin2_mux = 2'b11;      //피연산자가 imm_20 = 즉시 값 20비트 즉시 값은 대개 0으로 채우는 듯.
+        end
+        
+        7'b0010111:
+        begin                 //auipc
+        aluop_B = 5'b00000;
+        aluin2_mux = 2'b11;   //피연산자가 imm_20 = 즉시 값 20비트 즉시 값은 대개 0으로 채우는 듯.
+        end
+        
+        7'b0110011:
+        begin
+        aluin2_mux = 2'b00;  //피연산자를 레지스터에서 가져옴.
+        case(funct3_B)                // mul divide
+            3'b000:
+            begin
+            aluop_B = 5'b10110;
+            end
+            3'b001:
+            begin
+            aluop_B = 5'b10010;
+            end
+            3'b010:
+            begin
+            aluop_B = 5'b10001;
+            end
+            3'b011:
+            begin
+            aluop_B = 5'b10000;
+            end
+            3'b100:
+            begin
+            aluop_B = 5'b11000;
+            end
+            3'b101:
+            begin
+            aluop_B = 5'b11010;
+            end
+            3'b110:
+            begin
+            aluop_B = 5'b11100;
+            end
+            3'b111:
+            begin
+            aluop_B = 5'b11110;
+            end
+        endcase
+        end
+    endcase
+    end
+    
+    */
+   
+endmodule
+
+역할: opcode, funct3, funct7 보고 어떤 연산인지 판별하는 모듈. alu의 aluop 전달.
+
+질문 사안:
+1. 일단 주석처리가 되긴 했으나, B에 대해서는 A와 분리하여 또다른 output을 만들어주어야하는 것이 아닌지?
++ b의 경우 aluop를 제외한 다른 출력값들에 대한 수정이 마저 이루어져야 할 것으로 판단됨.
+2. aluop가 작성되지 않은 것들에 한해선 일단 그대로 두는 것으로 이해하면 되는지?
+3. 잘못된 funct7이 입력될 경우 abort를 적용할 것인지?
+
+체크리스트:
+1. 기본적으로 입력된 op코드 값과 funct 값들에 따라 알맞은 aluop와 다른 출력값들이 출력되는지?
+> remu 확인해보다 알게된 것이 inst bit에서 mul,div가 나오는 부분이랑, add가 나오는 부분의 op코드가 겹치는데, funct7으로만 구분함. - 한편 add처리 때 funct7을 고려하지 않아 remu 대신 and 발생. 조치 필요.
+1-2. dispatch control 값의 변화 확인 - 경우의 수에서 할 일이 존재하지 않음.
+2. 잘못된 op코드나 funct값이 입력되면 디코드 비활성화 값이 제대로 출력되는지?
+> 이유는 모르지만 리셋 직후 디코드 신호가 0으로 나와야 하는데, 잘못된 op코드를 넣어도 0으로 초기화 되지 않음.
+funct3의 경우 > 모든 funct3에 대해 aluop가 존재하므로, funct3의 연산은 잘못 전달되더라도 그대로 연산되게 됨.
+funct7의 경우 > 코드 상 필요한 경우 아니면 무시함. > 타당한가?
