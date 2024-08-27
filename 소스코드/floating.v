@@ -1,3 +1,8 @@
+/*
+https://digitalsystemdesign.in/floating-point-multiplication/
+https://ojh0616.tistory.com/530
+
+*/
 `timescale 1ns/1ps
 module floating(
     input [31:0] a, // ют╥б
