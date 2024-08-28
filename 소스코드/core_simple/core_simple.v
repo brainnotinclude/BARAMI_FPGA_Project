@@ -79,7 +79,8 @@ module core_simple(
     wire [4:0] rdB;
     
     //Variables for forwarding -> I will cover it later
-    
+    wire error_decode_A;         //decode에서 유효한 값을 받지 못하면 생기는 error로 fetch-decode ff를 stall하는
+    wire error_decode_B;
     
     //Variables for Dispatch->Execute
     reg [1:0] complex_empty;
@@ -206,6 +207,8 @@ module core_simple(
         .errorB(errorB),
         .rs_full_A(rs_full_A),
         .rs_full_B(rs_full_B),
+        .error_decode_A(error_decode_A),
+        .error_decode_B(error_decode_B),
     
         .pcF1(pcF1),
         .pcF2(pcF2)
@@ -227,8 +230,8 @@ module core_simple(
             //Error at instA: we should process insruction in-order at dispatch stage, so we stall both instruction.
             //Error at instB: error instruction does not pass to dispatch stage(bubble occurs). instB moves to instA position, and fetched new instruction goes to position of instB.
             //Both need to handle PC properly.
-            if(!errorA & !rs_full_A) begin                      //If "register configuration error on instruction A at decode stage" or "rs full error on instruction A at dispatch stage)" then value of fetch/decode FF should be preserved 
-                if(!errorB & !rs_full_B) begin                  //If there is no error: Normal update
+            if(!errorA & !rs_full_A & !error_decode_A) begin                      //If "register configuration error on instruction A at decode stage" or "rs full error on instruction A at dispatch stage)" then value of fetch/decode FF should be preserved 
+                if(!errorB & !rs_full_B & !error_decode_B) begin                  //If there is no error: Normal update
                     instA_decode <= instA;
                     instB_decode <= instB;
                     pcF1_decoder <= pcF1;                       // 명령어에 맞춰 pc도 따라가는
@@ -261,10 +264,10 @@ module core_simple(
     
         //From forwarding path -> Need modification?: tag match in or out decoder
         //wires for forwarding not yet declared
-        .forwarding_A(forwarding_A),
-        .forwarding_B(forwarding_B),
-        .forwarding_addr_A(forwarding_addr_A),
-        .forwarding_addr_B(forwarding_addr_B),
+        .forwarding(forwarding),
+        //.forwarding_B(forwarding_B),
+        .forwarding_addr(forwarding_addr),
+        //.forwarding_addr_B(forwarding_addr_B),
         
         //From RF
         .s1A(s1A),
@@ -288,7 +291,11 @@ module core_simple(
         .rs1B(rs1B),
         .rs2B(rs2B),
         .rdA(rdA),
-        .rdB(rdA)
+        .rdB(rdA),
+        
+        // register data 읽지 못하여 발생한 error 읽을 수 있을 때까지 돌려야 함 
+        .error_A(error_decode_A),
+        .error_B(error_decode_B)
     );
     
     registerFile RF_integer(

@@ -35,10 +35,10 @@ module decoder(
     input [31:0] instB,                 //2nd instruction
     input [31:0] pcA,                   // 명령어 두개니까 각자 pc 필요
     input [31:0] pcB,
-    input [31:0] forwarding_A,         // 연산 결과
-    input [31:0] forwarding_B,
-    input [4:0] forwarding_addr_A,     // rd가 무엇인지
-    input [4:0] forwarding_addr_B,
+    input [31:0] forwarding,         // 연산 결과
+  //  input [31:0] forwarding_B,
+    input [4:0] forwarding_addr,     // rd가 무엇인지
+  //  input [4:0] forwarding_addr_B,
     
     //From RF
     input [31:0] s1A,
@@ -61,9 +61,11 @@ module decoder(
     output [4:0] rs1B,
     output [4:0] rs2B,
     output [4:0] rdA,
-    output [4:0] rdB
+    output [4:0] rdB,
+    output error_A,               //decompose에서 받은 에러 그대로 밖으로 보냄
+    output error_B
     );
-
+  
     //Decode an instruction. We need two instance(decomposeA, decomposeB) because we should decode 2 inst/cycle.
     instruction_decompose decomposeA(
         .inst(instA),
@@ -72,14 +74,15 @@ module decoder(
         .rs1_valid(rs1A_valid),
         .rs2_valid(rs2A_valid),
         .pc(pcA),
-        .forwarding(forwarding_A),
-        .forwarding_addr(forwarding_addr_A),
+        .forwarding(forwarding),
+        .forwarding_addr(forwarding_addr),
         
         .map_en(map_en_A),
         .rs1(rs1A),
         .rs2(rs2A),
         .rd(rdA),
-        .decomposed_inst(decoded_instA)
+        .decomposed_inst(decoded_instA),
+        .error(error_A)
     );
     
     instruction_decompose decomposeB(
@@ -89,14 +92,15 @@ module decoder(
         .rs1_valid(rs1B_valid),
         .rs2_valid(rs2B_valid),
         .pc(pcB),
-        .forwarding(forwarding_B),
-        .forwarding_addr(forwarding_addr_B),
+        .forwarding(forwarding),
+        .forwarding_addr(forwarding_addr),
         
         .map_en(map_en_B),
         .rs1(rs1B),
         .rs2(rs2B),
         .rd(rdB),
-        .decomposed_inst(decoded_instB)
+        .decomposed_inst(decoded_instB),
+        .error(error_B)
     );
     
 endmodule
