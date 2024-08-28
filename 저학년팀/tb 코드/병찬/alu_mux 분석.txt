@@ -4,21 +4,21 @@ module alu_mux(
     input [31:0]rs1,           // 레지스터 소스 1 값
     input [31:0]rs2,           // 레지스터 소스 2 값
     input [31:0]pc,            // 프로그램 카운터 값
-    input [11:0]imm,           // ??
-    input [4:0]shamt,          // ??
-    input [19:0]imm_20,        // ??
+    input [11:0]imm,           
+    input [4:0]shamt,          
+    input [19:0]imm_20,        
     
     output reg [31:0] aluin1,  // 첫 번째 ALU 입력 출력
     output reg [31:0] aluin2   // 두 번째 ALU 입력 출력
     );
     
-    wire [31:0]sign_imm; // sign_imm을 32비트로?
-    wire [31:0]sign_imm_20; // sign_imm도 32비트로?
-    assign sign_imm = {20*{imm[11]}, imm}; // ??
-    assign sign_imm_20 = {imm_20, 12'b0}; // 20비트 imm_20에 12개의 0을 추가하여 32비트로 확장
+    wire [31:0]sign_imm; // sign_imm을 32bit wire 변수로 선언
+    wire [31:0]sign_imm_20; // sign_imm_20을 32bit wire 변수로 선언
+    assign sign_imm = {20*{imm[11]}, imm}; // sign_imm을 0으로 채워서 32비트로 확장
+    assign sign_imm_20 = {imm_20, 12'b0}; // 20비트 sign_imm_20에 12개의 0을 추가하여 32비트로 확장
     
-    wire [31:0]shamt_temp; // shamt_temp도 32비트로?
-    assign shamt_temp = {27'b0, shamt}; // ??
+    wire [31:0]shamt_temp; // shamt_temp을 32bit wire 변수로 선언
+    assign shamt_temp = {27'b0, shamt}; // shamt_temp을 0으로 채워서 32비트로 확장
     
     always @(*) begin
         // Mux1: mux1 제어 신호에 따라 첫 번째 ALU 입력 선택
@@ -41,9 +41,9 @@ endmodule
 alu_mux의 역할: ALU가 다양한 연산을 수행하기 위해 필요한 입력 값을 선택하여 ALU에 전달.
 
 궁금증:
-1. imm와 imm_20가 둘다 필요한 이유가 뭔지?
-2. 코드 16줄에서 sign_imm_20를 32비트로 바꾸는거 맞나?
-3. 코드 20줄에서 shamt_temp를 32비트로 바꾸는거 맞나?
+1. imm와 imm_20가 둘다 필요한 이유가 뭔지? 해결 완료.
+2. 코드 16줄에서 sign_imm_20를 32비트로 바꾸는거 맞나? 해결 완료.
+3. 코드 20줄에서 shamt_temp를 32비트로 바꾸는거 맞나? 해결 완료.
 
 tb 작성시 체크리스트:
 1. rs1, rs2, pc, imm, shamt, imm_20의 최대 및 최소 값에서 확인 필요.
