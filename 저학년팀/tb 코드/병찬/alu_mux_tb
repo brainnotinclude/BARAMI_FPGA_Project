@@ -1,1 +1,93 @@
-아직 작업 중에 있습니다
+module alu_mux_tb(
+
+  // Inputs
+  reg [1:0] mux1;
+  reg [1:0] mux2;
+  reg [31:0] rs1;
+  reg [31:0] rs2;
+  reg [31:0] pc;
+  reg [11:0] imm;
+  reg [4:0] shamt;
+  reg [19:0] imm_20;
+
+  // Outputs
+  wire [31:0] aluin1;
+  wire [31:0] aluin2;
+
+  // Instantiate the ALU MUX
+  alu_mux uut (
+    .mux1(mux1), 
+    .mux2(mux2), 
+    .rs1(rs1), 
+    .rs2(rs2), 
+    .pc(pc), 
+    .imm(imm), 
+    .shamt(shamt), 
+    .imm_20(imm_20), 
+    .aluin1(aluin1), 
+    .aluin2(aluin2)
+  );
+
+  initial begin
+    integer i, j;
+
+    // Define maximum and minimum test values
+    reg [31:0] test_rs1_values[1:0];
+    reg [31:0] test_rs2_values[1:0];
+    reg [31:0] test_pc_values[1:0];
+    reg [11:0] test_imm_values[1:0];
+    reg [4:0] test_shamt_values[1:0];
+    reg [19:0] test_imm_20_values[1:0];
+    
+    // Initialize test values
+    test_rs1_values[0] = 32'h00000000; // Min value
+    test_rs1_values[1] = 32'hFFFFFFFF; // Max value
+    
+    test_rs2_values[0] = 32'h00000000; // Min value
+    test_rs2_values[1] = 32'hFFFFFFFF; // Max value
+    
+    test_pc_values[0] = 32'h00000000;  // Min value
+    test_pc_values[1] = 32'hFFFFFFFF;  // Max value
+    
+    test_imm_values[0] = 12'h000;      // Min value
+    test_imm_values[1] = 12'hFFF;      // Max value
+    
+    test_shamt_values[0] = 5'h00;      // Min value
+    test_shamt_values[1] = 5'h1F;      // Max value
+    
+    test_imm_20_values[0] = 20'h00000; // Min value
+    test_imm_20_values[1] = 20'hFFFFF; // Max value
+
+    // Iterate over all possible combinations of mux1 and mux2
+    for (i = 0; i < 3; i = i + 1) begin
+      for (j = 0; j < 4; j = j + 1) begin
+        mux1 = i;
+        mux2 = j;
+        
+        // Test with minimum values
+        rs1 = test_rs1_values[0];
+        rs2 = test_rs2_values[0];
+        pc = test_pc_values[0];
+        imm = test_imm_values[0];
+        shamt = test_shamt_values[0];
+        imm_20 = test_imm_20_values[0];
+        #10;
+        $display("Min Values - mux1 = %b, mux2 = %b, aluin1 = %h, aluin2 = %h", mux1, mux2, aluin1, aluin2);
+        
+        // Test with maximum values
+        rs1 = test_rs1_values[1];
+        rs2 = test_rs2_values[1];
+        pc = test_pc_values[1];
+        imm = test_imm_values[1];
+        shamt = test_shamt_values[1];
+        imm_20 = test_imm_20_values[1];
+        #10;
+        $display("Max Values - mux1 = %b, mux2 = %b, aluin1 = %h, aluin2 = %h", mux1, mux2, aluin1, aluin2);
+      end
+    end
+    
+    // End of simulation
+    $finish;
+  end
+
+endmodule
