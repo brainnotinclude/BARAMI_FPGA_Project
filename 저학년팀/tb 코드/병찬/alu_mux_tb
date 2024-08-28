@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module alu_mux_tb;
 
   // Inputs
@@ -29,63 +30,143 @@ module alu_mux_tb;
   );
 
   initial begin
-    integer i, j;
 
-    // Define maximum and minimum test values
-    reg [31:0] test_rs1_values[1:0];
-    reg [31:0] test_rs2_values[1:0];
-    reg [31:0] test_pc_values[1:0];
-    reg [11:0] test_imm_values[1:0];
-    reg [4:0] test_shamt_values[1:0];
-    reg [19:0] test_imm_20_values[1:0];
+    // Test all combinations of mux1 and mux2 with minimum values
+    rs1 = 32'h00000000;
+    rs2 = 32'h00000000;
+    pc = 32'h00000000;
+    imm = 12'h000;
+    shamt = 5'h00;
+    imm_20 = 20'h00000;
     
-    // Initialize test values
-    test_rs1_values[0] = 32'h00000000; // Min value
-    test_rs1_values[1] = 32'hFFFFFFFF; // Max value
-    
-    test_rs2_values[0] = 32'h00000000; // Min value
-    test_rs2_values[1] = 32'hFFFFFFFF; // Max value
-    
-    test_pc_values[0] = 32'h00000000;  // Min value
-    test_pc_values[1] = 32'hFFFFFFFF;  // Max value
-    
-    test_imm_values[0] = 12'h000;      // Min value
-    test_imm_values[1] = 12'hFFF;      // Max value
-    
-    test_shamt_values[0] = 5'h00;      // Min value
-    test_shamt_values[1] = 5'h1F;      // Max value
-    
-    test_imm_20_values[0] = 20'h00000; // Min value
-    test_imm_20_values[1] = 20'hFFFFF; // Max value
+    // Test case 1: mux1 = 00, mux2 = 00
+    mux1 = 2'b00;
+    mux2 = 2'b00;
+    #10;
 
-    // Iterate over all possible combinations of mux1 and mux2
-    for (i = 0; i < 3; i = i + 1) begin
-      for (j = 0; j < 4; j = j + 1) begin
-        mux1 = i;
-        mux2 = j;
-        
-        // Test with minimum values
-        rs1 = test_rs1_values[0];
-        rs2 = test_rs2_values[0];
-        pc = test_pc_values[0];
-        imm = test_imm_values[0];
-        shamt = test_shamt_values[0];
-        imm_20 = test_imm_20_values[0];
-        #10;
-        $display("Min Values - mux1 = %b, mux2 = %b, aluin1 = %h, aluin2 = %h", mux1, mux2, aluin1, aluin2);
-        
-        // Test with maximum values
-        rs1 = test_rs1_values[1];
-        rs2 = test_rs2_values[1];
-        pc = test_pc_values[1];
-        imm = test_imm_values[1];
-        shamt = test_shamt_values[1];
-        imm_20 = test_imm_20_values[1];
-        #10;
-        $display("Max Values - mux1 = %b, mux2 = %b, aluin1 = %h, aluin2 = %h", mux1, mux2, aluin1, aluin2);
-      end
-    end
+    // Test case 2: mux1 = 00, mux2 = 01
+    mux1 = 2'b00;
+    mux2 = 2'b01;
+    #10;
+
+    // Test case 3: mux1 = 00, mux2 = 10
+    mux1 = 2'b00;
+    mux2 = 2'b10;
+    #10;
+
+    // Test case 4: mux1 = 00, mux2 = 11
+    mux1 = 2'b00;
+    mux2 = 2'b11;
+    #10;
+
+    // Test case 5: mux1 = 01, mux2 = 00
+    mux1 = 2'b01;
+    mux2 = 2'b00;
+    #10;
+
+    // Test case 6: mux1 = 01, mux2 = 01
+    mux1 = 2'b01;
+    mux2 = 2'b01;
+    #10;
+
+    // Test case 7: mux1 = 01, mux2 = 10
+    mux1 = 2'b01;
+    mux2 = 2'b10;
+    #10;
+
+    // Test case 8: mux1 = 01, mux2 = 11
+    mux1 = 2'b01;
+    mux2 = 2'b11;
+    #10;
+
+    // Test case 9: mux1 = 10, mux2 = 00
+    mux1 = 2'b10;
+    mux2 = 2'b00;
+    #10;
+
+    // Test case 10: mux1 = 10, mux2 = 01
+    mux1 = 2'b10;
+    mux2 = 2'b01;
+    #10;
+
+    // Test case 11: mux1 = 10, mux2 = 10
+    mux1 = 2'b10;
+    mux2 = 2'b10;
+    #10;
+
+    // Test case 12: mux1 = 10, mux2 = 11
+    mux1 = 2'b10;
+    mux2 = 2'b11;
+    #10;
+
+    // Repeat all tests with maximum values
+    rs1 = 32'hFFFFFFFF;
+    rs2 = 32'hFFFFFFFF;
+    pc = 32'hFFFFFFFF;
+    imm = 12'hFFF;
+    shamt = 5'h1F;
+    imm_20 = 20'hFFFFF;
     
+    // Test case 1: mux1 = 00, mux2 = 00
+    mux1 = 2'b00;
+    mux2 = 2'b00;
+    #10;
+
+    // Test case 2: mux1 = 00, mux2 = 01
+    mux1 = 2'b00;
+    mux2 = 2'b01;
+    #10;
+
+    // Test case 3: mux1 = 00, mux2 = 10
+    mux1 = 2'b00;
+    mux2 = 2'b10;
+    #10;
+
+    // Test case 4: mux1 = 00, mux2 = 11
+    mux1 = 2'b00;
+    mux2 = 2'b11;
+    #10;
+
+    // Test case 5: mux1 = 01, mux2 = 00
+    mux1 = 2'b01;
+    mux2 = 2'b00;
+    #10;
+
+    // Test case 6: mux1 = 01, mux2 = 01
+    mux1 = 2'b01;
+    mux2 = 2'b01;
+    #10;
+
+    // Test case 7: mux1 = 01, mux2 = 10
+    mux1 = 2'b01;
+    mux2 = 2'b10;
+    #10;
+
+    // Test case 8: mux1 = 01, mux2 = 11
+    mux1 = 2'b01;
+    mux2 = 2'b11;
+    #10;
+
+    // Test case 9: mux1 = 10, mux2 = 00
+    mux1 = 2'b10;
+    mux2 = 2'b00;
+    #10;
+
+    // Test case 10: mux1 = 10, mux2 = 01
+    mux1 = 2'b10;
+    mux2 = 2'b01;
+    #10;
+
+    // Test case 11: mux1 = 10, mux2 = 10
+    mux1 = 2'b10;
+    mux2 = 2'b10;
+    #10;
+
+    // Test case 12: mux1 = 10, mux2 = 11
+    mux1 = 2'b10;
+    mux2 = 2'b11;
+    #10;
+
     // End of simulation
     $finish;
   end
