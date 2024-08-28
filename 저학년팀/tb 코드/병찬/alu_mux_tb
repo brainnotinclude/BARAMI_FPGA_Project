@@ -1,4 +1,4 @@
-module alu_mux_tb(
+module alu_mux_tb;
 
   // Inputs
   reg [1:0] mux1;
