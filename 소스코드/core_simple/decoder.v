@@ -33,22 +33,12 @@ module decoder(
     input rst_n,
     input [31:0] instA,                 //1st instruction
     input [31:0] instB,                 //2nd instruction
-    input [31:0] pc,
-    
-    //From forwarding path
-    input [31:0] rs1_ex_forwarding_A,
-    input [31:0] rs2_ex_forwarding_A,
-    input [31:0] rs1_mem_forwarding_A,
-    input [31:0] rs2_mem_forwarding_A,
-    input [1:0] rs1_forwarding_bit_A,
-    input [1:0] rs2_forwarding_bit_A,
-    
-    input [31:0] rs1_ex_forwarding_B,
-    input [31:0] rs2_ex_forwarding_B,
-    input [31:0] rs1_mem_forwarding_B,
-    input [31:0] rs2_mem_forwarding_B,
-    input [1:0] rs1_forwarding_bit_B,
-    input [1:0] rs2_forwarding_bit_B,
+    input [31:0] pcA,                   // 명령어 두개니까 각자 pc 필요
+    input [31:0] pcB,
+    input [31:0] forwarding_A,         // 연산 결과
+    input [31:0] forwarding_B,
+    input [4:0] forwarding_addr_A,     // rd가 무엇인지
+    input [4:0] forwarding_addr_B,
     
     //From RF
     input [31:0] s1A,
@@ -81,13 +71,9 @@ module decoder(
         .s2(s2A),
         .rs1_valid(rs1A_valid),
         .rs2_valid(rs2A_valid),
-        .pc(pc),
-        .rs1_ex_forwarding(rs1_ex_forwarding_A),
-        .rs2_ex_forwarding(rs2_ex_forwarding_A),
-        .rs1_mem_forwarding(rs1_mem_forwarding_A),
-        .rs2_mem_forwarding(rs2_mem_forwarding_A),
-        .rs1_forwarding_bit(rs1_forwarding_bit_A),
-        .rs2_forwarding_bit(rs2_forwarding_bit_A),
+        .pc(pcA),
+        .forwarding(forwarding_A),
+        .forwarding_addr(forwarding_addr_A),
         
         .map_en(map_en_A),
         .rs1(rs1A),
@@ -102,13 +88,9 @@ module decoder(
         .s2(s2B),
         .rs1_valid(rs1B_valid),
         .rs2_valid(rs2B_valid),
-        .pc(pc),
-        .rs1_ex_forwarding(rs1_ex_forwarding_B),
-        .rs2_ex_forwarding(rs2_ex_forwarding_B),
-        .rs1_mem_forwarding(rs1_mem_forwarding_B),
-        .rs2_mem_forwarding(rs2_mem_forwarding_B),
-        .rs1_forwarding_bit(rs1_forwarding_bit_B),
-        .rs2_forwarding_bit(rs2_forwarding_bit_B),
+        .pc(pcB),
+        .forwarding(forwarding_B),
+        .forwarding_addr(forwarding_addr_B),
         
         .map_en(map_en_B),
         .rs1(rs1B),

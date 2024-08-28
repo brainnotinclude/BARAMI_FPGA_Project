@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//Last modified: 224-08-28 by jeyun park
 module core_simple(
         input clk,
         input rst_n,
@@ -47,6 +47,9 @@ module core_simple(
     //Variables for Fetch->Decode
     reg [31:0] instA_decode;        //FF b/w fetch and decode
     reg [31:0] instB_decode;
+    
+    reg pcF1_decoder;            // decoder 단계에서 사용하는 pc는 현재 clock가 아닌 이전 clock pc 값임
+    reg pcF2_decoder;    
     
     //Variables for Decode->Dispatch
     //Bit width should be changed according to decoded bit width
@@ -107,6 +110,13 @@ module core_simple(
     wire rs_full_A;              //For stall: It means that RS corresponding to type of instruction A is full. It doesn't mean all RS is full.
     wire rs_full_B;
     
+    wire [3:0] comp_0_entry_num;
+    wire [3:0] comp_1_entry_num;
+    wire [3:0] simple_0_entry_num;
+    wire [3:0] simple_1_entry_num;
+    wire [3:0] fp_0_entry_num;
+    wire [3:0] fp_1_entry_num;
+    
     wire complex_0_issue;
     wire complex_1_issue;
     wire simple_0_issue;
@@ -142,6 +152,7 @@ module core_simple(
 
 
     //Variables for ROB: Execute -> complete
+    wire [36:0] executed_inst_simple;
     
     //Old ROB variables: now modifying 
     /*reg [36:0] rob [7:0];
@@ -185,11 +196,16 @@ module core_simple(
     next_pc_logic next_pc(
         .clk(clk),
         .rst_n(rst_n),
-        .EN(EN),
+        // .EN(EN),
         .imm(imm),
         .imm_jal(imm_jal),
         .imm_jalr(imm_jalr),   //for jalr 11
         .PCSrc(PCSrc),
+        
+        .errorA(errorA),
+        .errorB(errorB),
+        .rs_full_A(rs_full_A),
+        .rs_full_B(rs_full_B),
     
         .pcF1(pcF1),
         .pcF2(pcF2)
@@ -200,6 +216,8 @@ module core_simple(
         if(!rst_n) begin
             instA_decode <= 32'b0;
             instB_decode <= 32'b0;
+            pcF1_decoder <= 32'b0;
+            pcF2_decoder <= 32'b0;
         end
         else begin
             //"error" is the only case that stalls on decode stage
@@ -213,10 +231,14 @@ module core_simple(
                 if(!errorB & !rs_full_B) begin                  //If there is no error: Normal update
                     instA_decode <= instA;
                     instB_decode <= instB;
+                    pcF1_decoder <= pcF1;                       // 명령어에 맞춰 pc도 따라가는
+                    pcF2_decoder <= pcF2;
                 end
                 else begin                                     //In this case, only one instruction should go to next stage
                     instA_decode <= instB_decode;
                     instB_decode <= instA;
+                    pcF1_decoder <= pcF2_decoder;
+                    pcF2_decoder <= pcF1;
                 end    
             end
             else begin
@@ -234,24 +256,16 @@ module core_simple(
         .instA(instA_decode),                 //1st instruction
         .instB(instB_decode),                 //2nd instruction
         //Caution!!: what is the PC value using for the instruction? We need to talk about it and modify the logic for it
-        .pc(?),
+        .pcA(pcF1_decoder),            // pc value는 각 명령어에 대한 본인 pc 값 
+        .pcB(pcF2_decoder),
     
         //From forwarding path -> Need modification?: tag match in or out decoder
         //wires for forwarding not yet declared
-        .rs1_ex_forwarding_A(rs1_ex_forwarding_A),
-        .rs2_ex_forwarding_A(rs2_ex_forwarding_A),
-        .rs1_mem_forwarding_A(rs1_mem_forwarding_A),
-        .rs2_mem_forwarding_A(rs2_mem_forwarding_A),
-        .rs1_forwarding_bit_A(rs1_forwarding_bit_A),
-        .rs2_forwarding_bit_A(rs2_forwarding_bit_A),
-    
-        .rs1_ex_forwarding_B(rs1_ex_forwarding_B),
-        .rs2_ex_forwarding_B(rs2_ex_forwarding_B),
-        .rs1_mem_forwarding_B(rs1_mem_forwarding_B),
-        .rs2_mem_forwarding_B(rs2_mem_forwarding_B),
-        .rs1_forwarding_bit_B(rs1_forwarding_bit_B),
-        .rs2_forwarding_bit_B(rs2_forwarding_bit_B),
-    
+        .forwarding_A(forwarding_A),
+        .forwarding_B(forwarding_B),
+        .forwarding_addr_A(forwarding_addr_A),
+        .forwarding_addr_B(forwarding_addr_B),
+        
         //From RF
         .s1A(s1A),
         .s2A(s2A),
@@ -360,22 +374,31 @@ module core_simple(
         .simple_empty_1(simple_empty[1]),
         .fp_empty_0(fp_empty[0]),
         .fp_empty_1(fp_empty[1]),
+        .rob_tail(tail),
+        .rob_head(head),
         
         //Dispatch module makes an output for an instruction to one of RS entries. We need data port and valid bit(So the entry knows that it should save given data) 
-        .complex_0_data(complex_0_data),          
+        .complex_0_data(complex_0_data),
+        .comp_0_entry_num(comp_0_entry_num),          
         .complex_0_valid(complex_0_valid),
         .complex_1_data(complex_1_data),
+        .comp_1_entry_num(comp_1_entry_num),
         .complex_1_valid(complex_1_valid),
         .simple_0_data(simple_0_data),
+        .simple_0_entry_num(simple_0_entry_num),
         .simple_0_valid(simple_0_valid),
         .simple_1_data(simple_1_data),
+        .simple_1_entry_num(simple_1_entry_num),
         .simple_1_valid(simple_1_valid),
         .fp_0_data(fp_0_data),
+        .fp_0_entry_num(fp_0_entry_num),
         .fp_0_valid(fp_0_valid),
         .fp_1_data(fp_1_data),
+        .fp_1_entry_num(fp_1_entry_num),
         .fp_1_valid(fp_1_valid),
         .rs_full_A(rs_full_A),               //For stall: It means that RS corresponding to type of instruction A is full. It doesn't mean all RS is full.
-        .rs_full_B(rs_full_B)
+        .rs_full_B(rs_full_B),
+        .next_rob_tail(next_rob_tail)
     );
     
     //Update RS(RS is the FF between Dispatch/Execution)
@@ -408,6 +431,13 @@ module core_simple(
     assign rs_f1_RS1_valid = rs_fp_1[10];
     assign rs_f1_RS2_valid = rs_fp_1[43];  
     
+    reg [3:0] rs_comp_0_entry_num;
+    reg [3:0] rs_comp_1_entry_num;
+    reg [3:0] rs_simple_0_entry_num;
+    reg [3:0] rs_simple_1_entry_num;
+    reg [3:0] rs_fp_0_entry_num;
+    reg [3:0] rs_fp_1_entry_num;
+    
     always@(posedge clk, negedge rst_n)begin
         if(!rst_n) begin
             rs_simple_0 <= 0;
@@ -416,6 +446,13 @@ module core_simple(
             rs_complex_1 <= 0;
             rs_fp_0 <= 0;
             rs_fp_1 <= 0;
+            rs_comp_0_entry_num <= 0;
+            rs_comp_1_entry_num <= 0;
+            rs_simple_0_entry_num <= 0;
+            rs_simple_1_entry_num <= 0;
+            rs_fp_0_entry_num <= 0;
+            rs_fp_1_entry_num <= 0;
+            
             simple_empty <= 2'b11;
             complex_empty <= 2'b11;
             fp_empty <= 2'b11;
@@ -431,32 +468,44 @@ module core_simple(
             if(!rs_full_A) begin
                 if(complex_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_complex_0 <= complex_0_data;
-                    complex_empty[0] <= 1'b1;
+                    complex_empty[0] <= 1'b0;
                     rs_selector_complex <= 1'b0;
+                    rs_comp_0_entry_num <= comp_0_entry_num;
+                    rob_busy[comp_0_entry_num] <= 1'b1;
                 end
                 if(complex_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_complex_1 <= complex_1_data;
                     complex_empty[1] <= 1'b1;
                     rs_selector_complex <= 1'b1;
+                    rs_comp_1_entry_num <= comp_1_entry_num;
+                    rob_busy[comp_1_entry_num] <= 1'b1;
                 end
                 if(simple_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_simple_0 <= simple_0_data;
-                    simple_empty[0] <= 1'b1;
+                    simple_empty[0] <= 1'b0;
                     rs_selector_simple <= 1'b0;
+                    rs_simple_0_entry_num <= simple_0_entry_num;
+                    rob_busy[simple_0_entry_num] <= 1'b1;
                 end
                 if(simple_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_simple_1 <= simple_1_data;
                     simple_empty[1] <= 1'b1;
+                    rs_simple_1_entry_num <= simple_1_entry_num;
+                    rob_busy[simple_1_entry_num] <= 1'b1;
                 end
                 if(fp_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_fp_0 <= fp_0_data;
-                    fp_empty[0] <= 1'b1;                
+                    fp_empty[0] <= 1'b0;                
                     rs_selector_fp <= 1'b0;
+                    rs_fp_0_entry_num <= fp_0_entry_num;
+                    rob_busy[fp_0_entry_num] <= 1'b1;
                 end
                 if(fp_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_fp_1 <= fp_1_data;
-                    fp_empty[1] <= 1'b1;
+                    fp_empty[1] <= 1'b0;
                     rs_selector_fp <= 1'b1;
+                    rs_fp_1_entry_num <= fp_1_entry_num;
+                    rob_busy[fp_1_entry_num] <= 1'b1;
                 end
             end
             
@@ -492,67 +541,85 @@ module core_simple(
             if((!rs_c0_RS2_valid) && (wrAddrA == rs_c0_RS2[4:0]) && wr_enable_A) begin
                 rs_complex_0[75:44] <= writeDataA;
                 rs_complex_0[43] <= 1'b1;
+                
             end
             if((!rs_c1_RS2_valid) && (wrAddrA == rs_c1_RS2[4:0]) && wr_enable_A) begin
                 rs_complex_1[75:44] <= writeDataA;
                 rs_complex_1[43] <= 1'b1;
+                
             end
             if((!rs_s0_RS2_valid) && (wrAddrA == rs_s0_RS2[4:0]) && wr_enable_A) begin
                 rs_simple_0[75:44] <= writeDataA;
                 rs_simple_0[43] <= 1'b1;
+                
             end
             if((!rs_s1_RS2_valid) && (wrAddrA == rs_s1_RS2[4:0]) && wr_enable_A) begin
                 rs_simple_1[75:44] <= writeDataA;
                 rs_simple_1[43] <= 1'b1;
+                
             end
             //Caution: FP should connected to the fp register
             if((!rs_f0_RS2_valid) && (wrAddrFP == rs_f0_RS2[4:0]) && wr_enable_FP) begin
                 rs_fp_0[75:44] <= writeDataFP;
                 rs_fp_0[43] <= 1'b1;
+                
             end
             if((!rs_f1_RS2_valid) && (wrAddrFP == rs_f1_RS2[4:0]) && wr_enable_FP) begin
                 rs_fp_1[75:44] <= writeDataFP;
                 rs_fp_1[43] <= 1'b1;
+                
             end
             
             //Issueing
             if(complex_0_issue) begin
-                complex_empty[0] <= 1'b0;
+                complex_empty[0] <= 1'b1;
+                rob_issued[rs_comp_0_entry_num] <= 1'b1;
             end
             if(complex_1_issue) begin
-                complex_empty[1] <= 1'b0;
+                complex_empty[1] <= 1'b1;
+                rob_issued[rs_comp_1_entry_num] <= 1'b1;
             end
             if(simple_0_issue) begin
-                simple_empty[0] <= 1'b0;
+                simple_empty[0] <= 1'b1;
+                rob_issued[rs_simple_0_entry_num] <= 1'b1;
             end
             if(simple_1_issue) begin
-                simple_empty[1] <= 1'b0;
+                simple_empty[1] <= 1'b1;
+                rob_issued[rs_simple_1_entry_num] <= 1'b1;
             end
             if(fp_0_issue) begin
-                fp_empty[0] <= 1'b0;
+                fp_empty[0] <= 1'b1;
+                rob_issued[rs_fp_0_entry_num] <= 1'b1;
             end
             if(fp_1_issue) begin
-                fp_empty[1] <= 1'b0;
+                fp_empty[1] <= 1'b1;
+                rob_issued[rs_fp_1_entry_num] <= 1'b1;
             end
         end
     end
     
     //simple FU
     //We connect simple output to port A. Because FP output is connected to different RF, it is resonable that each simple/complex output is hard-wired to one RF port
+    wire [3:0] simple_rob_num;
+    
+    //On speculative instructions: We need mechanism to not to architecurally finsh(write to ARF) the speculative instruction.s 
     ex_simple simple(
         .rs_simple_0(rs_simple_0),
         .rs_simple_1(rs_simple_1),
+        .rs_simple_0_entry_num(rs_simple_0_entry_num),
+        .rs_simple_1_entry_num(rs_simple_1_entry_num),
         .selector(simple_selector),
     
         .simple_0_issue(simple_0_issue),
         .simple_1_issue(simple_1_issue),
     
-        .excuted_inst(excuted_inst_simple),
+        .excuted_inst(executed_inst_simple),
         .valid(simple_valid),
         
         .writeData(writeDataA),
         .writeAddr(wrAddrA),
-        .writeEn(wr_enable_A)
+        .writeEn(wr_enable_A),
+        .simple_rob_num(simple_rob_num)
     );
     
     
@@ -565,16 +632,24 @@ module core_simple(
     
     Caution: We are now modifying the ROB code : 2024-08-23 jeyun park;
     
-    reg [15:0] rob_busy;
-    reg [15:0] rob_issued;
-    reg [15:0] rob_finished;
-    reg [15:0] speculative;         //For later use(branch)
-    reg [15:0] valid;                //Check if instruction is architecturally finished
+    reg [15:0] rob_busy;                    //If ROB entry allocate, then 1
+    reg [15:0] rob_issued;                  //If issued to execution, then 1
+    reg [15:0] rob_finished;                //If finished execution
+    reg [15:0] rob_speculative;         //For later use(branch)
+    wire [15:0] rob_valid;                //Check if instruction is architecturally finished: case of invalid speculation
     reg [3:0] head;
     reg [3:0] tail;
     
+    wire next_rob_tail;
     
-    //update logic for complete buffer
+    reg [37:0] rob[15:0];                  //Entry of ROB <= Entry of ROB ctrl bits : Can be optimized.
+    
+    reg [37:0] rob_out_inst_0;
+    reg [37:0] rob_out_inst_1;
+    reg rob_out_valid_0;
+    reg rob_out_valid_1;
+    
+    //update logic for ROB
     always@(posedge clk, negedge rst_n) begin
         if(rst_n) begin
             head <= 4'b0;
@@ -582,355 +657,48 @@ module core_simple(
             rob_busy <= 16'b0;
             rob_issued <= 16'b0;
             rob_finished <= 16'b0;
-            speculative <= 16'b0;
-            valid <= 16'b0;
+            rob_speculative <= 16'b0;
         end
         else begin
+            //Tail pointer update
+            tail <= next_rob_tail;
             
-        end
-    end
-    
-    
-    
-    //Old ROB code
-    /*reg [7:0] rob_valid_1;
-    reg [7:0] rob_valid_2;
-    reg [2:0] rob_empty_slot_0;
-    reg [2:0] rob_empty_slot_1;
-    reg [2:0] rob_empty_slot_2;
-    reg [2:0] robEmptyValid;
-    reg complex_rob_full;
-    reg simple_rob_full;
-    reg fp_rob_full;
-    
-    wire [3:0] rob_out_0;
-    wire [3:0] rob_out_1;
-    
-    reg [2:0] rob_out_entry_0;
-    reg [2:0] rob_out_entry_1;
-    reg [1:0] rob_num_update;
-    
-    reg [36:0] rob_out_data_0;
-    reg [36:0] rob_out_data_1;
-    reg rob_out_valid_0;
-    reg rob_out_valid_1;
-    
-    always@(posedge clk, negedge rst_n) begin
-        if(!rst_n) begin
-            for(i=0; i<8; i=i+1) begin
-                rob[i] <= 37'b0;
-                rob_tag[i] <= 4'b0;
+            //ROB entry bits update & entry update
+            if(simple_valid) begin
+                rob_finished[simple_rob_num] <= 1'b1;
+                rob[simple_rob_num] <= executed_inst_simple;
             end
-            rob_valid <= 8'b0;
-            rob_number <= 4'b0;
-            rob_num_update <= 2'b0;
-        end
-        else begin
-            case({complex_valid, simple_valid, fp_valid}) 
-                111: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_complex;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        complex_rob_full <= 1'b0;
-                    end
-                    else begin
-                        complex_rob_full <= 1'b1;
-                    end
-                    if(robEmptyValid[1]) begin
-                        rob[rob_empty_slot_1] <= excuted_inst_simple;
-                        rob_tag[rob_empty_slot_1] <= excuted_inst_simple_tag;
-                        rob_valid[rob_empty_slot_1] <= 1'b1;
-                        simple_rob_full <= 1'b0;
-                    end
-                    else begin
-                        simple_rob_full <= 1'b0;
-                    end
-                    if(robEmptyValid[2]) begin
-                        rob[rob_empty_slot_2] <= excuted_inst_fp;
-                        rob_tag[rob_empty_slot_2] <= excuted_inst_fp_tag;
-                        rob_valid[rob_empty_slot_2] <= 1'b1;
-                        fp_rob_full <= 1'b0;
-                    end
-                    else begin
-                        fp_rob_full <= 1'b0;
-                    end
-                end
-                110: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_complex;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        complex_rob_full <= 1'b0;
-                    end
-                    else begin
-                        complex_rob_full <= 1'b1;
-                    end
-                    if(robEmptyValid[1]) begin
-                        rob[rob_empty_slot_1] <= excuted_inst_simple;
-                        rob_tag[rob_empty_slot_1] <= excuted_inst_simple_tag;
-                        rob_valid[rob_empty_slot_1] <= 1'b1;
-                        simple_rob_full <= 1'b0;
-                    end
-                    else begin
-                        simple_rob_full <= 1'b0;
-                    end
-                end
-                101: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_complex;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        complex_rob_full <= 1'b0;
-                    end
-                    else begin
-                        complex_rob_full <= 1'b1;
-                    end
-                    if(robEmptyValid[1]) begin
-                        rob[rob_empty_slot_1] <= excuted_inst_fp;
-                        rob_tag[rob_empty_slot_1] <= excuted_inst_fp_tag;
-                        rob_valid[rob_empty_slot_1] <= 1'b1;
-                        fp_rob_full <= 1'b0;
-                    end
-                    else begin
-                        fp_rob_full <= 1'b0;
-                    end
-                end
-                011: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_simple;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_simple_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        simple_rob_full <= 1'b0;
-                    end
-                    else begin
-                        simple_rob_full <= 1'b0;
-                    end
-                    if(robEmptyValid[1]) begin
-                        rob[rob_empty_slot_1] <= excuted_inst_fp;
-                        rob_tag[rob_empty_slot_1] <= excuted_inst_fp_tag;
-                        rob_valid[rob_empty_slot_1] <= 1'b1;
-                        fp_rob_full <= 1'b0;
-                    end
-                    else begin
-                        fp_rob_full <= 1'b0;
-                    end
-                end
-                100: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_complex;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        complex_rob_full <= 1'b0;
-                    end
-                    else begin
-                        complex_rob_full <= 1'b1;
-                    end
-                end
-                010: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_simple;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_simple_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        simple_rob_full <= 1'b0;
-                    end
-                    else begin
-                        simple_rob_full <= 1'b1;
-                    end
-                end
-                001: begin
-                    if(robEmptyValid[0]) begin
-                        rob[rob_empty_slot_0] <= excuted_inst_fp;
-                        rob_tag[rob_empty_slot_0] <= excuted_inst_fp_tag;
-                        rob_valid[rob_empty_slot_0] <= 1'b1;
-                        fp_rob_full <= 1'b0;
-                    end
-                    else begin
-                        fp_rob_full <= 1'b1;
-                    end
-                end
-                000: begin
-                    //Do nothing
-                end
-            endcase
+            if(complex_valid) begin
+                rob_finished[complex_rob_num] <= 1'b1;
+                rob[complex_rob_num] <= executed_inst_simple;
+            end
+            if(fp_valid) begin
+                rob_finished[fp_rob_num] <= 1'b1;
+                rob[fp_rob_num] <= executed_inst_simple;
+            end
             
-            //Passing instruction to next stage(complete) & update rob_number            
-            if(rob_num_update == 2'b11) begin
-                rob_valid[rob_out_entry_0] <= 1'b0;
-                rob_valid[rob_out_entry_1] <= 1'b0;
-                rob_out_data_0 <= rob[rob_out_entry_0];
-                rob_out_data_1 <= rob[rob_out_entry_1];
+            //Generate output
+            if(rob_valid[head] & store_empty_valid[0]) begin
+                rob_out_inst_0 <= {rob[head][4:0], rob[head][37], 1'b0/*For store bit: modify when making complex pipeline*/};
                 rob_out_valid_0 <= 1'b1;
-                rob_out_valid_1 <= 1'b1;
-                rob_number <= rob_number + 4'd2;
-            end 
-            else if(rob_num_update == 2'b01) begin
-                rob_valid[rob_out_entry_0] <= 1'b0;
-                rob_out_data_0 <= rob[rob_out_entry_0];
-                rob_out_valid_0 <= 1'b1;
-                rob_out_valid_1 <= 1'b0;
-                rob_number <= rob_number + 4'd1;
-                
+                if(rob_valid[head+1] & store_empty_valid[1]) begin
+                    rob_out_inst_1 <= {rob[head+1][4:0], rob[head+1][37], 1'b0/*For store bit: modify when making complex pipeline*/};;
+                    rob_out_valid_1 <= 1'b1;
+                    head <= head+2;
+                end
+                else begin
+                    head <= head+1;
+                    rob_out_valid_1 <= 1'b0;
+                end
             end
             else begin
-                //Theoretically, case rob_num_update == 2'b10 does not exist.
                 rob_out_valid_0 <= 1'b0;
                 rob_out_valid_1 <= 1'b0;
             end
         end
     end
-
-    //We need combinational logic for empty slot search.
-    always@(*) begin
-        rob_valid_1 = rob_valid;
-        rob_valid_2 = rob_valid;
-        //Check if there is one available ROB entry
-        casex(rob_valid)
-            8'b0xxxxxxx: begin
-                rob_empty_slot_0 = 3'd7;
-                rob_valid_1[7] = 1'b1;
-                rob_valid_2[7] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b10xxxxxx: begin
-                rob_empty_slot_0 = 3'd6;
-                rob_valid_1[6] = 1'b1;
-                rob_valid_2[6] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b110xxxxx: begin
-                rob_empty_slot_0 = 3'd5;
-                rob_valid_1[5] = 1'b1;
-                rob_valid_2[5] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b1110xxxx: begin
-                rob_empty_slot_0 = 3'd4;
-                rob_valid_1[4] = 1'b1;
-                rob_valid_2[4] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b11110xxx: begin
-                rob_empty_slot_0 = 3'd3;
-                rob_valid_1[3] = 1'b1;
-                rob_valid_2[3] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b111110xx: begin
-                rob_empty_slot_0 = 3'd2;
-                rob_valid_1[2] = 1'b1;
-                rob_valid_2[2] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b1111110x: begin
-                rob_empty_slot_0 = 3'd1;
-                rob_valid_1[1] = 1'b1;
-                rob_valid_2[1] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b11111110: begin
-                rob_empty_slot_0 = 3'd0;
-                rob_valid_1[0] = 1'b1;
-                rob_valid_2[0] = 1'b1;
-                robEmptyValid[0] = 1'b1;
-            end
-            8'b11111111: begin
-                //Think about it: Does it make latch?
-                robEmptyValid[0] = 1'b0;
-            end
-        endcase
-        
-        //Check if there is two available ROB entry
-        casex(rob_valid_1)
-            8'b10xxxxxx: begin
-                rob_empty_slot_1 = 3'd6;
-                rob_valid_2[6] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            8'b110xxxxx: begin
-                rob_empty_slot_1 = 3'd5;
-                rob_valid_2[5] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            8'b1110xxxx: begin
-                rob_empty_slot_1 = 3'd4;
-                rob_valid_2[4] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            8'b11110xxx: begin
-                rob_empty_slot_1 = 3'd3;
-                rob_valid_2[3] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            8'b111110xx: begin
-                rob_empty_slot_1 = 3'd2;
-                rob_valid_2[2] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            8'b1111110x: begin
-                rob_empty_slot_1 = 3'd1;
-                rob_valid_2[1] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            8'b11111110: begin
-                rob_empty_slot_1 = 3'd0;
-                rob_valid_2[0] = 1'b1;
-                robEmptyValid[1] = 1'b1;
-            end
-            default: begin
-                robEmptyValid[1] = 1'b0;
-            end
-        endcase
-        
-        //Check if there is three available ROB entry
-        casex(rob_valid_2)
-            8'b110xxxxx: begin
-                rob_empty_slot_2 = 3'd5;
-                robEmptyValid[2] = 1'b1;
-            end
-            8'b1110xxxx: begin
-                rob_empty_slot_2 = 3'd4;
-                robEmptyValid[2] = 1'b1;
-            end
-            8'b11110xxx: begin
-                rob_empty_slot_2 = 3'd3;
-                robEmptyValid[2] = 1'b1;
-            end
-            8'b111110xx: begin
-                rob_empty_slot_2 = 3'd2;
-                robEmptyValid[2] = 1'b1;
-            end
-            8'b1111110x: begin
-                rob_empty_slot_2 = 3'd1;
-                robEmptyValid[2] = 1'b1;
-            end
-            8'b11111110: begin
-                rob_empty_slot_2 = 3'd0;
-                robEmptyValid[2] = 1'b1;
-            end
-            default: begin
-                robEmptyValid[2] = 1'b0;
-            end
-        endcase
-    end
     
-    //We need combinational logic for ROB-out instruction search.
-    assign rob_out_0 = rob_number;
-    assign rob_out_1 = rob_number+1;
-    
-    always@(*) begin
-        rob_num_update = 2'b00;
-        for(i = 0; i<8; i=i+1) begin
-            if(rob_tag[i] == rob_out_0 && rob_valid[i]) begin
-                rob_out_entry_0 = i;
-                rob_num_update[0] = 1'b1;
-            end
-            if(rob_tag[i] == rob_out_1 && rob_valid[i]) begin
-                rob_out_entry_1 = i;
-                rob_num_update[1] = 1'b1;
-            end
-        end
-    end*/
+    assign rob_valid = rob_finished & ~(rob_speculative);
     
     
     //Store buffer: Completion <-> Retire
@@ -943,8 +711,8 @@ module core_simple(
     wire compled_inst_1_valid;
     
     completion completion(
-        .rob_out_inst_0(rob_out_data_0),
-        .rob_out_inst_1(rob_out_data_1),
+        .rob_out_inst_0(rob_out_inst_0),
+        .rob_out_inst_1(rob_out_inst_1),
         .rob_out_valid_0(rob_out_valid_0),
         .rob_out_valid_1(rob_out_valid_1),
         
@@ -968,30 +736,51 @@ module core_simple(
     reg [1:0] store_empty_valid;
     integer store_i;
     
-    reg [2:0] store_fin_tag;
+    reg [2:0] store_fin_tag;                //Entry # of finished store instruction
     
     always@(posedge clk, negedge rst_n) begin
         if(!rst_n) begin
-            for(i=0; i<8; i=i+1) begin
-                store_buffer[i] = 64'b0;
+            for(store_i=0; store_i<8; store_i=store_i+1) begin
+                store_buffer[store_i] = 64'b0;
             end
             store_buffer_busy <= 8'b0;
         end
         else begin
             case({completed_inst_1_valid, completed_inst_0_valid})
                 11: begin
-                    store_buffer[store_empty_0] <= completed_inst_0;
-                    store_buffer_busy[store_empty_0] <= 1'b1;
-                    store_buffer[store_empty_1] <= completed_inst_1;
-                    store_buffer_busy[store_empty_1] <= 1'b1;
+                    if(store_empty_valid[0]) begin
+                        store_buffer[store_empty_0] <= completed_inst_0;
+                        store_buffer_busy[store_empty_0] <= 1'b1;
+                    end
+                    else begin
+                        //Error case: we can use this for debugging
+                    end
+                    
+                    if(store_empty_valid[1]) begin
+                        store_buffer[store_empty_1] <= completed_inst_1;
+                        store_buffer_busy[store_empty_1] <= 1'b1;
+                    end
+                    else begin
+                        //Error case
+                    end
                 end
                 10: begin
-                    store_buffer[store_empty_0] <= completed_inst_1;
-                    store_buffer_busy[store_empty_0] <= 1'b1;
+                    if(store_empty_valid[0]) begin
+                        store_buffer[store_empty_0] <= completed_inst_1;
+                        store_buffer_busy[store_empty_0] <= 1'b1;
+                    end
+                    else begin
+                        //Error case
+                    end
                 end
                 01: begin
-                    store_buffer[store_empty_0] <= completed_inst_0;
-                    store_buffer_busy[store_empty_0] <= 1'b1;
+                    if(store_empty_valid[0]) begin
+                        store_buffer[store_empty_0] <= completed_inst_0;
+                        store_buffer_busy[store_empty_0] <= 1'b1;
+                    end
+                    else begin 
+                        //Error case
+                    end
                 end
                 00:begin
                     //Do nothing

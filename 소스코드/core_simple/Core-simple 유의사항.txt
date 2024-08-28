@@ -1,0 +1,357 @@
+Core-simple 유의사항
+1. Assignment 시 bit 수 맞춰야 함에 유의!
+2. 업데이트중... 8-29까지 코드 주석 및 나머지 유의사항 작성하겠음
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //Old ROB code
+    /*reg [7:0] rob_valid_1;
+    reg [7:0] rob_valid_2;
+    reg [2:0] rob_empty_slot_0;
+    reg [2:0] rob_empty_slot_1;
+    reg [2:0] rob_empty_slot_2;
+    reg [2:0] robEmptyValid;
+    reg complex_rob_full;
+    reg simple_rob_full;
+    reg fp_rob_full;
+    
+    wire [3:0] rob_out_0;
+    wire [3:0] rob_out_1;
+    
+    reg [2:0] rob_out_entry_0;
+    reg [2:0] rob_out_entry_1;
+    reg [1:0] rob_num_update;
+    
+    reg [36:0] rob_out_data_0;
+    reg [36:0] rob_out_data_1;
+    reg rob_out_valid_0;
+    reg rob_out_valid_1;
+    
+    always@(posedge clk, negedge rst_n) begin
+        if(!rst_n) begin
+            for(i=0; i<8; i=i+1) begin
+                rob[i] <= 37'b0;
+                rob_tag[i] <= 4'b0;
+            end
+            rob_valid <= 8'b0;
+            rob_number <= 4'b0;
+            rob_num_update <= 2'b0;
+        end
+        else begin
+            case({complex_valid, simple_valid, fp_valid}) 
+                111: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_complex;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        complex_rob_full <= 1'b0;
+                    end
+                    else begin
+                        complex_rob_full <= 1'b1;
+                    end
+                    if(robEmptyValid[1]) begin
+                        rob[rob_empty_slot_1] <= excuted_inst_simple;
+                        rob_tag[rob_empty_slot_1] <= excuted_inst_simple_tag;
+                        rob_valid[rob_empty_slot_1] <= 1'b1;
+                        simple_rob_full <= 1'b0;
+                    end
+                    else begin
+                        simple_rob_full <= 1'b0;
+                    end
+                    if(robEmptyValid[2]) begin
+                        rob[rob_empty_slot_2] <= excuted_inst_fp;
+                        rob_tag[rob_empty_slot_2] <= excuted_inst_fp_tag;
+                        rob_valid[rob_empty_slot_2] <= 1'b1;
+                        fp_rob_full <= 1'b0;
+                    end
+                    else begin
+                        fp_rob_full <= 1'b0;
+                    end
+                end
+                110: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_complex;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        complex_rob_full <= 1'b0;
+                    end
+                    else begin
+                        complex_rob_full <= 1'b1;
+                    end
+                    if(robEmptyValid[1]) begin
+                        rob[rob_empty_slot_1] <= excuted_inst_simple;
+                        rob_tag[rob_empty_slot_1] <= excuted_inst_simple_tag;
+                        rob_valid[rob_empty_slot_1] <= 1'b1;
+                        simple_rob_full <= 1'b0;
+                    end
+                    else begin
+                        simple_rob_full <= 1'b0;
+                    end
+                end
+                101: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_complex;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        complex_rob_full <= 1'b0;
+                    end
+                    else begin
+                        complex_rob_full <= 1'b1;
+                    end
+                    if(robEmptyValid[1]) begin
+                        rob[rob_empty_slot_1] <= excuted_inst_fp;
+                        rob_tag[rob_empty_slot_1] <= excuted_inst_fp_tag;
+                        rob_valid[rob_empty_slot_1] <= 1'b1;
+                        fp_rob_full <= 1'b0;
+                    end
+                    else begin
+                        fp_rob_full <= 1'b0;
+                    end
+                end
+                011: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_simple;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_simple_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        simple_rob_full <= 1'b0;
+                    end
+                    else begin
+                        simple_rob_full <= 1'b0;
+                    end
+                    if(robEmptyValid[1]) begin
+                        rob[rob_empty_slot_1] <= excuted_inst_fp;
+                        rob_tag[rob_empty_slot_1] <= excuted_inst_fp_tag;
+                        rob_valid[rob_empty_slot_1] <= 1'b1;
+                        fp_rob_full <= 1'b0;
+                    end
+                    else begin
+                        fp_rob_full <= 1'b0;
+                    end
+                end
+                100: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_complex;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_complex_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        complex_rob_full <= 1'b0;
+                    end
+                    else begin
+                        complex_rob_full <= 1'b1;
+                    end
+                end
+                010: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_simple;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_simple_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        simple_rob_full <= 1'b0;
+                    end
+                    else begin
+                        simple_rob_full <= 1'b1;
+                    end
+                end
+                001: begin
+                    if(robEmptyValid[0]) begin
+                        rob[rob_empty_slot_0] <= excuted_inst_fp;
+                        rob_tag[rob_empty_slot_0] <= excuted_inst_fp_tag;
+                        rob_valid[rob_empty_slot_0] <= 1'b1;
+                        fp_rob_full <= 1'b0;
+                    end
+                    else begin
+                        fp_rob_full <= 1'b1;
+                    end
+                end
+                000: begin
+                    //Do nothing
+                end
+            endcase
+            
+            //Passing instruction to next stage(complete) & update rob_number            
+            if(rob_num_update == 2'b11) begin
+                rob_valid[rob_out_entry_0] <= 1'b0;
+                rob_valid[rob_out_entry_1] <= 1'b0;
+                rob_out_data_0 <= rob[rob_out_entry_0];
+                rob_out_data_1 <= rob[rob_out_entry_1];
+                rob_out_valid_0 <= 1'b1;
+                rob_out_valid_1 <= 1'b1;
+                rob_number <= rob_number + 4'd2;
+            end 
+            else if(rob_num_update == 2'b01) begin
+                rob_valid[rob_out_entry_0] <= 1'b0;
+                rob_out_data_0 <= rob[rob_out_entry_0];
+                rob_out_valid_0 <= 1'b1;
+                rob_out_valid_1 <= 1'b0;
+                rob_number <= rob_number + 4'd1;
+                
+            end
+            else begin
+                //Theoretically, case rob_num_update == 2'b10 does not exist.
+                rob_out_valid_0 <= 1'b0;
+                rob_out_valid_1 <= 1'b0;
+            end
+        end
+    end
+
+    //We need combinational logic for empty slot search.
+    always@(*) begin
+        rob_valid_1 = rob_valid;
+        rob_valid_2 = rob_valid;
+        //Check if there is one available ROB entry
+        casex(rob_valid)
+            8'b0xxxxxxx: begin
+                rob_empty_slot_0 = 3'd7;
+                rob_valid_1[7] = 1'b1;
+                rob_valid_2[7] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b10xxxxxx: begin
+                rob_empty_slot_0 = 3'd6;
+                rob_valid_1[6] = 1'b1;
+                rob_valid_2[6] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b110xxxxx: begin
+                rob_empty_slot_0 = 3'd5;
+                rob_valid_1[5] = 1'b1;
+                rob_valid_2[5] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                rob_empty_slot_0 = 3'd4;
+                rob_valid_1[4] = 1'b1;
+                rob_valid_2[4] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b11110xxx: begin
+                rob_empty_slot_0 = 3'd3;
+                rob_valid_1[3] = 1'b1;
+                rob_valid_2[3] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b111110xx: begin
+                rob_empty_slot_0 = 3'd2;
+                rob_valid_1[2] = 1'b1;
+                rob_valid_2[2] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b1111110x: begin
+                rob_empty_slot_0 = 3'd1;
+                rob_valid_1[1] = 1'b1;
+                rob_valid_2[1] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b11111110: begin
+                rob_empty_slot_0 = 3'd0;
+                rob_valid_1[0] = 1'b1;
+                rob_valid_2[0] = 1'b1;
+                robEmptyValid[0] = 1'b1;
+            end
+            8'b11111111: begin
+                //Think about it: Does it make latch?
+                robEmptyValid[0] = 1'b0;
+            end
+        endcase
+        
+        //Check if there is two available ROB entry
+        casex(rob_valid_1)
+            8'b10xxxxxx: begin
+                rob_empty_slot_1 = 3'd6;
+                rob_valid_2[6] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            8'b110xxxxx: begin
+                rob_empty_slot_1 = 3'd5;
+                rob_valid_2[5] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                rob_empty_slot_1 = 3'd4;
+                rob_valid_2[4] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            8'b11110xxx: begin
+                rob_empty_slot_1 = 3'd3;
+                rob_valid_2[3] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            8'b111110xx: begin
+                rob_empty_slot_1 = 3'd2;
+                rob_valid_2[2] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            8'b1111110x: begin
+                rob_empty_slot_1 = 3'd1;
+                rob_valid_2[1] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            8'b11111110: begin
+                rob_empty_slot_1 = 3'd0;
+                rob_valid_2[0] = 1'b1;
+                robEmptyValid[1] = 1'b1;
+            end
+            default: begin
+                robEmptyValid[1] = 1'b0;
+            end
+        endcase
+        
+        //Check if there is three available ROB entry
+        casex(rob_valid_2)
+            8'b110xxxxx: begin
+                rob_empty_slot_2 = 3'd5;
+                robEmptyValid[2] = 1'b1;
+            end
+            8'b1110xxxx: begin
+                rob_empty_slot_2 = 3'd4;
+                robEmptyValid[2] = 1'b1;
+            end
+            8'b11110xxx: begin
+                rob_empty_slot_2 = 3'd3;
+                robEmptyValid[2] = 1'b1;
+            end
+            8'b111110xx: begin
+                rob_empty_slot_2 = 3'd2;
+                robEmptyValid[2] = 1'b1;
+            end
+            8'b1111110x: begin
+                rob_empty_slot_2 = 3'd1;
+                robEmptyValid[2] = 1'b1;
+            end
+            8'b11111110: begin
+                rob_empty_slot_2 = 3'd0;
+                robEmptyValid[2] = 1'b1;
+            end
+            default: begin
+                robEmptyValid[2] = 1'b0;
+            end
+        endcase
+    end
+    
+    //We need combinational logic for ROB-out instruction search.
+    assign rob_out_0 = rob_number;
+    assign rob_out_1 = rob_number+1;
+    
+    always@(*) begin
+        rob_num_update = 2'b00;
+        for(i = 0; i<8; i=i+1) begin
+            if(rob_tag[i] == rob_out_0 && rob_valid[i]) begin
+                rob_out_entry_0 = i;
+                rob_num_update[0] = 1'b1;
+            end
+            if(rob_tag[i] == rob_out_1 && rob_valid[i]) begin
+                rob_out_entry_1 = i;
+                rob_num_update[1] = 1'b1;
+            end
+        end
+    end*/

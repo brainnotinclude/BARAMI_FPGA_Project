@@ -1,33 +1,19 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/08/15 10:24:15
-// Design Name: 
-// Module Name: next_pc_logic
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+`timescale 1ns/ 1ps
 
 
 module next_pc_logic(
     input clk,
     input rst_n,
-    input EN,
+    //input EN,
     input [11:0] imm,
     input [19:0] imm_jal,
     input [31:0] imm_jalr,   //for jalr 11
     input [1:0] PCSrc,
+    
+    input errorA, 
+    input rs_full_A,
+    input errorB,
+    input rs_full_B,
     
   //  output [31:0] PCPlus4F,
     output reg [31:0] pcF1,
@@ -47,7 +33,7 @@ assign imm_jal_shift = {10'b0, imm_jal<<2};   // for jal  10
 
 ripple_carry_adder u_pc_plus_4(
 .a  (pcF1),
-.b  (32'h4),
+.b  (32'h8),
 .cin(1'b0),
 .sum(PCPlus4F),
 .cout()
@@ -76,11 +62,15 @@ always @(posedge clk, negedge rst_n)
 begin
 if (!rst_n) begin
     pcF1 <= RESET_PC;
-    pcF2 <= RESET_PC;
-end else if(EN) begin    
+    pcF2 <= RESET_PC + 4;
+end else if(errorA | rs_full_A) begin    
     pcF1 <= pcF1;
     pcF2 <= pcF2;
-end else begin
+end else if(errorB | rs_full_B) begin
+    pcF1 <= pcF2;
+    pcF2 <= PCNext1;
+end
+else begin
     pcF1 <= PCNext1;
     pcF2 <= PCNext2;
 end
@@ -89,3 +79,4 @@ end
 
 
 endmodule
+

@@ -23,6 +23,7 @@
 //Input
 //Non-store instruction: updateAddr(5bit) + writeEn(1bit) + store bit(1bit)
 //Store instruction: data word(32bit) + store address(32bit) + store bit(1bit)
+//Store bit: check if the result is store
 //Last modified: 2024-08-24 jeyun park
 module completion(
     input [64:0] rob_out_inst_0,
