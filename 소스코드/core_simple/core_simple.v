@@ -19,14 +19,14 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//Last modified: 224-08-28 by jeyun park
+//Last modified: 2024-08-28 by jeyun park
 module core_simple(
         input clk,
         input rst_n,
         input [31:0] instA,
         input [31:0] instB,
-        input store_finish,
-        input [31:0] store_fin_addr,
+        input store_finish,                 //From cache: store is finished
+        input [31:0] store_fin_addr,            //Gives address of finished store.
         
         output pcF1,
         output pcF2
@@ -34,10 +34,9 @@ module core_simple(
     
     //Parameters for signals
     localparam decoded_inst_bit = 83;
-    localparam dispatched_inst_bit = 76;
+    localparam dispatched_inst_bit = 81;
     
     //For fetch stage
-    wire EN;
     wire [11:0] imm;
     wire [19:0] imm_jal;
     wire [31:0] imm_jalr;   //for jalr 11
@@ -48,7 +47,7 @@ module core_simple(
     reg [31:0] instA_decode;        //FF b/w fetch and decode
     reg [31:0] instB_decode;
     
-    reg pcF1_decoder;            // decoder 단계에서 사용하는 pc는 현재 clock가 아닌 이전 clock pc 값임
+    reg pcF1_decoder;            // decoder 단계에서 사용하는 pc는 현재 clock가 아닌 이전 clock pc 값임 == PC when fetched
     reg pcF2_decoder;    
     
     //Variables for Decode->Dispatch
@@ -57,19 +56,19 @@ module core_simple(
     wire [decoded_inst_bit - 1:0] decoded_instB;
     reg [decoded_inst_bit - 1:0] instA_dispatch;        //FF b/w decode and dispatch
     reg [decoded_inst_bit - 1:0] instB_dispatch;
-    wire errorA;
+    wire errorA;                            //Error when decoding: should stop/slowing fetching
     wire errorB;
     
     //Variables for decoder<->RF connection
-    wire [31:0] s1A;
+    wire [31:0] s1A;                        //Data from RF
     wire [31:0] s2A;
     wire [31:0] s1B;
     wire [31:0] s2B;
-    wire rs1A_valid;
+    wire rs1A_valid;                        //Check if data is valid
     wire rs2A_valid;
     wire rs1B_valid;
     wire rs2B_valid;
-    wire map_en_A;
+    wire map_en_A;                          //For register-writing operations
     wire map_en_B;
     wire [4:0] rs1A;
     wire [4:0] rs2A;
@@ -83,21 +82,21 @@ module core_simple(
     wire error_decode_B;
     
     //Variables for Dispatch->Execute
-    reg [1:0] complex_empty;
+    reg [1:0] complex_empty;                //We have three FU and each of them have two RS entry. Empty bit for each entry.
     reg [1:0] simple_empty;
     reg [1:0] fp_empty;
-    reg [dispatched_inst_bit-1:0] rs_simple_0;
+    reg [dispatched_inst_bit-1:0] rs_simple_0;                  //RS
     reg [dispatched_inst_bit-1:0] rs_simple_1;
     reg [dispatched_inst_bit-1:0] rs_complex_0;
     reg [dispatched_inst_bit-1:0] rs_complex_1;
     reg [dispatched_inst_bit-1:0] rs_fp_0;
     reg [dispatched_inst_bit-1:0] rs_fp_1;
-    reg rs_selector_complex;
+    reg rs_selector_complex;                        //If two RS entry is both ready, then we should choose which should be issued first
     reg rs_selector_simple;
     reg rs_selector_fp;
 
-    wire [dispatched_inst_bit-1:0] complex_0_data;          
-    wire complex_0_valid;
+    wire [dispatched_inst_bit-1:0] complex_0_data;          //Connection wire from dispatch to RS. 
+    wire complex_0_valid;                                   //Need valid signal for each connection
     wire [dispatched_inst_bit-1:0] complex_1_data;
     wire complex_1_valid;
     wire [dispatched_inst_bit-1:0] simple_0_data;
@@ -111,14 +110,20 @@ module core_simple(
     wire rs_full_A;              //For stall: It means that RS corresponding to type of instruction A is full. It doesn't mean all RS is full.
     wire rs_full_B;
     
-    wire [3:0] comp_0_entry_num;
+    wire [3:0] comp_0_entry_num;                        //ROB tracks dispatch ~ completion. Therefore, dispatch unit should give entry# of passing instruction to the RS.
     wire [3:0] comp_1_entry_num;
     wire [3:0] simple_0_entry_num;
     wire [3:0] simple_1_entry_num;
     wire [3:0] fp_0_entry_num;
     wire [3:0] fp_1_entry_num;
+    reg [3:0] rs_comp_0_entry_num;                      //RS should hold data(instruction) and its ROB entry #.
+    reg [3:0] rs_comp_1_entry_num;
+    reg [3:0] rs_simple_0_entry_num;
+    reg [3:0] rs_simple_1_entry_num;
+    reg [3:0] rs_fp_0_entry_num;
+    reg [3:0] rs_fp_1_entry_num;
     
-    wire complex_0_issue;
+    wire complex_0_issue;                           //Issue signal: execution unit should inform to RS that it issued and executing the instruction. Quesetion: 1cycle delay?
     wire complex_1_issue;
     wire simple_0_issue;
     wire simple_1_issue;
@@ -154,22 +159,6 @@ module core_simple(
 
     //Variables for ROB: Execute -> complete
     wire [36:0] executed_inst_simple;
-    
-    //Old ROB variables: now modifying 
-    /*reg [36:0] rob [7:0];
-    reg [3:0] rob_tag [7:0];
-    reg [7:0] rob_valid;
-    reg [3:0] rob_number;
-
-    reg [2:0] rob_empty_slot_simple;
-    reg [2:0] rob_empty_slot_complex;
-    reg [2:0] rob_empty_slot_fp;
-    
-    integer i;
-    
-    wire simple_valid;
-    wire complex_valid;
-    wire fp_valid;*/
 
 
     //For registerFile: finish(execution) & complete step
@@ -187,7 +176,6 @@ module core_simple(
     
     
     //Bind value to zero: because there is no control instructions in simple pipeline.
-    assign EN = 1'b0;   //If code of next_pc_logic changes, this also should be change
     assign imm = 12'b0;
     assign imm_jal = 20'b0;
     assign imm_jalr = 32'b0;
@@ -197,7 +185,6 @@ module core_simple(
     next_pc_logic next_pc(
         .clk(clk),
         .rst_n(rst_n),
-        // .EN(EN),
         .imm(imm),
         .imm_jal(imm_jal),
         .imm_jalr(imm_jalr),   //for jalr 11
@@ -340,23 +327,23 @@ module core_simple(
             instB_dispatch <= 0;
         end
         else begin
-            if(!rs_full_A & !rs_full_B) begin
+            if(!rs_full_A & !rs_full_B) begin           //No problem on later stages
                 //Note that on errorA & !errorB situation, decode/dispatch FF should not be updated b/c it is in-order.
-                if(!errorA) begin
-                    instA_dispatch <= decoded_instA;
-                    if(!errorB) begin
-                        instB_dispatch <= decoded_instB;
+                if(!errorA) begin                       //If first instruction of decode is not blocked
+                    instA_dispatch <= decoded_instA;    
+                    if(!errorB) begin                       //If second instruction of decode is not blocked(Normal case)
+                        instB_dispatch <= decoded_instB;            
                     end
                     else begin
                         instB_dispatch <= 0;
                     end
                 end
-                else begin
+                else begin                      //If first instruction of decode is blocked, then second instrucion should also not passed b/c it is in order
                     instA_dispatch <= 0;
                     instB_dispatch <= 0;
                 end
             end
-            else if(!rs_full_A & rs_full_B) begin
+            else if(!rs_full_A & rs_full_B) begin           //If RS for second instruction is blocked on dispatch stage
                 instA_dispatch <= instB_dispatch;
                 //Note that on errorA & !errorB situation, decode/dispatch FF should not be updated b/c it is in-order.
                 if(!errorA) begin
@@ -438,15 +425,8 @@ module core_simple(
     assign rs_f1_RS1_valid = rs_fp_1[10];
     assign rs_f1_RS2_valid = rs_fp_1[43];  
     
-    reg [3:0] rs_comp_0_entry_num;
-    reg [3:0] rs_comp_1_entry_num;
-    reg [3:0] rs_simple_0_entry_num;
-    reg [3:0] rs_simple_1_entry_num;
-    reg [3:0] rs_fp_0_entry_num;
-    reg [3:0] rs_fp_1_entry_num;
-    
     always@(posedge clk, negedge rst_n)begin
-        if(!rst_n) begin
+        if(!rst_n) begin                    //Reset: it is recommended to reset all reg variables.
             rs_simple_0 <= 0;
             rs_simple_1 <= 0;
             rs_complex_0 <= 0;
@@ -474,11 +454,11 @@ module core_simple(
             //Also, dispatch module should update ROB entry
             if(!rs_full_A) begin
                 if(complex_0_valid) begin                   //Note that valid bit and empty bit cannot be both 1
-                    rs_complex_0 <= complex_0_data;
-                    complex_empty[0] <= 1'b0;
-                    rs_selector_complex <= 1'b0;
-                    rs_comp_0_entry_num <= comp_0_entry_num;
-                    rob_busy[comp_0_entry_num] <= 1'b1;
+                    rs_complex_0 <= complex_0_data;             //Pass data(dispatched instruction)
+                    complex_empty[0] <= 1'b0;                   //Now the RS entry is full
+                    rs_selector_complex <= 1'b0;                //selecter points to new instruction
+                    rs_comp_0_entry_num <= comp_0_entry_num;        //Pass instruction's ROB entry #
+                    rob_busy[comp_0_entry_num] <= 1'b1;         //Update ROB entry. Now dispatched, so ROB entry is allocated
                 end
                 if(complex_1_valid) begin                   //Note that valid bit and empty bit cannot be both 1
                     rs_complex_1 <= complex_1_data;
@@ -516,8 +496,8 @@ module core_simple(
                 end
             end
             
-            //Forwarding -> Now editing!!!!!: We will make wrTag and wrdata at later stages 
             //Forwarding for RS1(source 1)
+            //For expension: RF can handle 2 write at once. This means that for 3-wide processor, 2 FU(Complex and simple) can write to integer RF at once, and forwarding logic should also be updated: to consider wrAddrB and wr_enable_B 
             if((!rs_c0_RS1_valid) && (wrAddrA == rs_c0_RS1[4:0]) && wr_enable_A) begin
                 rs_complex_0[42:11] <= writeDataA;
                 rs_complex_0[10] <= 1'b1;
@@ -578,8 +558,9 @@ module core_simple(
             end
             
             //Issueing
+            //Problem: this happens after issue, not simultaniously. Do we need to fix this? Pros: simpler stall logic, Cons: Inefficient resource use.
             if(complex_0_issue) begin
-                complex_empty[0] <= 1'b1;
+                complex_empty[0] <= 1'b1;                   //Issued, so empty.
                 rob_issued[rs_comp_0_entry_num] <= 1'b1;
             end
             if(complex_1_issue) begin
@@ -609,20 +590,24 @@ module core_simple(
     //We connect simple output to port A. Because FP output is connected to different RF, it is resonable that each simple/complex output is hard-wired to one RF port
     wire [3:0] simple_rob_num;
     
-    //On speculative instructions: We need mechanism to not to architecurally finsh(write to ARF) the speculative instruction.s 
+    //On speculative instructions: We need mechanism to not to architecurally finsh(write to ARF) the speculative instructions. 
     ex_simple simple(
+        //To select & issue from RS
         .rs_simple_0(rs_simple_0),
         .rs_simple_1(rs_simple_1),
         .rs_simple_0_entry_num(rs_simple_0_entry_num),
         .rs_simple_1_entry_num(rs_simple_1_entry_num),
         .selector(simple_selector),
-    
+        
+        //Inform RS that FU has issued instruction
         .simple_0_issue(simple_0_issue),
         .simple_1_issue(simple_1_issue),
-    
+         
+        //executed result and valid bit   
         .excuted_inst(executed_inst_simple),
         .valid(simple_valid),
         
+        //Write to RF
         .writeData(writeDataA),
         .writeAddr(wrAddrA),
         .writeEn(wr_enable_A),
@@ -634,10 +619,7 @@ module core_simple(
     //Complex FU and FP FU: is on progress
 
     //ROB logic: find empty entry and pass instruction to next stage according to the order.
-    //ROB: Execute <-> complete
-    //Maybe we need modification: If store needs extra bit
-    
-    Caution: We are now modifying the ROB code : 2024-08-23 jeyun park;
+    //ROB: Dispatch <-> complete
     
     reg [15:0] rob_busy;                    //If ROB entry allocate, then 1
     reg [15:0] rob_issued;                  //If issued to execution, then 1
@@ -665,15 +647,19 @@ module core_simple(
             rob_issued <= 16'b0;
             rob_finished <= 16'b0;
             rob_speculative <= 16'b0;
+            rob_out_inst_0 <= 37'b0;
+            rob_out_inst_1 <= 37'b0;
+            rob_out_valid_0 <= 1'b0;
+            rob_out_valid_1 <= 1'b0;
         end
         else begin
             //Tail pointer update
             tail <= next_rob_tail;
             
             //ROB entry bits update & entry update
-            if(simple_valid) begin
-                rob_finished[simple_rob_num] <= 1'b1;
-                rob[simple_rob_num] <= executed_inst_simple;
+            if(simple_valid) begin                      //If output from simple is valid
+                rob_finished[simple_rob_num] <= 1'b1;               //Update the ROB entry corresponding to output of simple FU
+                rob[simple_rob_num] <= executed_inst_simple;            //Store the finished instruction to buffer
             end
             if(complex_valid) begin
                 rob_finished[complex_rob_num] <= 1'b1;
@@ -685,10 +671,10 @@ module core_simple(
             end
             
             //Generate output
-            if(rob_valid[head] & store_empty_valid[0]) begin
+            if(rob_valid[head] & !(!store_empty_valid[0] & store_bit)) begin                        //If first instrution(pointed by head pointer) is architectureally finished & (if it is store) there is an empty store buffer entry.
                 rob_out_inst_0 <= {rob[head][4:0], rob[head][37], 1'b0/*For store bit: modify when making complex pipeline*/};
                 rob_out_valid_0 <= 1'b1;
-                if(rob_valid[head+1] & store_empty_valid[1]) begin
+                if(rob_valid[head+1] & !(!store_empty_valid[1] & store_bit)) begin
                     rob_out_inst_1 <= {rob[head+1][4:0], rob[head+1][37], 1'b0/*For store bit: modify when making complex pipeline*/};;
                     rob_out_valid_1 <= 1'b1;
                     head <= head+2;
@@ -712,11 +698,14 @@ module core_simple(
     //Caution!!: Some instructions in "complex" group should be handled differently -> For example, store instruction should get out of completion buffer doing nothing!.
     
     //Completion: Write to destination reg
-    wire [63:0] completed_inst_0;
-    wire [63:0] completed_inst_1;
+    //Store: data word(32bit) + store address(32bit) + store bit(1bit)
+    wire [64:0] completed_inst_0;
+    wire [64:0] completed_inst_1;
     wire compled_inst_0_valid;
     wire compled_inst_1_valid;
     
+    //Retire non-store instruction
+    //Pass store to store buffer
     completion completion(
         .rob_out_inst_0(rob_out_inst_0),
         .rob_out_inst_1(rob_out_inst_1),
@@ -736,6 +725,7 @@ module core_simple(
     //Store buffer and its control logic
     //Store buffer entry number: can be changed if there is a better one
     reg [63:0] store_buffer [7:0];
+    //Variables to search empty store buffer entry: same as RF
     reg [7:0] store_buffer_busy;
     reg [7:0] store_buffer_busy_1;
     reg [2:0] store_empty_0;
@@ -888,6 +878,7 @@ module core_simple(
     
     integer j;
     
+    //Search store buffer entry # of finished store
     always@(*) begin
         for(j=0; j<8; j=j+1) begin
             if(store_buffer[j][31:0] == store_fin_addr) begin

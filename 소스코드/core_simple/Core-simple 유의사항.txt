@@ -1,6 +1,9 @@
 Core-simple 유의사항
-1. Assignment 시 bit 수 맞춰야 함에 유의!
-2. 업데이트중... 8-29까지 코드 주석 및 나머지 유의사항 작성하겠음
+1. Assignment 시 bit 수 맞춰야 함에 유의! 특히 모듈 간 assignment시 이것이 잘 맞춰지지 않을 수 있음
+2. Issue시 issue와 동시에 RS가 empty되는 것이 아니라, issue되어서 execution이 끝난 이후에 RS가 비게 됨(1cycle 차이).
+->충분한 개수의 ROB entry를 가지도록 설계가 수정되었으므로, 문제가 없을 수 있다. 다시 말해, ROB를 구현하면서 이미 ROB entry 개수가 부족할 경우 dispatch를 하지 않아버리는 logic이 구현되게 된다. 따라서, issue가 막힐 일은 존재하지 않는다.
+->위의 사실을 생각해 보면, logic을 수정하는 것이 좋을 수 있다.
+3.더 적을까 했는데 생각보다 주석에 다 적혀있는듯 해서... 그냥 모르는거 있으면 저(박제윤)에게 문의 바랍니다.
     
     
     
@@ -13,8 +16,22 @@ Core-simple 유의사항
     
     
     
+    아래는 ROB 예전 코드. 혹시 몰라서 남겨놓음.
+    //Old ROB variables: now modifying 
+    /*reg [36:0] rob [7:0];
+    reg [3:0] rob_tag [7:0];
+    reg [7:0] rob_valid;
+    reg [3:0] rob_number;
+
+    reg [2:0] rob_empty_slot_simple;
+    reg [2:0] rob_empty_slot_complex;
+    reg [2:0] rob_empty_slot_fp;
     
+    integer i;
     
+    wire simple_valid;
+    wire complex_valid;
+    wire fp_valid;*/
     
     //Old ROB code
     /*reg [7:0] rob_valid_1;

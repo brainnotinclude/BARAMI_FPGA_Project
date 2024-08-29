@@ -75,7 +75,7 @@ module dispatch(
     
     assign rs_valid = {complex_empty_0, complex_empty_1, simple_empty_0, simple_empty_1, fp_empty_0, fp_empty_1};                           //Concat the valid bits for each entries
     //s2, s2_valid, s1, s1_valid, rd =>71bit
-    assign dispatch_control_A = instA[72:71];                 //Lower 2 bits are control bits for dispatch module 
+    assign dispatch_control_A = instA[72:71];
     assign dispatch_control_B = instB[72:71];
     assign instA_xdc = {instA[82:73], instA[70:0]};
     assign instB_xdc = {instB[82:73], instB[70:0]};

@@ -42,13 +42,14 @@ module completion(
     output updateEnB
     );
     
+    //For non-store instructions
     assign updateAddrA = rob_out_inst_0[6:2];
     assign updateAddrB = rob_out_inst_1[6:2];
     //If not register-write instruction | not illigal instruction(or bubble), then enable
     assign updateEnA = rob_out_inst_0[1] & ~(rob_out_inst_0[0]) & rob_out_valid_0;
     assign updateEnB = rob_out_inst_1[1] & ~(rob_out_inst_1[0]) & rob_out_valid_1;
     
-    //You may not understand why post-execution process is divided into complete/retire stage. It is mainly because of store instuction. Store instruction will wait until store is finished
+    //For store instruction
     assign completed_inst_0 = rob_out_inst_0[64:1];
     assign completed_inst_1 = rob_out_inst_1[64:1];
     assign completed_inst_0_valid = rob_out_inst_0[0] & rob_out_valid_0;

@@ -46,8 +46,8 @@ module ex_simple(
     output writeEn,
     output reg [3:0] simple_rob_num
     );
-    wire valid0;
-    wire valid1;
+    wire valid0;            //RS0 ready bit
+    wire valid1;            //RS1 ready bit
     reg regWrite;
     wire [31:0] aluout;
     reg [31:0] aluin1;
@@ -60,7 +60,7 @@ module ex_simple(
     assign valid1 = rs_simple_1[5] & rs_simple_1[38];
     
     always@(*) begin
-        if((valid0==1'b1) && (valid1==1'b0)) begin
+        if((valid0==1'b1) && (valid1==1'b0)) begin          //RS0 is ready
             aluin1 = rs_simple_0[37:6];
             aluin2 = rs_simple_0[70:39];
             aluop = rs_simple_0[80:76];
@@ -69,7 +69,7 @@ module ex_simple(
             regWrite = rs_simple_0[71];
             simple_rob_num = rs_simple_0_entry_num;
         end
-        else if((valid0==1'b0) && (valid1==1'b1)) begin
+        else if((valid0==1'b0) && (valid1==1'b1)) begin         //RS1 is ready
             aluin1 = rs_simple_1[37:6];
             aluin2 = rs_simple_1[70:39];
             aluop = rs_simple_1[80:76];
@@ -78,8 +78,8 @@ module ex_simple(
             regWrite = rs_simple_1[71];
             simple_rob_num = rs_simple_1_entry_num;
         end
-        else if((valid0==1'b0) && (valid1==1'b1)) begin
-            if(selector == 1'b0) begin
+        else if((valid0==1'b0) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
+            if(selector == 1'b0) begin                          //Selector points newer one, so we choose non-pointed entry 
                 aluin1 = rs_simple_1[37:6];
                 aluin2 = rs_simple_1[70:39];
                 aluop = rs_simple_1[80:76];
