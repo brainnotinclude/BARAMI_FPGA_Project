@@ -1,0 +1,211 @@
+의문사항:
+3. 포워딩을 한쪽만 받을 수 있게 한 이유는 무엇인가?
+4. inst bit파일(엑셀파일)에서 funct7값이 적혀 있지 않은 명령어는 funct7 값을 아예 신경쓰지 않는데 고려할 것인가?
+
+결론:
+전반적으로 문제 없음.
+
+잘못된 opcode 입력의 경우 map_en도 0이 되지만, error도 0으로 나옴.. 일단 문제는 없을 것으로 사료됨.
+
+`timescale 1ns / 1ps 명령의 시간 단위: 1ns/기계의 시간단위 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2024/08/11 10:53:41
+// Design Name: 
+// Module Name: instruction_decompose
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+//Need for decoder_RF_conv
+module instruction_decompose(
+    input [31:0] inst, // 인스트럭션
+    input [31:0] s1, // 레지스터에서 가져온 입력 데이터 1
+    input [31:0] s2, // 레지스터에서 가져온 입력 데이터 2
+    input rs1_valid, // 입력 레지스터 1 가능 여부 (디스패치)
+    input rs2_valid, // 입력 레지스터 2 가능 여부
+    input [31:0] pc, // 프로그램 카운터
+    input [31:0] forwarding,
+    input [4:0] forwarding_addr,
+
+    output reg map_en, // 디코드 신호 for registerFile
+    output [4:0] rs1, // 입력 레지스터 주소 1
+    output [4:0] rs2, // 입력 레지스터 주소 2
+    output [4:0] rd, // 결과 레지스터 주소 
+    output reg [82:0] decomposed_inst, // 분해된 인스트럭션 덩어리.
+    output reg error
+    );
+    
+    //Disassemble instruction
+    wire [6:0] opcode; //와이어: 오피코드
+    wire [11:0] imm_for_i; //와이어: 부호 있는 정수를 위한 즉시값
+    wire [2:0] function3; //와이어: funct3값
+    wire [6:0] function7; //와이어: funct7값
+    wire [19:0] imm_for_ui; //와이어: 부호 없는 정수를 위한 즉시값
+    
+    
+    //internally using varibles : make output by concatenate these variables 
+    reg [31:0] rs1_vt;                     //vt means value or tag
+    reg [31:0] rs2_vt;
+    reg s1_valid;                        //If source1 is register, than it will be same as rs1_valid
+    reg s2_valid;                        //If source2 is register, than it will be same as rs2_valid
+    wire [31:0] rs1_value;	//rs1의 입력값
+    wire [31:0] rs2_value;	//rs2의 입력값
+    wire [11:0] ctrl_signal;                   //Caution! It's design is not completed!
+    
+    assign opcode = inst[6:0]; // 인스트럭션에서 op코드 추출
+    assign rd = inst[11:7]; // 인스트럭션에서 결과 레지스터 주소 추출 - 이 모듈의 출력물
+    assign rs1 = inst[19:15]; // 인스트럭션에서 입력 레지스터1 주소 추출 - 이 모듈의 출력물
+    assign rs2 = inst[24:20]; // 인스트럭션에서 입력 레지스터 2 주소 추출 - 이 모듈의 출력물
+    assign imm_for_i = inst[31:20]; // 인스트럭션에서 부호 있는 정수의 즉시 값 추출
+    assign imm_for_ui = inst[31:12];            //use for lui and auipc -  인스트럭션에서 부호 없는 정수의 즉시 값 추출
+    assign function3 = inst[14:12];		 // 인스트럭션에서 funct3 추출
+    assign function7 = inst[31:25];		 // 인스트럭션에서 funct7 추출
+    
+    
+    wire [4:0] aluop;
+    wire [1:0] alu_mux1;
+    wire [1:0] alu_mux2;
+    wire [1:0] dispatch_control;
+    wire memwrite;
+    wire memread;
+    wire regwrite;
+    wire branch;
+    wire memtoreg;
+    wire map_enable;
+    
+    control u_control( //control 모듈 호출.
+    .opcode_A(opcode),
+    .funct3_A(function3),
+    .funct7_A(function7),
+    
+    .aluop_A(aluop), // 연산자 종류
+    .aluin1_mux(alu_mux1), // 피연산자1 종류
+    .aluin2_mux(alu_mux2),// 피연산자2 종류
+    .map_en(map_enable), // 디코드 신호
+    .dispatch_control(dispatch_control), // 디스패치 종류 신호.
+    .memwrite(memwrite),  //컨트롤 시그널 탑재.. 용도는 의문.
+    .memread(memread),
+    .memtoreg(memtoreg),
+    .branch(branch),
+    .regwrite(regwrite)
+    );
+    
+       
+       
+     alu_mux u_alu_mux( //alu_mux 모듈 호출.
+    .mux1(alu_mux1), // 컨트롤에서 정해준 피연산자1의 종류 신호.
+    .mux2(alu_mux2), // 컨트롤에서 정해준 피연산자2의 종류 신호.
+    .rs1(s1), // 여기서부턴 각 경우에 대한 값들.
+    .rs2(s2),
+    .pc(pc),
+    .imm(imm_for_i),
+    .imm_20(imm_for_ui),
+    .shamt(rs2),
+    .aluin1(rs1_value),
+    .aluin2(rs2_value)
+    );
+    
+   
+    assign ctrl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //5+1+1+1+1+1+2 =12 컨트롤 시그널 정의.
+    
+    always@(*) begin   
+    map_en = map_enable;                          // 먼저 valid이면 register 값 그대로 쓰면 됨 | 추후 forwarding을 위한 부분 - 디코드 신호 활성화 control.v에서 출력됨. - 이 모듈의 출력물
+    if(rs1_valid) begin
+        rs1_vt = rs1_value;			// 피연산자 1 값 - alu_mux에서 출력됨.
+        s1_valid = 1;
+    end 
+    else begin
+        if(rs1 == forwarding_addr) begin       // valid 아니면 포워딩 가능인지 확인
+        rs1_vt = forwarding;
+        s1_valid = 1;
+        end
+        else begin                             // 불가능하면 s1_valid를 0으로 
+        rs1_vt = 32'b0;
+        s1_valid = 0;
+        end
+    end
+    if(rs2_valid) begin
+        rs2_vt = rs2_value;			// 피연산자 2 값 - alu_mux에서 출력됨.
+        s2_valid = 1;
+    end 
+    else begin
+        if(rs2 == forwarding_addr) begin
+            rs2_vt = forwarding;
+            s2_valid = 1;
+            end
+            else begin
+            rs2_vt = 32'b0;
+            s2_valid = 0;
+            end
+    end
+    error = !(s1_valid & s2_valid);              // 둘 중 하나라도 valid하지 않으면 error 내보냄
+    
+    decomposed_inst = {ctrl_signal, rs2_vt, s2_valid, rs1_vt, s1_valid, rd};
+    end
+endmodule
+
+상황: 인스트럭션을 받아서 control에 넣어 어떤 연산자를 이용할지 받고, alu_mux에서 어떤 피연산자를 이용할지 받아서 그 결과를 정리해 decoder_RF_conv로 전달.
+입력: 인스트럭션과 입력 레지스터 상태, 프로그램 카운터, 입력 데이터들, 포워딩 관련 정보들
+출력: 디코드 단계 신호, 입력 레지스터들 주소, 결과 레지스터 주소, 분해된 인스트럭션을 순서대로 작성하여 덩어리로 출력.
+
+의문사항:
+1. 포워딩이 레지스터 파일의 데이터를 어떻게 가져올 것인가를 고민하는 부분인데, 포워딩에 대한 처리를 여기서 하면서 동시에 레지스터의 데이터를 입력으로 받으면 서순이 어떻게 되는가? > 수정 반영함.
+2. memwrite, memread, memtoreg, branch, regwrite 같은 신호들은 어디에 쓰이는 것인가? > 다음 단계에서 이용.
+3. 포워딩을 한쪽만 받을 수 있게 한 이유는 무엇인가?
+4. inst bit파일(엑셀파일)에서 funct7값이 적혀 있지 않은 명령어는 funct7 값을 아예 신경쓰지 않는데 고려할 것인가?
+
+체크리스트
+0. 입력 레지스터들 주소와 결과 레지스터 주소는 제대로 나오는가? ok.
+1-1. 컨트롤 시그널은 계획된대로 제대로 작성되는가? ctrl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control};
+add: 00000/0/0/0/0/1/11 ok.
+mul-forward: 10110/0/0/0/0/1/11 ok
+slli_rs1 unavailable: 00010/0/0/0/0/1/11 ok
+lui : 00000/0/0/0/0/1/11 ok
+addi_rs2 un:00000/0/0/0/0/1/11 ok
+sub both unavailable: 00001/0/0/0/0/1/11 ok
+wrong opcode: 00000/0/0/0/0/0/00 ok
+1-2. 디코드 단계 신호는 의도한 대로 제대로 나오는가? 모든 경우에서 ok
+2-1. rs_valid 값에 따라 rs_vt값(rs의 값)은 제대로 나오는가?
+add: ok
+mul-forward:ok
+slli_rs1 unavailable:ok
+lui:ok
+addi_rs2 un:ok
+sub both unavailable:ok
+wrong opcode: 
+2-2. s_valid 값은 정확한가?
+add: ok.
+mul-forward: ok
+slli_rs1 unavailable:ok
+lui:ok
+addi_rs2 un:ok
+sub both unavailable:ok
+wrong opcode: 
+2-3. 분해된 인스트럭션의 정보는 정확한가? decomposed_inst = {ctrl_signal, rs2_vt, s2_valid, rs1_vt, s1_valid, rd};
+add: 00000_0_0_0_0_1_11//00000_00000_00000_00000_00000_00000_01//1//00000_00000_00000_00000_00000_00000_10//1//00011 - ok
+mul-forward: 10110_0_0_0_0_1_11//00000_00000_00000_00000_00000_00001_01//1//00000_00000_00000_00000_00000_00001_11//1//00110 - ok
+slli_rs1 unavailable:00010_0_0_0_0_1_11//00000_00000_00000_00000_00000_00000_10//1//00000_00000_00000_00000_00000_00000_00//0//00011 ok
+lui: 00000_0_0_0_0_1_11//00000_00000_10000_01111_00000_00000_00//1//00000_00000_00000_00000_00000_00000_00//1//00011-ok
+addi_rs2 un: 00000_0_0_0_0_1_11//00000_00000_00000_00000_00000_00000_00//0//00000_00000_00000_00000_00000_00010_01//1//00011 - ok
+sub both unavailable: 00001_0_0_0_0_1_11//00000_00000_00000_00000_00000_00000_00//0//00000_00000_00000_00000_00000_00000_00//0//00011 - ok
+wrong opcode: 00000_0_0_0_0_0_00//00000_00000_00000_00000_00000_00010_00//1//00000_00000_00000_00000_00000_00010_01//1//00011 -ok
+2-4 에러는?
+slli_rs1 unavailable: ok
+lui:ok
+addi_rs2 un: ok
+sub both unavailable:ok
+wrong opcode: 안나옴..
+3. 잘못된 연산이 입력되었을 때 regwrite가 0이 되는가?
+wrong opcode: ok
