@@ -7,12 +7,10 @@ module decoder_tb;
     reg rst_n;
     reg [31:0] instA;
     reg [31:0] instB;
-    reg [31:0] pcA;
+    reg [31:32] pcA;
     reg [31:0] pcB;
-    
     reg [31:0] forwarding;
     reg [4:0] forwarding_addr;
-    
     reg [31:0] s1A;
     reg [31:0] s2A;
     reg [31:0] s1B;
@@ -21,15 +19,23 @@ module decoder_tb;
     reg rs2A_valid;
     reg rs1B_valid;
     reg rs2B_valid;
-    
+
     // Outputs
     wire [82:0] decoded_instA;
     wire [82:0] decoded_instB;
+    wire map_en_A;
+    wire map_en_B;
+    wire [4:0] rs1A;
+    wire [4:0] rs2A;
+    wire [4:0] rs1B;
+    wire [4:0] rs2B;
+    wire [4:0] rdA;
+    wire [4:0] rdB;
     wire error_A;
     wire error_B;
-    
+
     // Instantiate the Unit Under Test (UUT)
-    decoder u_decoder (
+    decoder uut (
         .clk(clk),
         .rst_n(rst_n),
         .instA(instA),
@@ -61,84 +67,21 @@ module decoder_tb;
     );
 
     // Clock generation
-    always begin
-        #5 clk = ~clk; // 10ns clock period
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;  // 10ns clock period
     end
 
-    // Initial block for stimulus
+    // Stimulus process
     initial begin
         // Initialize Inputs
-        clk = 0;
         rst_n = 0;
-        instA = 32'b0;
-        instB = 32'b0;
-        pcA = 32'b0;
-        pcB = 32'b0;
-        forwarding = 32'b0;
-        forwarding_addr = 5'b0;
-
-        s1A = 32'b0;
-        s2A = 32'b0;
-        s1B = 32'b0;
-        s2B = 32'b0;
-        rs1A_valid = 0;
-        rs2A_valid = 0;
-        rs1B_valid = 0;
-        rs2B_valid = 0;
-        
-        // Apply reset
-        #10 rst_n = 1;
-        #5 rst_n = 0;
-        #5 rst_n = 1;
-
-        // Test Case 1: Basic Instruction Test
-        #10
-        instA = 32'b00010010001100000000000010010011; // Example instruction A
-        instB = 32'b00000000001100000011000010010011; // Example instruction B
-        pcA = 32'h0001_0000;
-        pcB = 32'h0001_0004;
-        forwarding = 32'h12345678;
-        forwarding_addr = 5'b00001;
-        s1A = 32'h00000001;
-        s2A = 32'h00000002;
-        s1B = 32'h00000003;
-        s2B = 32'h00000004;
-        rs1A_valid = 1;
-        rs2A_valid = 1;
-        rs1B_valid = 1;
-        rs2B_valid = 1;
-
-        #10
-        // Check if decoded instructions match expected results
-
-        // Test Case 2: Forwarding Values
-        #10
-        instA = 32'b00000000011000000000000010010011; // Example instruction A with forwarding
-        instB = 32'b00000000001000001000000110110011; // Example instruction B with forwarding
-        pcA = 32'h0001_0008;
-        pcB = 32'h0001_000C;
-        forwarding = 32'h9ABCDEF0;
-        forwarding_addr = 5'b00010;
-        s1A = 32'h00000005;
-        s2A = 32'h00000006;
-        s1B = 32'h00000007;
-        s2B = 32'h00000008;
-        rs1A_valid = 1;
-        rs2A_valid = 1;
-        rs1B_valid = 1;
-        rs2B_valid = 1;
-
-        #10
-        // Check if decoded instructions and forwarding are processed correctly
-
-        // Test Case 3: Error Conditions
-        #10
-        instA = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx; // Invalid instruction A
-        instB = 32'b00000000001000001000000110110011; // Valid instruction B
-        pcA = 32'h0001_0010;
-        pcB = 32'h0001_0014;
+        instA = 32'h00000000;
+        instB = 32'h00000000;
+        pcA = 32'h00000000;
+        pcB = 32'h00000000;
         forwarding = 32'h00000000;
-        forwarding_addr = 5'b00000;
+        forwarding_addr = 5'd0;
         s1A = 32'h00000000;
         s2A = 32'h00000000;
         s1B = 32'h00000000;
@@ -148,31 +91,112 @@ module decoder_tb;
         rs1B_valid = 0;
         rs2B_valid = 0;
 
-        #10
-        // Check if error signals are asserted correctly
+        // Apply reset
+        #10;
+        rst_n = 1;
 
-        // Test Case 4: Multiple Instructions and Register Writes
-        #10
-        instA = 32'b01000000001000011010001010110011; // Example instruction A
-        instB = 32'b00000000001000001001000010110011; // Example instruction B
-        pcA = 32'h0001_0018;
-        pcB = 32'h0001_001C;
-        forwarding = 32'hFFFFFFFF;
-        forwarding_addr = 5'b00101;
-        s1A = 32'h0000000A;
-        s2A = 32'h0000000B;
-        s1B = 32'h0000000C;
-        s2B = 32'h0000000D;
+        // Test Case 1: Simple Instruction Decoding
+        instA = 32'h00000013; // NOP-like instruction for A
+        instB = 32'h00000013; // NOP-like instruction for B
+        pcA = 32'h00000010;   // Program counter for A
+        pcB = 32'h00000014;   // Program counter for B
+        s1A = 32'h12345678;   // Source 1 data for A
+        s2A = 32'h9ABCDEF0;   // Source 2 data for A
+        s1B = 32'h11111111;   // Source 1 data for B
+        s2B = 32'h22222222;   // Source 2 data for B
         rs1A_valid = 1;
         rs2A_valid = 1;
         rs1B_valid = 1;
         rs2B_valid = 1;
+        forwarding = 32'h55555555;
+        forwarding_addr = 5'd1;
 
-        #10
-        // Check if multiple instructions are decoded correctly and register writes are handled
+        #20;
 
-        // End of simulation
-        #20
+        // Test Case 2: Instruction with Valid Forwarding
+        instA = 32'hABCD1234; // Test instruction with valid forwarding for A
+        instB = 32'h56789ABC; // Test instruction with valid forwarding for B
+        pcA = 32'h00000020;
+        pcB = 32'h00000024;
+        s1A = 32'h33333333;
+        s2A = 32'h44444444;
+        s1B = 32'h55555555;
+        s2B = 32'h66666666;
+        rs1A_valid = 1;
+        rs2A_valid = 1;
+        rs1B_valid = 1;
+        rs2B_valid = 1;
+        forwarding = 32'h77777777; // Forwarding data simulates ALU result
+        forwarding_addr = 5'd2;
+
+        #20;
+
+        // Test Case 3: Instruction with Invalid Forwarding (Mismatch)
+        instA = 32'hDEADBEEF; // Invalid instruction for forwarding for A
+        instB = 32'hCAFEBABE; // Invalid instruction for forwarding for B
+        pcA = 32'h00000030;
+        pcB = 32'h00000034;
+        s1A = 32'hAAAAAAAA;
+        s2A = 32'hBBBBBBBB;
+        s1B = 32'hCCCCCCCC;
+        s2B = 32'hDDDDDDDD;
+        rs1A_valid = 0;  // Invalid source registers for A
+        rs2A_valid = 0;
+        rs1B_valid = 0;  // Invalid source registers for B
+        rs2B_valid = 0;
+        forwarding = 32'hFFFFFFFF; // Forwarding data is not relevant here
+        forwarding_addr = 5'd3;
+
+        #20;
+
+        // Test Case 4: Complex Instructions with Different Data
+        instA = 32'h13579BDF; // Complex instruction for A
+        instB = 32'h2468ACE0; // Complex instruction for B
+        pcA = 32'h00000040;
+        pcB = 32'h00000044;
+        s1A = 32'h12341234;   // New source 1 data for A
+        s2A = 32'h56785678;   // New source 2 data for A
+        s1B = 32'h9ABC9ABC;   // New source 1 data for B
+        s2B = 32'hDEFDEF12;   // New source 2 data for B
+        rs1A_valid = 1;
+        rs2A_valid = 1;
+        rs1B_valid = 1;
+        rs2B_valid = 1;
+        forwarding = 32'h12345678; // Different forwarding data
+        forwarding_addr = 5'd4;
+
+        #20;
+
+        // Test Case 5: Reset During Operation
+        rst_n = 0; // Apply reset in the middle of operation
+        #10;
+        rst_n = 1; // Release reset
+
+        instA = 32'h13579BDF; // Reapply previous complex instruction for A
+        instB = 32'h2468ACE0; // Reapply previous complex instruction for B
+        pcA = 32'h00000050;
+        pcB = 32'h00000054;
+        s1A = 32'h1A2B3C4D;   // New source 1 data for A
+        s2A = 32'h5E6F7A8B;   // New source 2 data for A
+        s1B = 32'h9ABCCDEE;   // New source 1 data for B
+        s2B = 32'hFEDCBA98;   // New source 2 data for B
+        rs1A_valid = 1;
+        rs2A_valid = 1;
+        rs1B_valid = 1;
+        rs2B_valid = 1;
+        forwarding = 32'h87654321; // Different forwarding data
+        forwarding_addr = 5'd5;
+
+        #20;
+
+        // Test Case 6: All Zero Instruction and Invalid PC
+        instA = 32'h00000000; // No operation or zero instruction for A
+        instB = 32'h00000000; // No operation or zero instruction for B
+        pcA = 32'hFFFFFFFF;   // Invalid PC value
+        pcB = 32'hFFFFFFFF;   // Invalid PC value
+        s1A = 32'h00000000;   // Zero source 1 data for A
+        s2A = 32'h00000000;   // Zero source 2 data for A
+        
         $finish;
     end
 
