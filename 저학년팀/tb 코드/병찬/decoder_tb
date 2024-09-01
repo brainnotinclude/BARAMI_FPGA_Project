@@ -129,9 +129,6 @@ module decoder_tb;
         forwarding_addr = 5'd2;      // New forwarding address
 
         #20; // Wait for 20ns to observe the outputs
-
-        // Add more test cases as needed
-        // ...
         
         // Finish simulation
         #100;
