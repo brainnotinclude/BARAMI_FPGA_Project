@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+
 module decoder_tb;
 
     // Inputs
@@ -8,8 +9,10 @@ module decoder_tb;
     reg [31:0] instB;
     reg [31:0] pcA;
     reg [31:0] pcB;
+    
     reg [31:0] forwarding;
     reg [4:0] forwarding_addr;
+    
     reg [31:0] s1A;
     reg [31:0] s2A;
     reg [31:0] s1B;
@@ -18,23 +21,15 @@ module decoder_tb;
     reg rs2A_valid;
     reg rs1B_valid;
     reg rs2B_valid;
-
+    
     // Outputs
     wire [82:0] decoded_instA;
     wire [82:0] decoded_instB;
-    wire map_en_A;
-    wire map_en_B;
-    wire [4:0] rs1A;
-    wire [4:0] rs2A;
-    wire [4:0] rs1B;
-    wire [4:0] rs2B;
-    wire [4:0] rdA;
-    wire [4:0] rdB;
     wire error_A;
     wire error_B;
-
+    
     // Instantiate the Unit Under Test (UUT)
-    decoder uut (
+    decoder u_decoder (
         .clk(clk),
         .rst_n(rst_n),
         .instA(instA),
@@ -66,21 +61,84 @@ module decoder_tb;
     );
 
     // Clock generation
-    initial begin
-        clk = 0;
-        forever #5 clk = ~clk;  // 10ns clock period
+    always begin
+        #5 clk = ~clk; // 10ns clock period
     end
 
-    // Stimulus process
+    // Initial block for stimulus
     initial begin
         // Initialize Inputs
+        clk = 0;
         rst_n = 0;
-        instA = 32'h00000000;
-        instB = 32'h00000000;
-        pcA = 32'h00000000;
-        pcB = 32'h00000000;
+        instA = 32'b0;
+        instB = 32'b0;
+        pcA = 32'b0;
+        pcB = 32'b0;
+        forwarding = 32'b0;
+        forwarding_addr = 5'b0;
+
+        s1A = 32'b0;
+        s2A = 32'b0;
+        s1B = 32'b0;
+        s2B = 32'b0;
+        rs1A_valid = 0;
+        rs2A_valid = 0;
+        rs1B_valid = 0;
+        rs2B_valid = 0;
+        
+        // Apply reset
+        #10 rst_n = 1;
+        #5 rst_n = 0;
+        #5 rst_n = 1;
+
+        // Test Case 1: Basic Instruction Test
+        #10
+        instA = 32'b00010010001100000000000010010011; // Example instruction A
+        instB = 32'b00000000001100000011000010010011; // Example instruction B
+        pcA = 32'h0001_0000;
+        pcB = 32'h0001_0004;
+        forwarding = 32'h12345678;
+        forwarding_addr = 5'b00001;
+        s1A = 32'h00000001;
+        s2A = 32'h00000002;
+        s1B = 32'h00000003;
+        s2B = 32'h00000004;
+        rs1A_valid = 1;
+        rs2A_valid = 1;
+        rs1B_valid = 1;
+        rs2B_valid = 1;
+
+        #10
+        // Check if decoded instructions match expected results
+
+        // Test Case 2: Forwarding Values
+        #10
+        instA = 32'b00000000011000000000000010010011; // Example instruction A with forwarding
+        instB = 32'b00000000001000001000000110110011; // Example instruction B with forwarding
+        pcA = 32'h0001_0008;
+        pcB = 32'h0001_000C;
+        forwarding = 32'h9ABCDEF0;
+        forwarding_addr = 5'b00010;
+        s1A = 32'h00000005;
+        s2A = 32'h00000006;
+        s1B = 32'h00000007;
+        s2B = 32'h00000008;
+        rs1A_valid = 1;
+        rs2A_valid = 1;
+        rs1B_valid = 1;
+        rs2B_valid = 1;
+
+        #10
+        // Check if decoded instructions and forwarding are processed correctly
+
+        // Test Case 3: Error Conditions
+        #10
+        instA = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx; // Invalid instruction A
+        instB = 32'b00000000001000001000000110110011; // Valid instruction B
+        pcA = 32'h0001_0010;
+        pcB = 32'h0001_0014;
         forwarding = 32'h00000000;
-        forwarding_addr = 5'd0;
+        forwarding_addr = 5'b00000;
         s1A = 32'h00000000;
         s2A = 32'h00000000;
         s1B = 32'h00000000;
@@ -90,48 +148,31 @@ module decoder_tb;
         rs1B_valid = 0;
         rs2B_valid = 0;
 
-        // Apply reset
-        #10;
-        rst_n = 1;
-        
-        // Apply first set of instructions
-        instA = 32'hAABBCCDD; // Test instruction A
-        instB = 32'h11223344; // Test instruction B
-        pcA = 32'h00000010;   // Program counter for A
-        pcB = 32'h00000014;   // Program counter for B
-        s1A = 32'h12345678;   // Source 1 data for A
-        s2A = 32'h9ABCDEF0;   // Source 2 data for A
-        s1B = 32'h11111111;   // Source 1 data for B
-        s2B = 32'h22222222;   // Source 2 data for B
-        rs1A_valid = 1;       // Valid signal for source 1 of A
-        rs2A_valid = 1;       // Valid signal for source 2 of A
-        rs1B_valid = 1;       // Valid signal for source 1 of B
-        rs2B_valid = 1;       // Valid signal for source 2 of B
-        forwarding = 32'h55555555;   // Forwarding data
-        forwarding_addr = 5'd1;      // Forwarding address
+        #10
+        // Check if error signals are asserted correctly
 
-        #20; // Wait for 20ns to observe the outputs
-
-        // Apply second set of instructions
-        instA = 32'hDEADBEEF; // Another test instruction A
-        instB = 32'hCAFEBABE; // Another test instruction B
-        pcA = 32'h00000020;   // Updated program counter for A
-        pcB = 32'h00000024;   // Updated program counter for B
-        s1A = 32'h33333333;   // New source 1 data for A
-        s2A = 32'h44444444;   // New source 2 data for A
-        s1B = 32'h55555555;   // New source 1 data for B
-        s2B = 32'h66666666;   // New source 2 data for B
-        rs1A_valid = 1;       // Keep valid signals the same
+        // Test Case 4: Multiple Instructions and Register Writes
+        #10
+        instA = 32'b01000000001000011010001010110011; // Example instruction A
+        instB = 32'b00000000001000001001000010110011; // Example instruction B
+        pcA = 32'h0001_0018;
+        pcB = 32'h0001_001C;
+        forwarding = 32'hFFFFFFFF;
+        forwarding_addr = 5'b00101;
+        s1A = 32'h0000000A;
+        s2A = 32'h0000000B;
+        s1B = 32'h0000000C;
+        s2B = 32'h0000000D;
+        rs1A_valid = 1;
         rs2A_valid = 1;
         rs1B_valid = 1;
         rs2B_valid = 1;
-        forwarding = 32'h77777777;   // New forwarding data
-        forwarding_addr = 5'd2;      // New forwarding address
 
-        #20; // Wait for 20ns to observe the outputs
-        
-        // Finish simulation
-        #100;
+        #10
+        // Check if multiple instructions are decoded correctly and register writes are handled
+
+        // End of simulation
+        #20
         $finish;
     end
 
