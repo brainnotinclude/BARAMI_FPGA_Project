@@ -81,6 +81,15 @@ void processCommand(const std::string& command) {
     }
 }
 
+int getVariableValueOrNumber(const std::string& input) {
+    // Check if the input is a number or variable
+    if (isdigit(input[0]) || input[0] == '0' || input[0] == '-') {
+        return parseNumber(input);
+    } else {
+        return getVariableValue(input);
+    }
+}
+
 // 변수 선언 함수
 void declareVariable(const std::string& line) {
     std::istringstream ss(line);
