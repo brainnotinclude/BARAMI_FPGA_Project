@@ -56,37 +56,38 @@ void processCommand(const std::string& command) {
     std::string instruction, arg1, arg2, arg3;
     ss >> instruction >> arg1 >> arg2 >> arg3;
 
-    int reg1Index = getRegisterIndex(arg1);
-    int reg2Index = getRegisterIndex(arg2);
-    int destIndex = getRegisterIndex(arg3);
+    // Determine if arg1 is a register or a number/variable
+    int value = getValue(arg1);
+    int destIndex = getRegisterIndex(arg2);
 
     if (instruction == "MOV") {
-        // MOV <value/var> <dest>
-        int value = (reg1Index != -1) ? registers[reg1Index] : getVariableValueOrNumber(arg1);
-        registers[reg2Index] = value;
-        std::cout << "MOV: " << arg2 << " = " << registers[reg2Index] << std::endl;
-    }
+        registers[destIndex] = value;
+        std::cout << "MOV: " << arg2 << " = " << registers[destIndex] << std::endl;
+    } 
     else if (instruction == "ADD") {
-        // ADD <reg1> <reg2> <dest>
-        registers[destIndex] = registers[reg1Index] + registers[reg2Index];
-        std::cout << "ADD: " << arg3 << " = " << registers[destIndex] << std::endl;
-    }
+        int reg2Value = getValue(arg2);
+        registers[getRegisterIndex(arg3)] = value + reg2Value;
+        std::cout << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    } 
     else if (instruction == "SUB") {
-        // SUB <reg1> <reg2> <dest>
-        registers[destIndex] = registers[reg1Index] - registers[reg2Index];
-        std::cout << "SUB: " << arg3 << " = " << registers[destIndex] << std::endl;
-    }
+        int reg2Value = getValue(arg2);
+        registers[getRegisterIndex(arg3)] = value - reg2Value;
+        std::cout << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    } 
     else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
     }
 }
 
-int getVariableValueOrNumber(const std::string& input) {
-    // Check if the input is a number or variable
-    if (isdigit(input[0]) || input[0] == '0' || input[0] == '-') {
-        return parseNumber(input);
+int getValue(const std::string& arg) {
+    // If arg is a register, return its value, otherwise treat it as a variable or number
+    int regIndex = getRegisterIndex(arg);
+    if (regIndex != -1) {
+        return registers[regIndex];
+    } else if (isdigit(arg[0]) || arg[0] == '-' || arg[0] == '0') {
+        return parseNumber(arg);
     } else {
-        return getVariableValue(input);
+        return getVariableValue(arg);
     }
 }
 
