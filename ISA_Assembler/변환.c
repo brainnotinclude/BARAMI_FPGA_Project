@@ -1,16 +1,35 @@
-// 입력된 문자열을 공백을 기준으로 나눠서 각각의 부분(명령어, 레지스터 등)을 추출하고, 이를 기반으로 기계어로 변환한다
-
 #include <iostream>
 #include <sstream>
-#include <unordered_map>
 #include <vector>
 #include <regex>
 #include <string>
 #include <iomanip>
 
-// 레지스터 및 변수 테이블
-std::unordered_map<std::string, int> registers = {{"R0", 0}, {"R1", 0}, {"R2", 0}, {"R3", 0}};
-std::unordered_map<std::string, int> variables;
+// 레지스터 배열 (R0 ~ R3)
+int registers[4] = {0, 0, 0, 0};
+
+// 변수 배열
+std::vector<std::string> variableNames;
+std::vector<int> variableValues;
+
+// 레지스터 인덱스 반환 함수 (R0 -> 0, R1 -> 1, ...)
+int getRegisterIndex(const std::string &reg) {
+    if (reg == "R0") return 0;
+    if (reg == "R1") return 1;
+    if (reg == "R2") return 2;
+    if (reg == "R3") return 3;
+    return -1;  // 오류 처리: 존재하지 않는 레지스터
+}
+
+// 변수 이름으로 값 찾기
+int getVariableValue(const std::string &varName) {
+    for (size_t i = 0; i < variableNames.size(); ++i) {
+        if (variableNames[i] == varName) {
+            return variableValues[i];
+        }
+    }
+    return 0;  // 오류 처리: 변수 찾지 못함 (기본값 0)
+}
 
 // 숫자 변환 함수 (다양한 진법 지원)
 int parseNumber(const std::string &str) {
@@ -36,21 +55,44 @@ void processCommand(const std::string &command) {
     ss >> instruction >> arg1 >> arg2 >> arg3;
 
     if (instruction == "MOV") {
-        // MOV <src> <dest>
-        if (variables.find(arg1) != variables.end()) {
-            registers[arg2] = variables[arg1];  // 변수에서 값을 레지스터로 복사
-        } else {
-            registers[arg2] = parseNumber(arg1);  // 숫자 입력
+        int destIndex = getRegisterIndex(arg2);
+        if (destIndex == -1) {
+            std::cout << "Invalid register: " << arg2 << std::endl;
+            return;
         }
-        std::cout << "MOV: " << arg2 << " = " << registers[arg2] << std::endl;
+        // MOV <src> <dest>
+        if (arg1[0] == 'R') {
+            // 레지스터에서 레지스터로 이동
+            int srcIndex = getRegisterIndex(arg1);
+            if (srcIndex != -1) {
+                registers[destIndex] = registers[srcIndex];
+            }
+        } else if (isdigit(arg1[0]) || arg1[0] == '-' || arg1[0] == '0') {
+            // 숫자 값인 경우
+            registers[destIndex] = parseNumber(arg1);
+        } else {
+            // 변수인 경우
+            registers[destIndex] = getVariableValue(arg1);
+        }
+        std::cout << "MOV: " << arg2 << " = " << registers[destIndex] << std::endl;
     } else if (instruction == "ADD") {
         // ADD <reg1> <reg2> <dest>
-        registers[arg3] = registers[arg1] + registers[arg2];
-        std::cout << "ADD: " << arg3 << " = " << registers[arg3] << std::endl;
+        int reg1Index = getRegisterIndex(arg1);
+        int reg2Index = getRegisterIndex(arg2);
+        int destIndex = getRegisterIndex(arg3);
+        if (reg1Index != -1 && reg2Index != -1 && destIndex != -1) {
+            registers[destIndex] = registers[reg1Index] + registers[reg2Index];
+            std::cout << "ADD: " << arg3 << " = " << registers[destIndex] << std::endl;
+        }
     } else if (instruction == "SUB") {
         // SUB <reg1> <reg2> <dest>
-        registers[arg3] = registers[arg1] - registers[arg2];
-        std::cout << "SUB: " << arg3 << " = " << registers[arg3] << std::endl;
+        int reg1Index = getRegisterIndex(arg1);
+        int reg2Index = getRegisterIndex(arg2);
+        int destIndex = getRegisterIndex(arg3);
+        if (reg1Index != -1 && reg2Index != -1 && destIndex != -1) {
+            registers[destIndex] = registers[reg1Index] - registers[reg2Index];
+            std::cout << "SUB: " << arg3 << " = " << registers[destIndex] << std::endl;
+        }
     } else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
     }
@@ -64,7 +106,8 @@ void declareVariable(const std::string &line) {
         std::string varName = match[1];
         std::string valueStr = match[2];
         int value = parseNumber(valueStr);
-        variables[varName] = value;
+        variableNames.push_back(varName);
+        variableValues.push_back(value);
         std::cout << "Variable " << varName << " declared with value " << value << std::endl;
     } else {
         std::cout << "Invalid variable declaration: " << line << std::endl;
