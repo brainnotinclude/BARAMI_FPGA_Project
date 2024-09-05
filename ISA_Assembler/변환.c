@@ -51,62 +51,43 @@ int parseNumber(const std::string &str) {
 }
 
 // 명령어 처리 함수
-void processCommand(const std::string &command) {
+void processCommand(const std::string& command) {
     std::istringstream ss(command);
     std::string instruction, arg1, arg2, arg3;
     ss >> instruction >> arg1 >> arg2 >> arg3;
 
+    int reg1Index = getRegisterIndex(arg1);
+    int reg2Index = getRegisterIndex(arg2);
+    int destIndex = getRegisterIndex(arg3);
+
     if (instruction == "MOV") {
-        int destIndex = getRegisterIndex(arg2);
-        if (destIndex == -1) {
-            std::cout << "Invalid register: " << arg2 << std::endl;
-            return;
-        }
-        // MOV <src> <dest>
-        if (arg1[0] == 'R') {
-            // 레지스터에서 레지스터로 이동
-            int srcIndex = getRegisterIndex(arg1);
-            if (srcIndex != -1) {
-                registers[destIndex] = registers[srcIndex];
-            }
-        } else if (isdigit(arg1[0]) || arg1[0] == '-' || arg1[0] == '0') {
-            // 숫자 값인 경우
-            registers[destIndex] = parseNumber(arg1);
-        } else {
-            // 변수인 경우
-            registers[destIndex] = getVariableValue(arg1);
-        }
-        std::cout << "MOV: " << arg2 << " = " << registers[destIndex] << std::endl;
-    } else if (instruction == "ADD") {
+        // MOV <value/var> <dest>
+        int value = (reg1Index != -1) ? registers[reg1Index] : getVariableValueOrNumber(arg1);
+        registers[reg2Index] = value;
+        std::cout << "MOV: " << arg2 << " = " << registers[reg2Index] << std::endl;
+    }
+    else if (instruction == "ADD") {
         // ADD <reg1> <reg2> <dest>
-        int reg1Index = getRegisterIndex(arg1);
-        int reg2Index = getRegisterIndex(arg2);
-        int destIndex = getRegisterIndex(arg3);
-        if (reg1Index != -1 && reg2Index != -1 && destIndex != -1) {
-            registers[destIndex] = registers[reg1Index] + registers[reg2Index];
-            std::cout << "ADD: " << arg3 << " = " << registers[destIndex] << std::endl;
-        }
-    } else if (instruction == "SUB") {
+        registers[destIndex] = registers[reg1Index] + registers[reg2Index];
+        std::cout << "ADD: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "SUB") {
         // SUB <reg1> <reg2> <dest>
-        int reg1Index = getRegisterIndex(arg1);
-        int reg2Index = getRegisterIndex(arg2);
-        int destIndex = getRegisterIndex(arg3);
-        if (reg1Index != -1 && reg2Index != -1 && destIndex != -1) {
-            registers[destIndex] = registers[reg1Index] - registers[reg2Index];
-            std::cout << "SUB: " << arg3 << " = " << registers[destIndex] << std::endl;
-        }
-    } else {
+        registers[destIndex] = registers[reg1Index] - registers[reg2Index];
+        std::cout << "SUB: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
     }
 }
 
 // 변수 선언 함수
-void declareVariable(const std::string &line) {
-    std::regex varDecl(R"((\w+)\s*=\s*(.*))");
-    std::smatch match;
-    if (std::regex_match(line, match, varDecl)) {
-        std::string varName = match[1];
-        std::string valueStr = match[2];
+void declareVariable(const std::string& line) {
+    std::istringstream ss(line);
+    std::string varName, equalsSign, valueStr;
+    ss >> varName >> equalsSign >> valueStr;
+
+    if (equalsSign == "=") {
         int value = parseNumber(valueStr);
         variableNames.push_back(varName);
         variableValues.push_back(value);
