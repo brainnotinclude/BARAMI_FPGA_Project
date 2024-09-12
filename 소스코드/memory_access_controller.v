@@ -1,4 +1,4 @@
-module Memory_Access_Controller (
+module memory_access_controller (
     input wire clk,
     input wire reset,
     input wire tlb_hit,                      // TLB 모듈에서 나온 히트 신호
