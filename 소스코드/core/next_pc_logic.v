@@ -23,7 +23,7 @@
 module next_pc_logic(
     input clk,
     input rst_n,
-    input EN,
+
     input [11:0] imm,
     input [19:0] imm_jal,
     input [31:0] imm_jalr,   //for jalr 11

@@ -97,7 +97,7 @@ module decoder(
         .jump(jump_A),
         .fp(fp_A),
         .fence(fence_A),
-        .ebreak_out(ebreak_A),
+        .ebreak(ebreak_A),
         .ecall(ecall_A)
     );
     
@@ -120,7 +120,7 @@ module decoder(
         .jump(jump_B),
         .fp(fp_B),
         .fence(fence_B),
-        .ebreak_out(ebreak_B),
+        .ebreak(ebreak_B),
         .ecall(ecall_B)
     );
     

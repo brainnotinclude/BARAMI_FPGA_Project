@@ -36,11 +36,11 @@ module instruction_decompose(
     output [4:0] rd,
     output reg [115:0] decomposed_inst,  // memdata ctrl rs2 valid rs1 valid rd
     output reg error,
-    output reg jump,
-    output reg fp,
-    output reg fence,
-    output reg ebreak,
-    output reg ecall
+    output jump,
+    output fp,
+    output fence,
+    output ebreak,
+    output ecall
     );
     
     //Disassemble instruction

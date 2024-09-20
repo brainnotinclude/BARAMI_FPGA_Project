@@ -28,8 +28,8 @@ module core_simple(
         input store_finish,                 //From cache: store is finished
         input [31:0] store_fin_addr,            //Gives address of finished store.
         
-        output pcF1,
-        output pcF2
+        output [31:0] pcF1,
+        output [31:0] pcF2
     );
     
     //Parameters for signals
@@ -411,10 +411,10 @@ module core_simple(
         
         //Dispatch module makes an output for an instruction to one of RS entries. We need data port and valid bit(So the entry knows that it should save given data) 
         .complex_0_data(complex_0_data),
-        .comp_0_entry_num(comp_0_entry_num),          
+        .complex_0_entry_num(comp_0_entry_num),          
         .complex_0_valid(complex_0_valid),
         .complex_1_data(complex_1_data),
-        .comp_1_entry_num(comp_1_entry_num),
+        .complex_1_entry_num(comp_1_entry_num),
         .complex_1_valid(complex_1_valid),
         .simple_0_data(simple_0_data),
         .simple_0_entry_num(simple_0_entry_num),
