@@ -1,4 +1,24 @@
-`timescale 1ns/ 1ps
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2024/08/15 10:24:15
+// Design Name: 
+// Module Name: next_pc_logic
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 
 module next_pc_logic(
     input clk,
@@ -8,6 +28,13 @@ module next_pc_logic(
     input [19:0] imm_jal,
     input [31:0] imm_jalr,   //for jalr 11
     input [1:0] PCSrc,
+    
+    input errorA, 
+    input rs_full_A,
+    input errorB,
+    input rs_full_B,
+    input error_decode_A,
+    input error_decode_B,
     
   //  output [31:0] PCPlus4F,
     output reg [31:0] pcF1,
@@ -57,10 +84,14 @@ begin
 if (!rst_n) begin
     pcF1 <= RESET_PC;
     pcF2 <= RESET_PC;
-end else if(!EN) begin    
+end else if(errorA | rs_full_A | error_decode_A) begin    
     pcF1 <= pcF1;
     pcF2 <= pcF2;
-end else begin
+end else if(errorB | rs_full_B | error_decode_B) begin
+    pcF1 <= pcF2;
+    pcF2 <= PCNext1;
+end
+else begin
     pcF1 <= PCNext1;
     pcF2 <= PCNext2;
 end
