@@ -29,8 +29,8 @@
 //Arrange it as {aluop, memwrite, memread, memtoreg, branch, regwrite, s2, s2_valid, s1, s1_valid, rd} => For the ease of modification: aluop signal will change with the expansion of pipeline(complex signal & fp signal added)
 module ex_simple(
     //From RS
-    input [80:0] rs_simple_0,
-    input [80:0] rs_simple_1,
+    input [113:0] rs_simple_0,
+    input [113:0] rs_simple_1,
     input [3:0] rs_simple_0_entry_num,
     input [3:0] rs_simple_1_entry_num,
     input selector,

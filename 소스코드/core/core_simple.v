@@ -665,9 +665,9 @@ module core_simple(
     ex_complex complex(
         .rs_complex_0(rs_complex_0),
         .rs_complex_1(rs_complex_1),
-        .rs_complex_0_entry_num(rs_complex_0_entry_num),
-        .rs_complex_1_entry_num(rs_complex_1_entry_num),
-        .selector(rs_complex_selector),
+        .rs_complex_0_entry_num(rs_comp_0_entry_num),
+        .rs_complex_1_entry_num(rs_comp_1_entry_num),
+        .selector(rs_selector_complex),
 
         .complex_0_issue(complex_0_issue),
         .complex_1_issue(complex_1_issue),
@@ -690,7 +690,7 @@ module core_simple(
         .rs_fp_1(rs_fp_1),
         .rs_fp_0_entry_num(rs_fp_0_entry_num),
         .rs_fp_1_entry_num(rs_fp_1_entry_num),
-        .selector(selector),
+        .selector(rs_selector_fp),
         
         .fp_0_issue(fp_0_issue),
         .fp_1_issue(fp_1_issue),
