@@ -698,8 +698,8 @@ module core_simple(
         .executed_inst(executed_inst_fp),
         .valid(fp_valid),
         
-        .writedata_fp(wrDataFP),
-        .writeaddr_fp(writeDataFP),
+        .writedata_fp(writeDataFP),
+        .writeaddr_fp(wrAddrFP),
         .writeen_fp(wr_enable_FP),
         .fp_rob_num(fp_rob_num)
     );
