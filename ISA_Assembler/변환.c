@@ -33,7 +33,7 @@ int getVariableValue(const std::string &varName) {
     return 0;  // 오류 처리: 변수 찾지 못함 (기본값 0)
 }
 
-// 숫자 변환 함수 (다양한 진법 지원)
+// 숫자 변환 함수
 int parseNumber(const std::string &str) {
     if (str.find("0x") == 0 || str.find("0X") == 0) {
         // 16진수 처리
@@ -155,7 +155,7 @@ void processCommand(const std::string& command) {
         std::cout << "SLTIU: " << arg2 << " = " << registers[destIndex] << std::endl;
     }
     else if (instruction == "LW") {
-        int offset = parseNumber(arg3);  // Assume arg3 is the offset (e.g., 0(R2), 4(R1))
+        int offset = parseNumber(arg3);
         int baseRegisterIndex = getRegisterIndex(arg2);
         registers[destIndex] = memory[registers[baseRegisterIndex] + offset];
         std::cout << "LW: " << arg2 << " = " << registers[destIndex] << std::endl;
