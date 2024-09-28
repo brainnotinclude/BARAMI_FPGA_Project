@@ -202,8 +202,6 @@ int main() {
     // 테스트 입력
     std::vector<std::string> lines = {
         "VAR_A = 0x1A",  // 변수 선언
-        "MOV VAR_A R1",  // 변수 값을 레지스터로 이동
-        "MOV 0b1010 R2",  // 2진수로 레지스터 값 설정
         "ADD R1 R2 R3",   // 레지스터 간 더하기
         "SUB R1 R2 R0"    // 레지스터 간 빼기
     };
