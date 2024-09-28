@@ -51,29 +51,56 @@ int parseNumber(const std::string &str) {
 }
 
 // 명령어 처리 함수
+// 명령어 처리 함수
 void processCommand(const std::string& command) {
     std::istringstream ss(command);
     std::string instruction, arg1, arg2, arg3;
     ss >> instruction >> arg1 >> arg2 >> arg3;
 
-    // Determine if arg1 is a register or a number/variable
-    int value = getValue(arg1);
-    int destIndex = getRegisterIndex(arg2);
+    int src1Index = getRegisterIndex(arg1);
+    int src2Index = getRegisterIndex(arg2);
+    int destIndex = getRegisterIndex(arg3);
 
-    if (instruction == "MOV") {
-        registers[destIndex] = value;
-        std::cout << "MOV: " << arg2 << " = " << registers[destIndex] << std::endl;
-    } 
-    else if (instruction == "ADD") {
-        int reg2Value = getValue(arg2);
-        registers[getRegisterIndex(arg3)] = value + reg2Value;
-        std::cout << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    if (instruction == "ADD") {
+        registers[destIndex] = registers[src1Index] + registers[src2Index];
+        std::cout << "ADD: " << arg3 << " = " << registers[destIndex] << std::endl;
     } 
     else if (instruction == "SUB") {
-        int reg2Value = getValue(arg2);
-        registers[getRegisterIndex(arg3)] = value - reg2Value;
-        std::cout << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
-    } 
+        registers[destIndex] = registers[src1Index] - registers[src2Index];
+        std::cout << "SUB: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "AND") {
+        registers[destIndex] = registers[src1Index] & registers[src2Index];
+        std::cout << "AND: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "OR") {
+        registers[destIndex] = registers[src1Index] | registers[src2Index];
+        std::cout << "OR: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "XOR") {
+        registers[destIndex] = registers[src1Index] ^ registers[src2Index];
+        std::cout << "XOR: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "SLL") {
+        registers[destIndex] = registers[src1Index] << registers[src2Index];
+        std::cout << "SLL: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "SRL") {
+        registers[destIndex] = static_cast<unsigned int>(registers[src1Index]) >> registers[src2Index];
+        std::cout << "SRL: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "SRA") {
+        registers[destIndex] = registers[src1Index] >> registers[src2Index];
+        std::cout << "SRA: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "SLT") {
+        registers[destIndex] = (registers[src1Index] < registers[src2Index]) ? 1 : 0;
+        std::cout << "SLT: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
+    else if (instruction == "SLTU") {
+        registers[destIndex] = (static_cast<unsigned int>(registers[src1Index]) < static_cast<unsigned int>(registers[src2Index])) ? 1 : 0;
+        std::cout << "SLTU: " << arg3 << " = " << registers[destIndex] << std::endl;
+    }
     else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
     }
