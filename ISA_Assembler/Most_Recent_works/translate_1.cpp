@@ -1,5 +1,7 @@
 // 입력된 문자열을 공백을 기준으로 나눠서 각각의 부분(명령어, 레지스터 등)으로 구분하고 기계어로 변환한다
-
+#include "translate_1.h"
+#include "translate_2.h"
+#include "FileOpenAPI.h"
 #include <iostream>
 #include <sstream>
 #include <vector>

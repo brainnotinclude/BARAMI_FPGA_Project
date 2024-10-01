@@ -1,4 +1,6 @@
 #include "translate_1.h"
+#include "FileOpenAPI.h"
+#include "translate_2.h"
 #include <stdio.h>
 #include <windows.h>
 
@@ -103,6 +105,10 @@ int main()
 			gotoxy(10, 15);
 			printf("Executing Text File Assembler...");
 			Sleep(1000);
+			BlankPage();
+			gotoxy(0, 0);
+			FileOPENAPI();
+			mainPage();
 			break;
 		}
 		case 3:
