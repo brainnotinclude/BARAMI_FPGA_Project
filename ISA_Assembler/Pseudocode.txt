@@ -10,25 +10,46 @@
 모드 1: cmd 창에서 입력하면 즉각 기계어를 작성해내어 화면에 출력
 
 문법:
-<변수명> = <숫자>
+<변수명> = <숫자> (단, 하단 명령어들은 기왕이면 변수명으로 사용하지 말아주십쇼..)
 입력시 변수 지정 가능.
 ! 입력시 현재 레지스터 상태와 변수 현황 확인 가능.
 R0 : 0번 레지스터의 주솟값.
 RV0 : 0번 레지스터에 저장된 값.
 >> 레지스터 현황 파악 기능을 위해 별 수 없이 추가됨.
+ex. r0와 r1에 저장된 값을 add를 통해 r2에 저장하고 싶은 경우.
+add RV0 RV1 R2
 
 출력 형태:
 <instruction>: <결과 레지스터> = <저장된 값>
 Result: <기계어> 
 
-명령어:
-mov <입력 데이터> <입력 대상>
+명령어: // 현재 unsigned int 가 사용된 것들은 c++ bitset을 통과함에 따라 어떻게 변화하는지 확인 필요.
+mov <입력 데이터> <입력 대상> - 레지스터에 임의로 값 집어 넣을 때 이용.
 add <rs1> <rs2> <rd>
 sub <rs1> <rs2> <rd>
+and <rs1> <rs2> <rd>
+or <rs1> <rs2> <rd>
+xor <rs1> <rs2> <rd>
+sll <rs1> <rs2> <rd>
+srl <rs1> <rs2> <rd>
+sra <rs1> <rs2> <rd>
+slt <rs1> <rs2> <rd>
+sltu <rs1> <rs2> <rd>
+addi <rs1> <imm> <rd>
+andi <rs1> <imm> <rd>
+ori <rs1> <imm> <rd>
+xori <rs1> <imm> <rd>
+slli <rs1> <imm> <rd>
+srli <rs1> <imm> <rd>
+srai <rs1> <imm> <rd>
+slti <rs1> <imm> <rd>
+sltiu <rs1> <imm> <rd>
+lw <rs1> <offset> <rd> // 명령어 자체가 메모리에서 값 가져오는 거라 시뮬레이터 내에 반영 안됨. 명령어만 나옴.
+jalr <rs1> <offset> <rd>
 
 
 
-
+하단부는 아직 미구현.
 모드 2: 텍스트 파일 전체를 자동 변환하여 텍스트 파일로 출력. - 문법이 모드 1 과 동일할 것으로 예상됨.
 입력: ISA 명령어가 작성된 txt파일.
 처리: 
