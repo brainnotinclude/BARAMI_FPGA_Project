@@ -17,7 +17,7 @@ R0 : 0번 레지스터의 주솟값.
 RV0 : 0번 레지스터에 저장된 값.
 >> 레지스터 현황 파악 기능을 위해 별 수 없이 추가됨.
 ex. r0와 r1에 저장된 값을 add를 통해 r2에 저장하고 싶은 경우.
-add RV0 RV1 R2
+add R2 RV0 RV1 
 
 출력 형태:
 <instruction>: <결과 레지스터> = <저장된 값>
@@ -25,7 +25,7 @@ Result: <기계어>
 
 명령어: // 현재 unsigned int 가 사용된 것들은 c++ bitset을 통과함에 따라 어떻게 변화하는지 확인 필요.
 mov <입력 데이터> <입력 대상> - 레지스터에 임의로 값 집어 넣을 때 이용.
-add <rs1> <rs2> <rd>
+add <rd> <rs1> <rs2>
 sub <rs1> <rs2> <rd>
 and <rs1> <rs2> <rd>
 or <rs1> <rs2> <rd>
