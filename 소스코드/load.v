@@ -1,4 +1,4 @@
-module Load (
+module load (
     input wire clk,
     input wire rst_n,
     input wire set_busy,           // 명령어 실행 신호
