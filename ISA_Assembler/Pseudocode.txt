@@ -26,26 +26,26 @@ Result: <기계어>
 명령어: // 현재 unsigned int 가 사용된 것들은 c++ bitset을 통과함에 따라 어떻게 변화하는지 확인 필요.
 mov <입력 데이터> <입력 대상> - 레지스터에 임의로 값 집어 넣을 때 이용.
 add <rd> <rs1> <rs2>
-sub <rs1> <rs2> <rd>
-and <rs1> <rs2> <rd>
-or <rs1> <rs2> <rd>
-xor <rs1> <rs2> <rd>
-sll <rs1> <rs2> <rd>
-srl <rs1> <rs2> <rd>
-sra <rs1> <rs2> <rd>
-slt <rs1> <rs2> <rd>
-sltu <rs1> <rs2> <rd>
-addi <rs1> <imm> <rd>
-andi <rs1> <imm> <rd>
-ori <rs1> <imm> <rd>
-xori <rs1> <imm> <rd>
-slli <rs1> <imm> <rd>
-srli <rs1> <imm> <rd>
-srai <rs1> <imm> <rd>
-slti <rs1> <imm> <rd>
-sltiu <rs1> <imm> <rd>
-lw <rs1> <offset> <rd> // 명령어 자체가 메모리에서 값 가져오는 거라 시뮬레이터 내에 반영 안됨. 명령어만 나옴.
-jalr <rs1> <offset> <rd>
+sub <rd> <rs1> <rs2>
+and <rd> <rs1> <rs2>
+or <rd> <rs1> <rs2>
+xor <rd> <rs1> <rs2>
+sll <rd> <rs1> <rs2>
+srl <rd> <rs1> <rs2>
+sra <rd> <rs1> <rs2>
+slt <rd> <rs1> <rs2>
+sltu <rd> <rs1> <rs2>
+addi <rd> <rs1> <imm>
+andi <rd> <rs1> <imm>
+ori <rd> <rs1> <imm>
+xori <rd> <rs1> <imm>
+slli <rd> <rs1> <imm>
+srli <rd> <rs1> <imm>
+srai <rd> <rs1> <imm>
+slti <rd> <rs1> <imm>
+sltiu <rd> <rs1> <imm>
+lw <rd> <rs1> <offset> // 명령어 자체가 메모리에서 값 가져오는 거라 시뮬레이터 내에 반영 안됨. 명령어만 나옴.
+jalr <rd> <rs1> <offset>
 
 
 모드 2: 텍스트 파일 전체를 자동 변환하여 텍스트 파일로 출력. - 문법이 모드 1 과 동일할 것으로 예상됨.
