@@ -139,7 +139,6 @@ void processCommand(const std::string& command) {
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
         return;
     }
-
     if (instruction == "sub") {
         int reg2Value = getValue(arg2);
         registers[getRegisterIndex(arg3)] = value1 - reg2Value;
@@ -147,7 +146,6 @@ void processCommand(const std::string& command) {
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0100000\n" << std::endl;
         return;
     }
-
     if (instruction == "and") {
         registers[destIndex] = value1 & value2;
         std::cout << "AND: " << arg3 << " = " << registers[destIndex] << std::endl;
@@ -255,6 +253,42 @@ void processCommand(const std::string& command) {
         registers[destIndex] = registers[baseRegisterIndex] + offset;
         std::cout << "JALR: " << arg1 << " = " << registers[destIndex] << std::endl;
         std::cout << "Result: " << "1100111" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<12>(offset) << "\n" << std::endl;
+    }
+    else if (instruction == "beq") {
+        if (value1 == value2) {
+            std::cout << "BEQ: Branching if equal" << std::endl;
+            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "000" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+        }
+    }
+    else if (instruction == "bne") {
+        if (value1 != value2) {
+            std::cout << "BNE: Branching if not equal" << std::endl;
+            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "001" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+        }
+    }
+    else if (instruction == "bge") {
+        if (value1 >= value2) {
+            std::cout << "BGE: Branching if greater than or equal" << std::endl;
+            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "101" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+        }
+    }
+    else if (instruction == "bgeu") {
+        if (static_cast<unsigned int>(value1) >= static_cast<unsigned int>(value2)) {
+            std::cout << "BGEU: Branching if greater than or equal unsigned" << std::endl;
+            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "111" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+        }
+    }
+    else if (instruction == "blt") {
+        if (value1 < value2) {
+            std::cout << "BLT: Branching if less than" << std::endl;
+            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "100" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+        }
+    }
+    else if (instruction == "bltu") {
+        if (static_cast<unsigned int>(value1) < static_cast<unsigned int>(value2)) {
+            std::cout << "BLTU: Branching if less than unsigned" << std::endl;
+            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "110" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+        }
     }
     else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
