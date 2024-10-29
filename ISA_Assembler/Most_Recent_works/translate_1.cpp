@@ -130,8 +130,6 @@ void processCommand(const std::string& command) {
         std::cout << "mov: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << "\n" << std::endl;
         return;
     } 
-
-
     if (instruction == "add") {
         int reg2Value = getValue(arg2);
         registers[getRegisterIndex(arg3)] = value1 + reg2Value;
