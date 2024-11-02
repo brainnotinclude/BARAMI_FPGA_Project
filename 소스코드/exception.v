@@ -1,4 +1,4 @@
-module MisalignedExceptionHandler (
+module exception (
     input wire [31:0] instruction_address,
     input wire [31:0] pc,                // 현재 프로그램 카운터 (PC)
     output reg [31:0] next_pc,           // 다음 프로그램 카운터 (PC)
