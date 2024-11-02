@@ -1,3 +1,6 @@
+//exception 관리 모듈입니다.
+//현재는 address misaligned 정도 구현해놓은 상태입니다.
+
 module exception (
     input wire [31:0] instruction_address,
     input wire [31:0] pc,                // 현재 프로그램 카운터 (PC)
@@ -6,9 +9,9 @@ module exception (
     output reg [31:0] exception_code     // 예외 코드
 );
 
-// 예외 처리기 시작 주소 (CSR에 정의된 주소를 사용 가능)
+// 예외 처리기 시작 주소 (CSR에 정의된 주소를 사용하도록 수정 예정)
 localparam [31:0] EXCEPTION_HANDLER_ADDR = 32'h00000004;
-localparam [31:0] MISALIGNED_INSTRUCTION_EXCEPTION = 32'd0x02; // RISC-V 예외 코드
+localparam [31:0] MISALIGNED_INSTRUCTION_EXCEPTION = 32'd0x02; 
 
 // 주소의 정렬 검사 (32비트 정렬 확인)
 wire misaligned = (instruction_address[1:0] != 2'b00);
