@@ -262,19 +262,6 @@ void processCommand(const std::string& command) {
         std::cout << "LUI: " << arg3 << " = " << registers[destIndex] << std::endl;
         std::cout << "Result: " << "0110111" << std::bitset<5>(value3) << std::bitset<20>(imm) << "\n" << std::endl;
     }
-    else if (instruction == "auipc") {
-        int imm = parseNumber(arg1);
-        registers[destIndex] = pc + (imm << 12);
-        std::cout << "AUIPC: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010111" << std::bitset<5>(value3) << std::bitset<20>(imm) << "\n" << std::endl;
-    }
-    else if (instruction == "jal") {
-        int offset = parseNumber(arg1);
-        registers[destIndex] = pc + 4;
-        pc += offset;
-        std::cout << "JAL: PC = " << pc << ", " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "1101111" << std::bitset<5>(value3) << std::bitset<20>(offset) << "\n" << std::endl;
-    }  
     else if (instruction == "ecall") {
         std::cout << "ECALL: Environment Call\n" << std::endl;
     }
@@ -320,51 +307,6 @@ void processCommand(const std::string& command) {
         registers[destIndex] = value2 != 0 ? (unsigned)value1 % (unsigned)value2 : 0;
         std::cout << "REMU: " << arg3 << " = " << registers[destIndex] << std::endl;
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
-    }
-    else if (instruction == "fadd.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = getFloatValue(arg1) + getFloatValue(arg2);
-        std::cout << "FADD.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010000" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fsub.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = getFloatValue(arg1) - getFloatValue(arg2);
-        std::cout << "FSUB.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010000" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fmul.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = getFloatValue(arg1) * getFloatValue(arg2);
-        std::cout << "FMUL.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010000" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fdiv.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = getFloatValue(arg1) / getFloatValue(arg2);
-        std::cout << "FDIV.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010000" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fmin.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = std::min(getFloatValue(arg1), getFloatValue(arg2));
-        std::cout << "FMIN.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010000" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fmax.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = std::max(getFloatValue(arg1), getFloatValue(arg2));
-        std::cout << "FMAX.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010000" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fmadd.s") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = getFloatValue(arg1) * getFloatValue(arg2) + getFloatValue(arg3);
-        std::cout << "FMADD.S: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010010" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fmv.x.w") {
-        registers[getRegisterIndex(arg3)] = static_cast<int>(getFloatValue(arg1));
-        std::cout << "FMV.X.W: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010100" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "0000000\n" << std::endl;
-    }
-    else if (instruction == "fmv.w.x") {
-        floatRegisters[getFloatRegisterIndex(arg3)] = static_cast<float>(getValue(arg1));
-        std::cout << "FMV.W.X: " << arg3 << " = " << floatRegisters[getFloatRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: 1010100" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "0000000\n" << std::endl;
     }
     else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
