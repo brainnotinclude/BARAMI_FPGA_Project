@@ -81,38 +81,6 @@ int getValue(const std::string& arg) {
     }
 }
 
-
-/*
-// 명령어 처리 함수 원본
-void processCommand(const std::string& command) {
-    std::istringstream ss(command);
-    std::string instruction, arg1, arg2, arg3;
-    ss >> instruction >> arg1 >> arg2 >> arg3;
-
-    // Determine if arg1 is a register or a number/variable
-    int value = getValue(arg1);
-    int destIndex = getRegisterIndex(arg2);
-
-    if (instruction == "MOV") {
-        registers[destIndex] = value;
-        std::cout << "MOV: " << arg2 << " = " << registers[destIndex] << std::endl;
-    }
-    else if (instruction == "ADD") {
-        int reg2Value = getValue(arg2);
-        registers[getRegisterIndex(arg3)] = value + reg2Value;
-        std::cout << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << "\n" << std::endl;
-        std::cout << "Result: " << "0110011_" << std::bitset<5>(getValue2(arg3)) << "_000_" << std::bitset<5>(getValue2(arg1)) << "_" << std::bitset<5>(getValue2(arg2)) << "_0000000" << std::endl;
-    }
-    else if (instruction == "SUB") {
-        int reg2Value = getValue(arg2);
-        registers[getRegisterIndex(arg3)] = value - reg2Value;
-        std::cout << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
-    }
-    else {
-        std::cout << "Unknown instruction: " << instruction << std::endl;
-    }
-}
-*/
 // 명령어 처리 함수
 void processCommand(const std::string& command) {
     std::istringstream ss(command);
