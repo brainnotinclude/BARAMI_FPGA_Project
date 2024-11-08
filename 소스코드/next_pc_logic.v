@@ -23,11 +23,16 @@
 module next_pc_logic(
     input clk,
     input rst_n,
-    input EN,
-    input [11:0] imm,
-    input [19:0] imm_jal,
-    input [31:0] imm_jalr,   //for jalr 11
-    input [1:0] PCSrc,
+
+    input [11:0] imm_A,
+    input [19:0] imm_jal_A,
+    input [31:0] imm_jalr_A,   //for jalr 11
+    input [1:0] PCSrc_A,
+    
+    input [11:0] imm_B,
+    input [19:0] imm_jal_B,
+    input [31:0] imm_jalr_B,   //for jalr 11
+    input [1:0] PCSrc_B,
     
     input errorA, 
     input rs_full_A,
@@ -49,16 +54,25 @@ wire [31:0] imm_shift;
 wire [31:0] imm_jal_shift;
 wire [31:0] PCPlus4F;
 
-assign imm_shift = {18'b0, imm << 2};  // for  branch  01
-assign imm_jal_shift = {10'b0, imm_jal<<2};   // for jal  10
+reg errorA_reg; 
+reg rs_full_A_reg;
+reg errorB_reg;
+reg rs_full_B_reg;
+reg error_decode_A_reg;
+reg error_decode_B_reg;
+
+assign imm_shift = (PCSrc_A==2'b01) ? {18'b0, imm_A << 2} : (PCSrc_B==2'b01) ? {18'b0, imm_B << 2} : 32'b0 ;  // for  branch  01
+assign imm_jal_shift = (PCSrc_A==2'b01) ? {10'b0, imm_jal_A<<2} : (PCSrc_B==2'b01) ? {10'b0, imm_jal_B<<2} : 32'b0;   // for jal  10
 
 ripple_carry_adder u_pc_plus_4(
-.a  (pcF1),
+.a  (pcF2),
 .b  (32'h4),
 .cin(1'b0),
 .sum(PCPlus4F),
 .cout()
 );
+
+assign PCNext1 = PCPlus4F;
 
 ripple_carry_adder u_pc_target(
 .a(PCPlus4F),
@@ -68,7 +82,13 @@ ripple_carry_adder u_pc_target(
 .cout()
 );
 
-assign PCNext1 =((PCSrc == 2'b00) ? PCPlus4F : ((PCSrc == 2'b01) ? PCBranch :((PCSrc == 2'b10) ? imm_jal_shift :imm_jalr)));
+/*always @(*)
+begin 
+if (PCSrc_A == 2'b00 & PCSrc_B == 2'b00)   
+    PCNext1 = PCPlus4F;
+else if (PCSrc_A == 2'b00 & PCSrc_B == 2'b01)
+    PCNext1 = PCBranch;
+*/
 
 ripple_carry_adder second_inst(
 .a  (PCNext1),
@@ -78,16 +98,37 @@ ripple_carry_adder second_inst(
 .cout()
 );
 
+always@(*)
+begin
+if(!rst_n)
+begin 
+errorA_reg= 0;
+rs_full_A_reg =0;
+errorB_reg = 0;
+rs_full_B_reg = 0;
+error_decode_A_reg = 0;
+error_decode_B_reg = 0;
+end
+else 
+begin 
+errorA_reg= errorA;
+rs_full_A_reg =rs_full_A;
+errorB_reg = errorB;
+rs_full_B_reg = rs_full_B;
+error_decode_A_reg = error_decode_A;
+error_decode_B_reg = error_decode_B;
+end
+end
 
 always @(posedge clk, negedge rst_n)
 begin
 if (!rst_n) begin
     pcF1 <= RESET_PC;
     pcF2 <= RESET_PC;
-end else if(errorA | rs_full_A | error_decode_A) begin    
+end else if(errorA_reg | rs_full_A_reg | error_decode_A_reg) begin    
     pcF1 <= pcF1;
     pcF2 <= pcF2;
-end else if(errorB | rs_full_B | error_decode_B) begin
+end else if(errorB_reg | rs_full_B_reg | error_decode_B_reg) begin
     pcF1 <= pcF2;
     pcF2 <= PCNext1;
 end

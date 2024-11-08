@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2024/08/08 09:13:11
+// Create Date: 2024/08/15 10:41:44
 // Design Name: 
 // Module Name: multiplier_all
 // Project Name: 
@@ -19,8 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//Module for multiplying unsigned*unsigned, unsigned*signed, signed*signed
-//Caution: testbench not performed!!!
+
 module multiplier_all(
     input [1:0] mode,
     input [31:0] a,

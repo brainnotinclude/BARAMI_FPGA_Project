@@ -1,6 +1,7 @@
 module divide (
     input [31:0] dividend,  // 나눗셈을 당하는 값
     input [31:0] divisor,   // 나누는 값
+    output reg error,
     output reg [31:0] quotient,  // 몫
     output reg [31:0] remainder  // 나머지
 ); 
@@ -26,7 +27,16 @@ module divide (
         end
 
         // 결과 할당
+        if (divisor == 0)
+        begin 
+        quotient = 32'b0;
+        remainder = 32'b0;
+        error = 1;
+        end 
+        else begin
         quotient = remainder_reg[31:0];       // 오른쪽 32비트는 몫이되고 왼쪽 32비트는 나머지가 된다. 
         remainder = remainder_reg[63:32];
+        error = 0;
+        end
     end
 endmodule

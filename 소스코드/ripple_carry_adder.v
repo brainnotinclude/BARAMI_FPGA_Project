@@ -1,4 +1,25 @@
-`timescale 1ns/ 1ps
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2024/08/15 10:40:44
+// Design Name: 
+// Module Name: ripple_carry_adder
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
 module ripple_carry_adder(
   input		[31:0] 	a,
   input		[31:0] 	b,

@@ -35,7 +35,7 @@ module divide_floating (
         end 
         else begin
         quotient = remainder_reg[23:0];       // 오른쪽 32비트는 몫이되고 왼쪽 32비트는 나머지가 된다. 
-        remainder = remainder_reg[47:23];
+        remainder = remainder_reg[47:24];
         error = 0;
         end
     end

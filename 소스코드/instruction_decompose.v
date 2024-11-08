@@ -26,20 +26,29 @@ module instruction_decompose(
     input [31:0] s2,
     input rs1_valid,
     input rs2_valid,
+    input [31:0] s1_fp,
+    input [31:0] s2_fp,
+    input rs1_valid_fp,
+    input rs2_valid_fp,
     input [31:0] pc,
-    input [31:0] rs1_ex_forwarding,
-    input [31:0] rs2_ex_forwarding,
-    input [31:0] rs1_mem_forwarding,
-    input [31:0] rs2_mem_forwarding,
-    input [1:0] rs1_forwarding_bit,
-    input [1:0] rs2_forwarding_bit,           // for forwarding, 00 -> rs1 , 01 -> ex forwarding, 10 -> mem forwarding
-    
-    
+    input [31:0] forwarding,
+    input [4:0] forwarding_addr,
+    input [4:0] forwarding_addr_fp,
+    input [31:0] forwarding_fp,
+
     output reg map_en,
+    //output reg map_en_fp,
     output [4:0] rs1,
     output [4:0] rs2,
     output [4:0] rd,
-    output reg [82:0] decomposed_inst
+    output reg [115:0] decomposed_inst,  // memdata ctrl rs2 valid rs1 valid rd
+    output reg error,
+    output jump,
+    output fp,
+    output fence,
+    output ebreak,
+    output ecall,
+    output [1:0] PCSrc
     );
     
     //Disassemble instruction
@@ -53,11 +62,12 @@ module instruction_decompose(
     //internally using varibles : make output by concatenate these variables 
     reg [31:0] rs1_vt;                     //vt means value or tag
     reg [31:0] rs2_vt;
+    reg [31:0] memdata;            // mem 관련 data로 s2 값 혹은 forwarding 값 주면 됨
     reg s1_valid;                        //If source1 is register, than it will be same as rs1_valid
     reg s2_valid;                        //If source2 is register, than it will be same as rs2_valid
     wire [31:0] rs1_value;
     wire [31:0] rs2_value;
-    wire [11:0] ctrl_signal;                   //Caution! It's design is not completed!
+    wire [13:0] ctrl_signal;                   //Caution! It's design is not completed!
     
     assign opcode = inst[6:0];
     assign rd = inst[11:7];
@@ -69,7 +79,7 @@ module instruction_decompose(
     assign function7 = inst[31:25];
     
     
-    wire [4:0] aluop;
+    wire [5:0] aluop;
     wire [1:0] alu_mux1;
     wire [1:0] alu_mux2;
     wire [1:0] dispatch_control;
@@ -80,10 +90,15 @@ module instruction_decompose(
     wire memtoreg;
     wire map_enable;
     
+    
+    reg valid1_total;
+    reg valid2_total;
+    
     control u_control(
     .opcode_A(opcode),
     .funct3_A(function3),
     .funct7_A(function7),
+    .ebreak(rs2[0]),
     
     .aluop_A(aluop),
     .aluin1_mux(alu_mux1),
@@ -94,18 +109,25 @@ module instruction_decompose(
     .memread(memread),
     .memtoreg(memtoreg),
     .branch(branch),
-    .regwrite(regwrite)
+    .regwrite(regwrite),
+    .jump(jump),
+    .fp(fp),
+    .fence(fence),
+    .ebreak_out(ebreak),
+    .ecall(ecall),
+    .PCsrc(PCSrc)
     );
     
-    wire [3:0] forwarding_bit;                                         // for forwarding, 00 -> rs1 , 01 -> ex forwarding, 10 -> mem forwarding
-    assign forwarding_bit = {rs1_forwarding_bit, rs2_forwarding_bit};
        
        
      alu_mux u_alu_mux(
     .mux1(alu_mux1),
     .mux2(alu_mux2),
+    .rf_signal(fp),
     .rs1(s1),
     .rs2(s2),
+    .rs1_fp(s1_fp),
+    .rs2_fp(s2_fp),
     .pc(pc),
     .imm(imm_for_i),
     .imm_20(imm_for_ui),
@@ -115,37 +137,75 @@ module instruction_decompose(
     );
     
    
-    assign ctrl_signal = {aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //5+1+1+1+1+1+2 =12
+    assign ctrl_signal = {fp, aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //1+6+1+1+1+1+1+2 =14
+    
     
     always@(*) begin   
-    map_en = map_enable;                           // 추후 forwarding을 위한 부분 
-    rs1_vt = rs1_value;
-    rs2_vt = rs2_value;
-    if (rs1_forwarding_bit != 2'b00)
-    s1_valid = 1;
-    else 
-    s1_valid = rs1_valid;
-    
-    if (rs2_forwarding_bit != 2'b00)
-    s2_valid = 1;
-    else 
-    s2_valid = rs2_valid;
-    
-    case(forwarding_bit)
-        4'b0000: decomposed_inst = {rs2_vt, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};                      //32+1+32+1+5+12 =83
-        4'b0001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};
-        4'b0100: decomposed_inst = {rs2_vt, s2_valid, rs1_ex_forwarding, s1_valid, rd, ctrl_signal};
-        4'b0010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_vt, s1_valid, rd, ctrl_signal};
-        4'b1000: decomposed_inst = {rs2_vt, s2_valid, rs1_mem_forwarding, s1_valid, rd, ctrl_signal};
-        4'b0101: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, ctrl_signal};
-        4'b0110: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_ex_forwarding, s1_valid, rd, ctrl_signal};
-        4'b1001: decomposed_inst = {rs2_ex_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, ctrl_signal};
-        4'b1010: decomposed_inst = {rs2_mem_forwarding, s2_valid, rs1_mem_forwarding, s1_valid, rd, ctrl_signal};
-    endcase
+    map_en = (map_enable & !fp) ? 1: 0;                          // 먼저 valid이면 register 값 그대로 쓰면 됨
+    //map_en_fp = (map_enable &fp) ? 1: 0;
+    memdata = 0;
+    valid1_total = rs1_valid & rs1_valid_fp;
+
+    if(valid1_total) begin
+        rs1_vt = rs1_value;
+        s1_valid = 1;
+    end 
+    else begin
+    if(fp==0) begin
+        if(rs1 == forwarding_addr) begin       // valid 아니면 포워딩 가능인지 확인
+        rs1_vt = forwarding;
+        s1_valid = 1;
+        end
+        else begin                             // 불가능하면 s1_valid를 0으로 
+        rs1_vt = 32'b0;
+        s1_valid = 0;
+        end
     end
-   
-
-
+    else begin 
+    if(rs1 == forwarding_addr_fp) begin       // valid 아니면 포워딩 가능인지 확인
+        rs1_vt = forwarding_fp;
+        s1_valid = 1;
+        end
+        else begin                             // 불가능하면 s1_valid를 0으로 
+        rs1_vt = 32'b0;
+        s1_valid = 0;
+        end
+    end
+    end
+ 
     
+    valid2_total = rs2_valid & rs2_valid_fp;
     
+    if(valid2_total) begin
+        rs2_vt = rs2_value;
+        s2_valid = 1;
+        memdata = s2;
+    end 
+    else begin
+    if(fp==0) begin
+        if(rs2 == forwarding_addr) begin       // valid 아니면 포워딩 가능인지 확인
+        rs2_vt = forwarding;
+        s2_valid = 1;
+        end
+        else begin                             // 불가능하면 s1_valid를 0으로 
+        rs2_vt = 32'b0;
+        s2_valid = 0;
+        end
+    end
+    else begin 
+    if(rs2 == forwarding_addr_fp) begin       // valid 아니면 포워딩 가능인지 확인
+        rs2_vt = forwarding_fp;
+        s2_valid = 1;
+        end
+        else begin                             // 불가능하면 s1_valid를 0으로 
+        rs2_vt = 32'b0;
+        s2_valid = 0;
+        end
+    end
+    end
+    
+    error = !(s1_valid & s2_valid);              // 둘 중 하나라도 valid하지 않으면 error 내보냄
+    
+    decomposed_inst = {memdata, ctrl_signal, rs2_vt, s2_valid, rs1_vt, s1_valid, rd};
+    end
 endmodule

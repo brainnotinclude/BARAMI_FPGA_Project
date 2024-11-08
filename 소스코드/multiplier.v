@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2024/08/08 10:12:42
+// Create Date: 2024/08/15 10:43:33
 // Design Name: 
-// Module Name: mutiplier
+// Module Name: multiplier
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 

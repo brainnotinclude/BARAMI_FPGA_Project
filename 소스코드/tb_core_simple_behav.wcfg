@@ -1,0 +1,3184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_core_simple_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_core_simple" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="145001fs"></ZoomEndTime>
+      <Cursor1Time time="75000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="231"></NameColumnWidth>
+      <ValueColumnWidth column_width="264"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="23" />
+   <wvobject fp_name="/tb_core_simple/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_core_simple/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_core_simple/instA" type="array">
+      <obj_property name="ElementShortName">instA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_core_simple/instB" type="array">
+      <obj_property name="ElementShortName">instB[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instB[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_core_simple/pcF1" type="array">
+      <obj_property name="ElementShortName">pcF1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pcF1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_core_simple/pcF2" type="array">
+      <obj_property name="ElementShortName">pcF2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pcF2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group9" type="group">
+      <obj_property name="label">nextpc</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_A" type="array">
+         <obj_property name="ElementShortName">imm_A[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_A[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_jal_A" type="array">
+         <obj_property name="ElementShortName">imm_jal_A[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_A[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_jalr_A" type="array">
+         <obj_property name="ElementShortName">imm_jalr_A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr_A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/PCSrc_A" type="array">
+         <obj_property name="ElementShortName">PCSrc_A[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc_A[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_B" type="array">
+         <obj_property name="ElementShortName">imm_B[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_B[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_jal_B" type="array">
+         <obj_property name="ElementShortName">imm_jal_B[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_B[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_jalr_B" type="array">
+         <obj_property name="ElementShortName">imm_jalr_B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr_B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/PCSrc_B" type="array">
+         <obj_property name="ElementShortName">PCSrc_B[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc_B[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/errorA" type="logic">
+         <obj_property name="ElementShortName">errorA</obj_property>
+         <obj_property name="ObjectShortName">errorA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/rs_full_A" type="logic">
+         <obj_property name="ElementShortName">rs_full_A</obj_property>
+         <obj_property name="ObjectShortName">rs_full_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/errorB" type="logic">
+         <obj_property name="ElementShortName">errorB</obj_property>
+         <obj_property name="ObjectShortName">errorB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/rs_full_B" type="logic">
+         <obj_property name="ElementShortName">rs_full_B</obj_property>
+         <obj_property name="ObjectShortName">rs_full_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/error_decode_A" type="logic">
+         <obj_property name="ElementShortName">error_decode_A</obj_property>
+         <obj_property name="ObjectShortName">error_decode_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/error_decode_B" type="logic">
+         <obj_property name="ElementShortName">error_decode_B</obj_property>
+         <obj_property name="ObjectShortName">error_decode_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/pcF1" type="array">
+         <obj_property name="ElementShortName">pcF1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcF1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/pcF2" type="array">
+         <obj_property name="ElementShortName">pcF2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcF2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/PCNext1" type="array">
+         <obj_property name="ElementShortName">PCNext1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCNext1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/PCBranch" type="array">
+         <obj_property name="ElementShortName">PCBranch[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCBranch[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/PCNext2" type="array">
+         <obj_property name="ElementShortName">PCNext2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCNext2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_shift" type="array">
+         <obj_property name="ElementShortName">imm_shift[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_shift[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/imm_jal_shift" type="array">
+         <obj_property name="ElementShortName">imm_jal_shift[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_shift[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/PCPlus4F" type="array">
+         <obj_property name="ElementShortName">PCPlus4F[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCPlus4F[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/errorA_reg" type="logic">
+         <obj_property name="ElementShortName">errorA_reg</obj_property>
+         <obj_property name="ObjectShortName">errorA_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/rs_full_A_reg" type="logic">
+         <obj_property name="ElementShortName">rs_full_A_reg</obj_property>
+         <obj_property name="ObjectShortName">rs_full_A_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/errorB_reg" type="logic">
+         <obj_property name="ElementShortName">errorB_reg</obj_property>
+         <obj_property name="ObjectShortName">errorB_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/rs_full_B_reg" type="logic">
+         <obj_property name="ElementShortName">rs_full_B_reg</obj_property>
+         <obj_property name="ObjectShortName">rs_full_B_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/error_decode_A_reg" type="logic">
+         <obj_property name="ElementShortName">error_decode_A_reg</obj_property>
+         <obj_property name="ObjectShortName">error_decode_A_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/error_decode_B_reg" type="logic">
+         <obj_property name="ElementShortName">error_decode_B_reg</obj_property>
+         <obj_property name="ObjectShortName">error_decode_B_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_pc/RESET_PC" type="array">
+         <obj_property name="ElementShortName">RESET_PC[31:0]</obj_property>
+         <obj_property name="ObjectShortName">RESET_PC[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group41" type="group">
+      <obj_property name="label">decoder</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rst_n" type="logic">
+         <obj_property name="ElementShortName">rst_n</obj_property>
+         <obj_property name="ObjectShortName">rst_n</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/instA" type="array">
+         <obj_property name="ElementShortName">instA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/instB" type="array">
+         <obj_property name="ElementShortName">instB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/pcA" type="array">
+         <obj_property name="ElementShortName">pcA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/pcB" type="array">
+         <obj_property name="ElementShortName">pcB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/forwarding" type="array">
+         <obj_property name="ElementShortName">forwarding[31:0]</obj_property>
+         <obj_property name="ObjectShortName">forwarding[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/forwarding_addr" type="array">
+         <obj_property name="ElementShortName">forwarding_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">forwarding_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s1A" type="array">
+         <obj_property name="ElementShortName">s1A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s2A" type="array">
+         <obj_property name="ElementShortName">s2A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s1B" type="array">
+         <obj_property name="ElementShortName">s1B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s2B" type="array">
+         <obj_property name="ElementShortName">s2B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs1A_valid" type="logic">
+         <obj_property name="ElementShortName">rs1A_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1A_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs2A_valid" type="logic">
+         <obj_property name="ElementShortName">rs2A_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2A_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs1B_valid" type="logic">
+         <obj_property name="ElementShortName">rs1B_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1B_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs2B_valid" type="logic">
+         <obj_property name="ElementShortName">rs2B_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2B_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s1A_fp" type="array">
+         <obj_property name="ElementShortName">s1A_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1A_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s2A_fp" type="array">
+         <obj_property name="ElementShortName">s2A_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2A_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s1B_fp" type="array">
+         <obj_property name="ElementShortName">s1B_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1B_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/s2B_fp" type="array">
+         <obj_property name="ElementShortName">s2B_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2B_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs1A_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs1A_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs1A_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs2A_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs2A_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs2A_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs1B_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs1B_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs1B_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs2B_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs2B_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs2B_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decoded_instA" type="array">
+         <obj_property name="ElementShortName">decoded_instA[115:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_instA[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decoded_instB" type="array">
+         <obj_property name="ElementShortName">decoded_instB[115:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_instB[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/map_en_A" type="logic">
+         <obj_property name="ElementShortName">map_en_A</obj_property>
+         <obj_property name="ObjectShortName">map_en_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/map_en_B" type="logic">
+         <obj_property name="ElementShortName">map_en_B</obj_property>
+         <obj_property name="ObjectShortName">map_en_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs1A" type="array">
+         <obj_property name="ElementShortName">rs1A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs2A" type="array">
+         <obj_property name="ElementShortName">rs2A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs1B" type="array">
+         <obj_property name="ElementShortName">rs1B[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1B[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rs2B" type="array">
+         <obj_property name="ElementShortName">rs2B[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2B[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rdA" type="array">
+         <obj_property name="ElementShortName">rdA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/rdB" type="array">
+         <obj_property name="ElementShortName">rdB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/error_A" type="logic">
+         <obj_property name="ElementShortName">error_A</obj_property>
+         <obj_property name="ObjectShortName">error_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/error_B" type="logic">
+         <obj_property name="ElementShortName">error_B</obj_property>
+         <obj_property name="ObjectShortName">error_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/jump_A" type="logic">
+         <obj_property name="ElementShortName">jump_A</obj_property>
+         <obj_property name="ObjectShortName">jump_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/fp_A" type="logic">
+         <obj_property name="ElementShortName">fp_A</obj_property>
+         <obj_property name="ObjectShortName">fp_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/fence_A" type="logic">
+         <obj_property name="ElementShortName">fence_A</obj_property>
+         <obj_property name="ObjectShortName">fence_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/ebreak_A" type="logic">
+         <obj_property name="ElementShortName">ebreak_A</obj_property>
+         <obj_property name="ObjectShortName">ebreak_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/ecall_A" type="logic">
+         <obj_property name="ElementShortName">ecall_A</obj_property>
+         <obj_property name="ObjectShortName">ecall_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/jump_B" type="logic">
+         <obj_property name="ElementShortName">jump_B</obj_property>
+         <obj_property name="ObjectShortName">jump_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/fp_B" type="logic">
+         <obj_property name="ElementShortName">fp_B</obj_property>
+         <obj_property name="ObjectShortName">fp_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/fence_B" type="logic">
+         <obj_property name="ElementShortName">fence_B</obj_property>
+         <obj_property name="ObjectShortName">fence_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/ebreak_B" type="logic">
+         <obj_property name="ElementShortName">ebreak_B</obj_property>
+         <obj_property name="ObjectShortName">ebreak_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/ecall_B" type="logic">
+         <obj_property name="ElementShortName">ecall_B</obj_property>
+         <obj_property name="ObjectShortName">ecall_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/PCSrc_A" type="array">
+         <obj_property name="ElementShortName">PCSrc_A[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc_A[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/PCSrc_B" type="array">
+         <obj_property name="ElementShortName">PCSrc_B[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc_B[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/imm_A" type="array">
+         <obj_property name="ElementShortName">imm_A[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_A[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/imm_jal_A" type="array">
+         <obj_property name="ElementShortName">imm_jal_A[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_A[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/imm_jalr_A" type="array">
+         <obj_property name="ElementShortName">imm_jalr_A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr_A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/imm_B" type="array">
+         <obj_property name="ElementShortName">imm_B[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_B[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/imm_jal_B" type="array">
+         <obj_property name="ElementShortName">imm_jal_B[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_B[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/imm_jalr_B" type="array">
+         <obj_property name="ElementShortName">imm_jalr_B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr_B[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group96" type="group">
+      <obj_property name="label">decomposeA</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/inst" type="array">
+         <obj_property name="ElementShortName">inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/s1" type="array">
+         <obj_property name="ElementShortName">s1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/s2" type="array">
+         <obj_property name="ElementShortName">s2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs1_valid" type="logic">
+         <obj_property name="ElementShortName">rs1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs2_valid" type="logic">
+         <obj_property name="ElementShortName">rs2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/s1_fp" type="array">
+         <obj_property name="ElementShortName">s1_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/s2_fp" type="array">
+         <obj_property name="ElementShortName">s2_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs1_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs1_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs1_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs2_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs2_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs2_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/pc" type="array">
+         <obj_property name="ElementShortName">pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/forwarding" type="array">
+         <obj_property name="ElementShortName">forwarding[31:0]</obj_property>
+         <obj_property name="ObjectShortName">forwarding[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/forwarding_addr" type="array">
+         <obj_property name="ElementShortName">forwarding_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">forwarding_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/map_en" type="logic">
+         <obj_property name="ElementShortName">map_en</obj_property>
+         <obj_property name="ObjectShortName">map_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs1" type="array">
+         <obj_property name="ElementShortName">rs1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs2" type="array">
+         <obj_property name="ElementShortName">rs2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rd" type="array">
+         <obj_property name="ElementShortName">rd[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/decomposed_inst" type="array">
+         <obj_property name="ElementShortName">decomposed_inst[115:0]</obj_property>
+         <obj_property name="ObjectShortName">decomposed_inst[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/error" type="logic">
+         <obj_property name="ElementShortName">error</obj_property>
+         <obj_property name="ObjectShortName">error</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/jump" type="logic">
+         <obj_property name="ElementShortName">jump</obj_property>
+         <obj_property name="ObjectShortName">jump</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/fp" type="logic">
+         <obj_property name="ElementShortName">fp</obj_property>
+         <obj_property name="ObjectShortName">fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/fence" type="logic">
+         <obj_property name="ElementShortName">fence</obj_property>
+         <obj_property name="ObjectShortName">fence</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/ebreak" type="logic">
+         <obj_property name="ElementShortName">ebreak</obj_property>
+         <obj_property name="ObjectShortName">ebreak</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/ecall" type="logic">
+         <obj_property name="ElementShortName">ecall</obj_property>
+         <obj_property name="ObjectShortName">ecall</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/PCSrc" type="array">
+         <obj_property name="ElementShortName">PCSrc[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/imm_for_i" type="array">
+         <obj_property name="ElementShortName">imm_for_i[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_for_i[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/function3" type="array">
+         <obj_property name="ElementShortName">function3[2:0]</obj_property>
+         <obj_property name="ObjectShortName">function3[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/function7" type="array">
+         <obj_property name="ElementShortName">function7[6:0]</obj_property>
+         <obj_property name="ObjectShortName">function7[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/imm_for_ui" type="array">
+         <obj_property name="ElementShortName">imm_for_ui[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_for_ui[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs1_vt" type="array">
+         <obj_property name="ElementShortName">rs1_vt[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_vt[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs2_vt" type="array">
+         <obj_property name="ElementShortName">rs2_vt[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_vt[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/memdata" type="array">
+         <obj_property name="ElementShortName">memdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">memdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/s1_valid" type="logic">
+         <obj_property name="ElementShortName">s1_valid</obj_property>
+         <obj_property name="ObjectShortName">s1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/s2_valid" type="logic">
+         <obj_property name="ElementShortName">s2_valid</obj_property>
+         <obj_property name="ObjectShortName">s2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs1_value" type="array">
+         <obj_property name="ElementShortName">rs1_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_value[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rs2_value" type="array">
+         <obj_property name="ElementShortName">rs2_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_value[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/ctrl_signal" type="array">
+         <obj_property name="ElementShortName">ctrl_signal[13:0]</obj_property>
+         <obj_property name="ObjectShortName">ctrl_signal[13:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/alu_mux1" type="array">
+         <obj_property name="ElementShortName">alu_mux1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_mux1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/alu_mux2" type="array">
+         <obj_property name="ElementShortName">alu_mux2[1:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_mux2[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/dispatch_control" type="array">
+         <obj_property name="ElementShortName">dispatch_control[1:0]</obj_property>
+         <obj_property name="ObjectShortName">dispatch_control[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/memwrite" type="logic">
+         <obj_property name="ElementShortName">memwrite</obj_property>
+         <obj_property name="ObjectShortName">memwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/memread" type="logic">
+         <obj_property name="ElementShortName">memread</obj_property>
+         <obj_property name="ObjectShortName">memread</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/regwrite" type="logic">
+         <obj_property name="ElementShortName">regwrite</obj_property>
+         <obj_property name="ObjectShortName">regwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/branch" type="logic">
+         <obj_property name="ElementShortName">branch</obj_property>
+         <obj_property name="ObjectShortName">branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/memtoreg" type="logic">
+         <obj_property name="ElementShortName">memtoreg</obj_property>
+         <obj_property name="ObjectShortName">memtoreg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/map_enable" type="logic">
+         <obj_property name="ElementShortName">map_enable</obj_property>
+         <obj_property name="ObjectShortName">map_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/rf_signal" type="logic">
+         <obj_property name="ElementShortName">rf_signal</obj_property>
+         <obj_property name="ObjectShortName">rf_signal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/valid1_total" type="logic">
+         <obj_property name="ElementShortName">valid1_total</obj_property>
+         <obj_property name="ObjectShortName">valid1_total</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/valid2_total" type="logic">
+         <obj_property name="ElementShortName">valid2_total</obj_property>
+         <obj_property name="ObjectShortName">valid2_total</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group778" type="group">
+      <obj_property name="label">alumux</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/mux1" type="array">
+         <obj_property name="ElementShortName">mux1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mux1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/mux2" type="array">
+         <obj_property name="ElementShortName">mux2[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mux2[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/rs1" type="array">
+         <obj_property name="ElementShortName">rs1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/rs2" type="array">
+         <obj_property name="ElementShortName">rs2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/rs1_fp" type="array">
+         <obj_property name="ElementShortName">rs1_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/rs2_fp" type="array">
+         <obj_property name="ElementShortName">rs2_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/pc" type="array">
+         <obj_property name="ElementShortName">pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/imm" type="array">
+         <obj_property name="ElementShortName">imm[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/shamt" type="array">
+         <obj_property name="ElementShortName">shamt[4:0]</obj_property>
+         <obj_property name="ObjectShortName">shamt[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/imm_20" type="array">
+         <obj_property name="ElementShortName">imm_20[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_20[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/rf_signal" type="logic">
+         <obj_property name="ElementShortName">rf_signal</obj_property>
+         <obj_property name="ObjectShortName">rf_signal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/sign_imm" type="array">
+         <obj_property name="ElementShortName">sign_imm[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_imm[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/sign_imm_20" type="array">
+         <obj_property name="ElementShortName">sign_imm_20[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_imm_20[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeA/u_alu_mux/shamt_temp" type="array">
+         <obj_property name="ElementShortName">shamt_temp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">shamt_temp[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group147" type="group">
+      <obj_property name="label">decomposeB</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/inst" type="array">
+         <obj_property name="ElementShortName">inst[31:0]</obj_property>
+         <obj_property name="ObjectShortName">inst[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/s1" type="array">
+         <obj_property name="ElementShortName">s1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/s2" type="array">
+         <obj_property name="ElementShortName">s2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs1_valid" type="logic">
+         <obj_property name="ElementShortName">rs1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs2_valid" type="logic">
+         <obj_property name="ElementShortName">rs2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/s1_fp" type="array">
+         <obj_property name="ElementShortName">s1_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/s2_fp" type="array">
+         <obj_property name="ElementShortName">s2_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs1_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs1_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs1_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs2_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs2_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs2_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/pc" type="array">
+         <obj_property name="ElementShortName">pc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/forwarding" type="array">
+         <obj_property name="ElementShortName">forwarding[31:0]</obj_property>
+         <obj_property name="ObjectShortName">forwarding[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/forwarding_addr" type="array">
+         <obj_property name="ElementShortName">forwarding_addr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">forwarding_addr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/map_en" type="logic">
+         <obj_property name="ElementShortName">map_en</obj_property>
+         <obj_property name="ObjectShortName">map_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs1" type="array">
+         <obj_property name="ElementShortName">rs1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs2" type="array">
+         <obj_property name="ElementShortName">rs2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rd" type="array">
+         <obj_property name="ElementShortName">rd[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/decomposed_inst" type="array">
+         <obj_property name="ElementShortName">decomposed_inst[115:0]</obj_property>
+         <obj_property name="ObjectShortName">decomposed_inst[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/error" type="logic">
+         <obj_property name="ElementShortName">error</obj_property>
+         <obj_property name="ObjectShortName">error</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/jump" type="logic">
+         <obj_property name="ElementShortName">jump</obj_property>
+         <obj_property name="ObjectShortName">jump</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/fp" type="logic">
+         <obj_property name="ElementShortName">fp</obj_property>
+         <obj_property name="ObjectShortName">fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/fence" type="logic">
+         <obj_property name="ElementShortName">fence</obj_property>
+         <obj_property name="ObjectShortName">fence</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/ebreak" type="logic">
+         <obj_property name="ElementShortName">ebreak</obj_property>
+         <obj_property name="ObjectShortName">ebreak</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/ecall" type="logic">
+         <obj_property name="ElementShortName">ecall</obj_property>
+         <obj_property name="ObjectShortName">ecall</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/PCSrc" type="array">
+         <obj_property name="ElementShortName">PCSrc[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/imm_for_i" type="array">
+         <obj_property name="ElementShortName">imm_for_i[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_for_i[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/function3" type="array">
+         <obj_property name="ElementShortName">function3[2:0]</obj_property>
+         <obj_property name="ObjectShortName">function3[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/function7" type="array">
+         <obj_property name="ElementShortName">function7[6:0]</obj_property>
+         <obj_property name="ObjectShortName">function7[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/imm_for_ui" type="array">
+         <obj_property name="ElementShortName">imm_for_ui[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_for_ui[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs1_vt" type="array">
+         <obj_property name="ElementShortName">rs1_vt[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_vt[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs2_vt" type="array">
+         <obj_property name="ElementShortName">rs2_vt[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_vt[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/memdata" type="array">
+         <obj_property name="ElementShortName">memdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">memdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/s1_valid" type="logic">
+         <obj_property name="ElementShortName">s1_valid</obj_property>
+         <obj_property name="ObjectShortName">s1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/s2_valid" type="logic">
+         <obj_property name="ElementShortName">s2_valid</obj_property>
+         <obj_property name="ObjectShortName">s2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs1_value" type="array">
+         <obj_property name="ElementShortName">rs1_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1_value[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rs2_value" type="array">
+         <obj_property name="ElementShortName">rs2_value[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_value[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/ctrl_signal" type="array">
+         <obj_property name="ElementShortName">ctrl_signal[13:0]</obj_property>
+         <obj_property name="ObjectShortName">ctrl_signal[13:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/alu_mux1" type="array">
+         <obj_property name="ElementShortName">alu_mux1[1:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_mux1[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/alu_mux2" type="array">
+         <obj_property name="ElementShortName">alu_mux2[1:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_mux2[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/dispatch_control" type="array">
+         <obj_property name="ElementShortName">dispatch_control[1:0]</obj_property>
+         <obj_property name="ObjectShortName">dispatch_control[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/memwrite" type="logic">
+         <obj_property name="ElementShortName">memwrite</obj_property>
+         <obj_property name="ObjectShortName">memwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/memread" type="logic">
+         <obj_property name="ElementShortName">memread</obj_property>
+         <obj_property name="ObjectShortName">memread</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/regwrite" type="logic">
+         <obj_property name="ElementShortName">regwrite</obj_property>
+         <obj_property name="ObjectShortName">regwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/branch" type="logic">
+         <obj_property name="ElementShortName">branch</obj_property>
+         <obj_property name="ObjectShortName">branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/memtoreg" type="logic">
+         <obj_property name="ElementShortName">memtoreg</obj_property>
+         <obj_property name="ObjectShortName">memtoreg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/map_enable" type="logic">
+         <obj_property name="ElementShortName">map_enable</obj_property>
+         <obj_property name="ObjectShortName">map_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/rf_signal" type="logic">
+         <obj_property name="ElementShortName">rf_signal</obj_property>
+         <obj_property name="ObjectShortName">rf_signal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/valid1_total" type="logic">
+         <obj_property name="ElementShortName">valid1_total</obj_property>
+         <obj_property name="ObjectShortName">valid1_total</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoder/decomposeB/valid2_total" type="logic">
+         <obj_property name="ElementShortName">valid2_total</obj_property>
+         <obj_property name="ObjectShortName">valid2_total</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group198" type="group">
+      <obj_property name="label">rf</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/rst_n" type="logic">
+         <obj_property name="ElementShortName">rst_n</obj_property>
+         <obj_property name="ObjectShortName">rst_n</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wr_enable_A" type="logic">
+         <obj_property name="ElementShortName">wr_enable_A</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wr_enable_B" type="logic">
+         <obj_property name="ElementShortName">wr_enable_B</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/map_en_A" type="logic">
+         <obj_property name="ElementShortName">map_en_A</obj_property>
+         <obj_property name="ObjectShortName">map_en_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/map_en_B" type="logic">
+         <obj_property name="ElementShortName">map_en_B</obj_property>
+         <obj_property name="ObjectShortName">map_en_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/addrA_0" type="array">
+         <obj_property name="ElementShortName">addrA_0[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrA_0[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/addrA_1" type="array">
+         <obj_property name="ElementShortName">addrA_1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrA_1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/addrB_0" type="array">
+         <obj_property name="ElementShortName">addrB_0[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrB_0[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/addrB_1" type="array">
+         <obj_property name="ElementShortName">addrB_1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrB_1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wraddrA" type="array">
+         <obj_property name="ElementShortName">wraddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wraddrB" type="array">
+         <obj_property name="ElementShortName">wraddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wraddrA_map" type="array">
+         <obj_property name="ElementShortName">wraddrA_map[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA_map[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wraddrB_map" type="array">
+         <obj_property name="ElementShortName">wraddrB_map[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB_map[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/writeDataA" type="array">
+         <obj_property name="ElementShortName">writeDataA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/writeDataB" type="array">
+         <obj_property name="ElementShortName">writeDataB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/updateEnA" type="logic">
+         <obj_property name="ElementShortName">updateEnA</obj_property>
+         <obj_property name="ObjectShortName">updateEnA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/updateEnB" type="logic">
+         <obj_property name="ElementShortName">updateEnB</obj_property>
+         <obj_property name="ObjectShortName">updateEnB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/updateAddrA" type="array">
+         <obj_property name="ElementShortName">updateAddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/updateAddrB" type="array">
+         <obj_property name="ElementShortName">updateAddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataA_0" type="array">
+         <obj_property name="ElementShortName">dataA_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataA_0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataA_0_ready" type="logic">
+         <obj_property name="ElementShortName">dataA_0_ready</obj_property>
+         <obj_property name="ObjectShortName">dataA_0_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataA_1" type="array">
+         <obj_property name="ElementShortName">dataA_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataA_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataA_1_ready" type="logic">
+         <obj_property name="ElementShortName">dataA_1_ready</obj_property>
+         <obj_property name="ObjectShortName">dataA_1_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataB_0" type="array">
+         <obj_property name="ElementShortName">dataB_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataB_0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataB_0_ready" type="logic">
+         <obj_property name="ElementShortName">dataB_0_ready</obj_property>
+         <obj_property name="ObjectShortName">dataB_0_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataB_1" type="array">
+         <obj_property name="ElementShortName">dataB_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataB_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/dataB_1_ready" type="logic">
+         <obj_property name="ElementShortName">dataB_1_ready</obj_property>
+         <obj_property name="ObjectShortName">dataB_1_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wrA_rrError" type="logic">
+         <obj_property name="ElementShortName">wrA_rrError</obj_property>
+         <obj_property name="ObjectShortName">wrA_rrError</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/wrB_rrError" type="logic">
+         <obj_property name="ElementShortName">wrB_rrError</obj_property>
+         <obj_property name="ObjectShortName">wrB_rrError</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/arf" type="array">
+         <obj_property name="ElementShortName">arf[31:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">arf[31:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/arfTag" type="array">
+         <obj_property name="ElementShortName">arfTag[31:0][2:0]</obj_property>
+         <obj_property name="ObjectShortName">arfTag[31:0][2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/arfBusy" type="array">
+         <obj_property name="ElementShortName">arfBusy[31:0]</obj_property>
+         <obj_property name="ObjectShortName">arfBusy[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/rrf" type="array">
+         <obj_property name="ElementShortName">rrf[7:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">rrf[7:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/rrfBusy" type="array">
+         <obj_property name="ElementShortName">rrfBusy[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfBusy[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/rrfValid" type="array">
+         <obj_property name="ElementShortName">rrfValid[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfValid[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/i" type="array">
+         <obj_property name="ElementShortName">i[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/emptyRRFentry1" type="array">
+         <obj_property name="ElementShortName">emptyRRFentry1[2:0]</obj_property>
+         <obj_property name="ObjectShortName">emptyRRFentry1[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/emptyRRFentry2" type="array">
+         <obj_property name="ElementShortName">emptyRRFentry2[2:0]</obj_property>
+         <obj_property name="ObjectShortName">emptyRRFentry2[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/rrfEmptyValid" type="array">
+         <obj_property name="ElementShortName">rrfEmptyValid[1:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfEmptyValid[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_integer/rrfBusyTemp" type="array">
+         <obj_property name="ElementShortName">rrfBusyTemp[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfBusyTemp[7:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group240" type="group">
+      <obj_property name="label">rf_fp</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/rst_n" type="logic">
+         <obj_property name="ElementShortName">rst_n</obj_property>
+         <obj_property name="ObjectShortName">rst_n</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wr_enable_A" type="logic">
+         <obj_property name="ElementShortName">wr_enable_A</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wr_enable_B" type="logic">
+         <obj_property name="ElementShortName">wr_enable_B</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/map_en_A" type="logic">
+         <obj_property name="ElementShortName">map_en_A</obj_property>
+         <obj_property name="ObjectShortName">map_en_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/map_en_B" type="logic">
+         <obj_property name="ElementShortName">map_en_B</obj_property>
+         <obj_property name="ObjectShortName">map_en_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/addrA_0" type="array">
+         <obj_property name="ElementShortName">addrA_0[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrA_0[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/addrA_1" type="array">
+         <obj_property name="ElementShortName">addrA_1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrA_1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/addrB_0" type="array">
+         <obj_property name="ElementShortName">addrB_0[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrB_0[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/addrB_1" type="array">
+         <obj_property name="ElementShortName">addrB_1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addrB_1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wraddrA" type="array">
+         <obj_property name="ElementShortName">wraddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wraddrB" type="array">
+         <obj_property name="ElementShortName">wraddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wraddrA_map" type="array">
+         <obj_property name="ElementShortName">wraddrA_map[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA_map[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wraddrB_map" type="array">
+         <obj_property name="ElementShortName">wraddrB_map[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB_map[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/writeDataA" type="array">
+         <obj_property name="ElementShortName">writeDataA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/writeDataB" type="array">
+         <obj_property name="ElementShortName">writeDataB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/updateEnA" type="logic">
+         <obj_property name="ElementShortName">updateEnA</obj_property>
+         <obj_property name="ObjectShortName">updateEnA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/updateEnB" type="logic">
+         <obj_property name="ElementShortName">updateEnB</obj_property>
+         <obj_property name="ObjectShortName">updateEnB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/updateAddrA" type="array">
+         <obj_property name="ElementShortName">updateAddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/updateAddrB" type="array">
+         <obj_property name="ElementShortName">updateAddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataA_0" type="array">
+         <obj_property name="ElementShortName">dataA_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataA_0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataA_0_ready" type="logic">
+         <obj_property name="ElementShortName">dataA_0_ready</obj_property>
+         <obj_property name="ObjectShortName">dataA_0_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataA_1" type="array">
+         <obj_property name="ElementShortName">dataA_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataA_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataA_1_ready" type="logic">
+         <obj_property name="ElementShortName">dataA_1_ready</obj_property>
+         <obj_property name="ObjectShortName">dataA_1_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataB_0" type="array">
+         <obj_property name="ElementShortName">dataB_0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataB_0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataB_0_ready" type="logic">
+         <obj_property name="ElementShortName">dataB_0_ready</obj_property>
+         <obj_property name="ObjectShortName">dataB_0_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataB_1" type="array">
+         <obj_property name="ElementShortName">dataB_1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dataB_1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/dataB_1_ready" type="logic">
+         <obj_property name="ElementShortName">dataB_1_ready</obj_property>
+         <obj_property name="ObjectShortName">dataB_1_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wrA_rrError" type="logic">
+         <obj_property name="ElementShortName">wrA_rrError</obj_property>
+         <obj_property name="ObjectShortName">wrA_rrError</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/wrB_rrError" type="logic">
+         <obj_property name="ElementShortName">wrB_rrError</obj_property>
+         <obj_property name="ObjectShortName">wrB_rrError</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/arf" type="array">
+         <obj_property name="ElementShortName">arf[31:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">arf[31:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/arfTag" type="array">
+         <obj_property name="ElementShortName">arfTag[31:0][2:0]</obj_property>
+         <obj_property name="ObjectShortName">arfTag[31:0][2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/arfBusy" type="array">
+         <obj_property name="ElementShortName">arfBusy[31:0]</obj_property>
+         <obj_property name="ObjectShortName">arfBusy[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/rrf" type="array">
+         <obj_property name="ElementShortName">rrf[7:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">rrf[7:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/rrfBusy" type="array">
+         <obj_property name="ElementShortName">rrfBusy[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfBusy[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/rrfValid" type="array">
+         <obj_property name="ElementShortName">rrfValid[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfValid[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/i" type="array">
+         <obj_property name="ElementShortName">i[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/emptyRRFentry1" type="array">
+         <obj_property name="ElementShortName">emptyRRFentry1[2:0]</obj_property>
+         <obj_property name="ObjectShortName">emptyRRFentry1[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/emptyRRFentry2" type="array">
+         <obj_property name="ElementShortName">emptyRRFentry2[2:0]</obj_property>
+         <obj_property name="ObjectShortName">emptyRRFentry2[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/rrfEmptyValid" type="array">
+         <obj_property name="ElementShortName">rrfEmptyValid[1:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfEmptyValid[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/RF_fp/rrfBusyTemp" type="array">
+         <obj_property name="ElementShortName">rrfBusyTemp[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rrfBusyTemp[7:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group282" type="group">
+      <obj_property name="label">dispatch</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/instA" type="array">
+         <obj_property name="ElementShortName">instA[115:0]</obj_property>
+         <obj_property name="ObjectShortName">instA[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/instB" type="array">
+         <obj_property name="ElementShortName">instB[115:0]</obj_property>
+         <obj_property name="ObjectShortName">instB[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_empty_0" type="logic">
+         <obj_property name="ElementShortName">complex_empty_0</obj_property>
+         <obj_property name="ObjectShortName">complex_empty_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_empty_1" type="logic">
+         <obj_property name="ElementShortName">complex_empty_1</obj_property>
+         <obj_property name="ObjectShortName">complex_empty_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_empty_0" type="logic">
+         <obj_property name="ElementShortName">simple_empty_0</obj_property>
+         <obj_property name="ObjectShortName">simple_empty_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_empty_1" type="logic">
+         <obj_property name="ElementShortName">simple_empty_1</obj_property>
+         <obj_property name="ObjectShortName">simple_empty_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_empty_0" type="logic">
+         <obj_property name="ElementShortName">fp_empty_0</obj_property>
+         <obj_property name="ObjectShortName">fp_empty_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_empty_1" type="logic">
+         <obj_property name="ElementShortName">fp_empty_1</obj_property>
+         <obj_property name="ObjectShortName">fp_empty_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/rob_tail" type="array">
+         <obj_property name="ElementShortName">rob_tail[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_tail[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/rob_head" type="array">
+         <obj_property name="ElementShortName">rob_head[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_head[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_0_data" type="array">
+         <obj_property name="ElementShortName">complex_0_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_0_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_0_entry_num" type="array">
+         <obj_property name="ElementShortName">complex_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_0_valid" type="logic">
+         <obj_property name="ElementShortName">complex_0_valid</obj_property>
+         <obj_property name="ObjectShortName">complex_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_1_data" type="array">
+         <obj_property name="ElementShortName">complex_1_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_1_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_1_entry_num" type="array">
+         <obj_property name="ElementShortName">complex_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/complex_1_valid" type="logic">
+         <obj_property name="ElementShortName">complex_1_valid</obj_property>
+         <obj_property name="ObjectShortName">complex_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_0_data" type="array">
+         <obj_property name="ElementShortName">simple_0_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_0_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_0_entry_num" type="array">
+         <obj_property name="ElementShortName">simple_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_0_valid" type="logic">
+         <obj_property name="ElementShortName">simple_0_valid</obj_property>
+         <obj_property name="ObjectShortName">simple_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_1_data" type="array">
+         <obj_property name="ElementShortName">simple_1_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_1_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_1_entry_num" type="array">
+         <obj_property name="ElementShortName">simple_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/simple_1_valid" type="logic">
+         <obj_property name="ElementShortName">simple_1_valid</obj_property>
+         <obj_property name="ObjectShortName">simple_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_0_data" type="array">
+         <obj_property name="ElementShortName">fp_0_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_0_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_0_entry_num" type="array">
+         <obj_property name="ElementShortName">fp_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_0_valid" type="logic">
+         <obj_property name="ElementShortName">fp_0_valid</obj_property>
+         <obj_property name="ObjectShortName">fp_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_1_data" type="array">
+         <obj_property name="ElementShortName">fp_1_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_1_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_1_entry_num" type="array">
+         <obj_property name="ElementShortName">fp_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/fp_1_valid" type="logic">
+         <obj_property name="ElementShortName">fp_1_valid</obj_property>
+         <obj_property name="ObjectShortName">fp_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/rs_full_A" type="logic">
+         <obj_property name="ElementShortName">rs_full_A</obj_property>
+         <obj_property name="ObjectShortName">rs_full_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/rs_full_B" type="logic">
+         <obj_property name="ElementShortName">rs_full_B</obj_property>
+         <obj_property name="ObjectShortName">rs_full_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/next_rob_tail" type="logic">
+         <obj_property name="ElementShortName">next_rob_tail</obj_property>
+         <obj_property name="ObjectShortName">next_rob_tail</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/rs_valid" type="array">
+         <obj_property name="ElementShortName">rs_valid[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_valid[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/rs_valid_B" type="array">
+         <obj_property name="ElementShortName">rs_valid_B[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_valid_B[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/dispatch_control_A" type="array">
+         <obj_property name="ElementShortName">dispatch_control_A[1:0]</obj_property>
+         <obj_property name="ObjectShortName">dispatch_control_A[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/dispatch_control_B" type="array">
+         <obj_property name="ElementShortName">dispatch_control_B[1:0]</obj_property>
+         <obj_property name="ObjectShortName">dispatch_control_B[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/selected_RS_A" type="array">
+         <obj_property name="ElementShortName">selected_RS_A[2:0]</obj_property>
+         <obj_property name="ObjectShortName">selected_RS_A[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/selected_RS_B" type="array">
+         <obj_property name="ElementShortName">selected_RS_B[2:0]</obj_property>
+         <obj_property name="ObjectShortName">selected_RS_B[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/instA_xdc" type="array">
+         <obj_property name="ElementShortName">instA_xdc[113:0]</obj_property>
+         <obj_property name="ObjectShortName">instA_xdc[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatch/instB_xdc" type="array">
+         <obj_property name="ElementShortName">instB_xdc[113:0]</obj_property>
+         <obj_property name="ObjectShortName">instB_xdc[113:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group322" type="group">
+      <obj_property name="label">ex_simple</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/simple/rs_simple_0" type="array">
+         <obj_property name="ElementShortName">rs_simple_0[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_0[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/rs_simple_1" type="array">
+         <obj_property name="ElementShortName">rs_simple_1[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_1[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/rs_simple_0_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_simple_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/rs_simple_1_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_simple_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/selector" type="logic">
+         <obj_property name="ElementShortName">selector</obj_property>
+         <obj_property name="ObjectShortName">selector</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/simple_0_issue" type="logic">
+         <obj_property name="ElementShortName">simple_0_issue</obj_property>
+         <obj_property name="ObjectShortName">simple_0_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/simple_1_issue" type="logic">
+         <obj_property name="ElementShortName">simple_1_issue</obj_property>
+         <obj_property name="ObjectShortName">simple_1_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/executed_inst" type="array">
+         <obj_property name="ElementShortName">executed_inst[74:0]</obj_property>
+         <obj_property name="ObjectShortName">executed_inst[74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/valid" type="logic">
+         <obj_property name="ElementShortName">valid</obj_property>
+         <obj_property name="ObjectShortName">valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/writeData" type="array">
+         <obj_property name="ElementShortName">writeData[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeData[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/writeAddr" type="array">
+         <obj_property name="ElementShortName">writeAddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">writeAddr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/writeEn" type="logic">
+         <obj_property name="ElementShortName">writeEn</obj_property>
+         <obj_property name="ObjectShortName">writeEn</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/simple_rob_num" type="array">
+         <obj_property name="ElementShortName">simple_rob_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_rob_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/valid0" type="logic">
+         <obj_property name="ElementShortName">valid0</obj_property>
+         <obj_property name="ObjectShortName">valid0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/valid1" type="logic">
+         <obj_property name="ElementShortName">valid1</obj_property>
+         <obj_property name="ObjectShortName">valid1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/regWrite" type="logic">
+         <obj_property name="ElementShortName">regWrite</obj_property>
+         <obj_property name="ObjectShortName">regWrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/aluout" type="array">
+         <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/wrAddr" type="array">
+         <obj_property name="ElementShortName">wrAddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wrAddr[4:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group345" type="group">
+      <obj_property name="label">sim_alu</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/rst_n" type="logic">
+         <obj_property name="ElementShortName">rst_n</obj_property>
+         <obj_property name="ObjectShortName">rst_n</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/aluout" type="array">
+         <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/sum" type="array">
+         <obj_property name="ElementShortName">sum[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sum[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/bar_aluin2" type="array">
+         <obj_property name="ElementShortName">bar_aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bar_aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/overflow" type="logic">
+         <obj_property name="ElementShortName">overflow</obj_property>
+         <obj_property name="ObjectShortName">overflow</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/slt_alu" type="array">
+         <obj_property name="ElementShortName">slt_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">slt_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/sltu_alu" type="array">
+         <obj_property name="ElementShortName">sltu_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sltu_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/sll" type="array">
+         <obj_property name="ElementShortName">sll[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sll[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/xor_alu" type="array">
+         <obj_property name="ElementShortName">xor_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">xor_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/srl" type="array">
+         <obj_property name="ElementShortName">srl[31:0]</obj_property>
+         <obj_property name="ObjectShortName">srl[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/sra" type="array">
+         <obj_property name="ElementShortName">sra[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sra[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/or_alu" type="array">
+         <obj_property name="ElementShortName">or_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">or_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/and_alu" type="array">
+         <obj_property name="ElementShortName">and_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">and_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/mode" type="array">
+         <obj_property name="ElementShortName">mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/mult_out" type="array">
+         <obj_property name="ElementShortName">mult_out[63:0]</obj_property>
+         <obj_property name="ObjectShortName">mult_out[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/mul_out" type="array">
+         <obj_property name="ElementShortName">mul_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/mulh_out" type="array">
+         <obj_property name="ElementShortName">mulh_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mulh_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/aluin1_unsigned" type="array">
+         <obj_property name="ElementShortName">aluin1_unsigned[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1_unsigned[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/aluin2_unsigned" type="array">
+         <obj_property name="ElementShortName">aluin2_unsigned[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2_unsigned[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/quotient" type="array">
+         <obj_property name="ElementShortName">quotient[31:0]</obj_property>
+         <obj_property name="ObjectShortName">quotient[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/remainder" type="array">
+         <obj_property name="ElementShortName">remainder[31:0]</obj_property>
+         <obj_property name="ObjectShortName">remainder[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/div" type="array">
+         <obj_property name="ElementShortName">div[31:0]</obj_property>
+         <obj_property name="ObjectShortName">div[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/divu" type="array">
+         <obj_property name="ElementShortName">divu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">divu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/rem" type="array">
+         <obj_property name="ElementShortName">rem[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rem[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/remu" type="array">
+         <obj_property name="ElementShortName">remu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">remu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple/alu/mod_div" type="array">
+         <obj_property name="ElementShortName">mod_div[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mod_div[1:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group376" type="group">
+      <obj_property name="label">ex_com</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/complex/rs_complex_0" type="array">
+         <obj_property name="ElementShortName">rs_complex_0[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_complex_0[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/rs_complex_1" type="array">
+         <obj_property name="ElementShortName">rs_complex_1[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_complex_1[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/rs_complex_0_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_complex_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_complex_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/rs_complex_1_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_complex_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_complex_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/selector" type="logic">
+         <obj_property name="ElementShortName">selector</obj_property>
+         <obj_property name="ObjectShortName">selector</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/complex_0_issue" type="logic">
+         <obj_property name="ElementShortName">complex_0_issue</obj_property>
+         <obj_property name="ObjectShortName">complex_0_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/complex_1_issue" type="logic">
+         <obj_property name="ElementShortName">complex_1_issue</obj_property>
+         <obj_property name="ObjectShortName">complex_1_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/executed_inst" type="array">
+         <obj_property name="ElementShortName">executed_inst[74:0]</obj_property>
+         <obj_property name="ObjectShortName">executed_inst[74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/valid" type="logic">
+         <obj_property name="ElementShortName">valid</obj_property>
+         <obj_property name="ObjectShortName">valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/writeData" type="array">
+         <obj_property name="ElementShortName">writeData[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeData[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/writeAddr" type="array">
+         <obj_property name="ElementShortName">writeAddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">writeAddr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/writeEn" type="logic">
+         <obj_property name="ElementShortName">writeEn</obj_property>
+         <obj_property name="ObjectShortName">writeEn</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/complex_rob_num" type="array">
+         <obj_property name="ElementShortName">complex_rob_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_rob_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/branch_taken" type="logic">
+         <obj_property name="ElementShortName">branch_taken</obj_property>
+         <obj_property name="ObjectShortName">branch_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/branch_update" type="logic">
+         <obj_property name="ElementShortName">branch_update</obj_property>
+         <obj_property name="ObjectShortName">branch_update</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/valid0" type="logic">
+         <obj_property name="ElementShortName">valid0</obj_property>
+         <obj_property name="ObjectShortName">valid0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/valid1" type="logic">
+         <obj_property name="ElementShortName">valid1</obj_property>
+         <obj_property name="ObjectShortName">valid1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/memwrite" type="logic">
+         <obj_property name="ElementShortName">memwrite</obj_property>
+         <obj_property name="ObjectShortName">memwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/memread" type="logic">
+         <obj_property name="ElementShortName">memread</obj_property>
+         <obj_property name="ObjectShortName">memread</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/memtoreg" type="logic">
+         <obj_property name="ElementShortName">memtoreg</obj_property>
+         <obj_property name="ObjectShortName">memtoreg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/branch" type="logic">
+         <obj_property name="ElementShortName">branch</obj_property>
+         <obj_property name="ObjectShortName">branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/regwrite" type="logic">
+         <obj_property name="ElementShortName">regwrite</obj_property>
+         <obj_property name="ObjectShortName">regwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/aluout" type="array">
+         <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/wrAddr" type="array">
+         <obj_property name="ElementShortName">wrAddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wrAddr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/memdata" type="array">
+         <obj_property name="ElementShortName">memdata[31:0]</obj_property>
+         <obj_property name="ObjectShortName">memdata[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/mem_reserved" type="logic">
+         <obj_property name="ElementShortName">mem_reserved</obj_property>
+         <obj_property name="ObjectShortName">mem_reserved</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group406" type="group">
+      <obj_property name="label">com_alu</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/rst_n" type="logic">
+         <obj_property name="ElementShortName">rst_n</obj_property>
+         <obj_property name="ObjectShortName">rst_n</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/aluout" type="array">
+         <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/branch_taken" type="logic">
+         <obj_property name="ElementShortName">branch_taken</obj_property>
+         <obj_property name="ObjectShortName">branch_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/branch_update" type="logic">
+         <obj_property name="ElementShortName">branch_update</obj_property>
+         <obj_property name="ObjectShortName">branch_update</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/rs2_data" type="array">
+         <obj_property name="ElementShortName">rs2_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/mem_reserved" type="logic">
+         <obj_property name="ElementShortName">mem_reserved</obj_property>
+         <obj_property name="ObjectShortName">mem_reserved</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/sum" type="array">
+         <obj_property name="ElementShortName">sum[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sum[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/bar_aluin2" type="array">
+         <obj_property name="ElementShortName">bar_aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">bar_aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/overflow" type="logic">
+         <obj_property name="ElementShortName">overflow</obj_property>
+         <obj_property name="ObjectShortName">overflow</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/slt_alu" type="array">
+         <obj_property name="ElementShortName">slt_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">slt_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/sltu_alu" type="array">
+         <obj_property name="ElementShortName">sltu_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sltu_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/sll" type="array">
+         <obj_property name="ElementShortName">sll[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sll[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/xor_alu" type="array">
+         <obj_property name="ElementShortName">xor_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">xor_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/srl" type="array">
+         <obj_property name="ElementShortName">srl[31:0]</obj_property>
+         <obj_property name="ObjectShortName">srl[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/sra" type="array">
+         <obj_property name="ElementShortName">sra[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sra[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/or_alu" type="array">
+         <obj_property name="ElementShortName">or_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">or_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/and_alu" type="array">
+         <obj_property name="ElementShortName">and_alu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">and_alu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/mode" type="array">
+         <obj_property name="ElementShortName">mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/mult_out" type="array">
+         <obj_property name="ElementShortName">mult_out[63:0]</obj_property>
+         <obj_property name="ObjectShortName">mult_out[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/mul_out" type="array">
+         <obj_property name="ElementShortName">mul_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/mulh_out" type="array">
+         <obj_property name="ElementShortName">mulh_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mulh_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/aluin1_unsigned" type="array">
+         <obj_property name="ElementShortName">aluin1_unsigned[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1_unsigned[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/aluin2_unsigned" type="array">
+         <obj_property name="ElementShortName">aluin2_unsigned[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2_unsigned[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/error" type="logic">
+         <obj_property name="ElementShortName">error</obj_property>
+         <obj_property name="ObjectShortName">error</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/quotient" type="array">
+         <obj_property name="ElementShortName">quotient[31:0]</obj_property>
+         <obj_property name="ObjectShortName">quotient[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/remainder" type="array">
+         <obj_property name="ElementShortName">remainder[31:0]</obj_property>
+         <obj_property name="ObjectShortName">remainder[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/div" type="array">
+         <obj_property name="ElementShortName">div[31:0]</obj_property>
+         <obj_property name="ObjectShortName">div[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/divu" type="array">
+         <obj_property name="ElementShortName">divu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">divu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/rem" type="array">
+         <obj_property name="ElementShortName">rem[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rem[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/remu" type="array">
+         <obj_property name="ElementShortName">remu[31:0]</obj_property>
+         <obj_property name="ObjectShortName">remu[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/mod_div" type="array">
+         <obj_property name="ElementShortName">mod_div[1:0]</obj_property>
+         <obj_property name="ObjectShortName">mod_div[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/lw_sw" type="array">
+         <obj_property name="ElementShortName">lw_sw[31:0]</obj_property>
+         <obj_property name="ObjectShortName">lw_sw[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/jalr_jal" type="array">
+         <obj_property name="ElementShortName">jalr_jal[31:0]</obj_property>
+         <obj_property name="ObjectShortName">jalr_jal[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/beq_taken" type="logic">
+         <obj_property name="ElementShortName">beq_taken</obj_property>
+         <obj_property name="ObjectShortName">beq_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/bne_taken" type="logic">
+         <obj_property name="ElementShortName">bne_taken</obj_property>
+         <obj_property name="ObjectShortName">bne_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/blt_taken" type="logic">
+         <obj_property name="ElementShortName">blt_taken</obj_property>
+         <obj_property name="ObjectShortName">blt_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/bge_taken" type="logic">
+         <obj_property name="ElementShortName">bge_taken</obj_property>
+         <obj_property name="ObjectShortName">bge_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/bltu_taken" type="logic">
+         <obj_property name="ElementShortName">bltu_taken</obj_property>
+         <obj_property name="ObjectShortName">bltu_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/bgeu_taken" type="logic">
+         <obj_property name="ElementShortName">bgeu_taken</obj_property>
+         <obj_property name="ObjectShortName">bgeu_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex/alu_com/csr_data" type="array">
+         <obj_property name="ElementShortName">csr_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">csr_data[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group451" type="group">
+      <obj_property name="label">ex_fp</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/fp/rs_fp_0" type="array">
+         <obj_property name="ElementShortName">rs_fp_0[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_0[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/rs_fp_1" type="array">
+         <obj_property name="ElementShortName">rs_fp_1[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_1[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/rs_fp_0_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_fp_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/rs_fp_1_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_fp_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/selector" type="logic">
+         <obj_property name="ElementShortName">selector</obj_property>
+         <obj_property name="ObjectShortName">selector</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/fp_0_issue" type="logic">
+         <obj_property name="ElementShortName">fp_0_issue</obj_property>
+         <obj_property name="ObjectShortName">fp_0_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/fp_1_issue" type="logic">
+         <obj_property name="ElementShortName">fp_1_issue</obj_property>
+         <obj_property name="ObjectShortName">fp_1_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/executed_inst" type="array">
+         <obj_property name="ElementShortName">executed_inst[74:0]</obj_property>
+         <obj_property name="ObjectShortName">executed_inst[74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/valid" type="logic">
+         <obj_property name="ElementShortName">valid</obj_property>
+         <obj_property name="ObjectShortName">valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/writedata_fp" type="array">
+         <obj_property name="ElementShortName">writedata_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writedata_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/writeaddr_fp" type="array">
+         <obj_property name="ElementShortName">writeaddr_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">writeaddr_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/writeen_fp" type="logic">
+         <obj_property name="ElementShortName">writeen_fp</obj_property>
+         <obj_property name="ObjectShortName">writeen_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/fp_rob_num" type="array">
+         <obj_property name="ElementShortName">fp_rob_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_rob_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/valid0" type="logic">
+         <obj_property name="ElementShortName">valid0</obj_property>
+         <obj_property name="ObjectShortName">valid0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/valid1" type="logic">
+         <obj_property name="ElementShortName">valid1</obj_property>
+         <obj_property name="ObjectShortName">valid1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/aluout" type="array">
+         <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/aluin1" type="array">
+         <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/aluin2" type="array">
+         <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/wrAddr" type="array">
+         <obj_property name="ElementShortName">wrAddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wrAddr[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/fpregwrite" type="logic">
+         <obj_property name="ElementShortName">fpregwrite</obj_property>
+         <obj_property name="ObjectShortName">fpregwrite</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/executed_output" type="logic">
+         <obj_property name="ElementShortName">executed_output</obj_property>
+         <obj_property name="ObjectShortName">executed_output</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group474" type="group">
+      <obj_property name="label">fp_alu</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/a" type="array">
+         <obj_property name="ElementShortName">a[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/b" type="array">
+         <obj_property name="ElementShortName">b[31:0]</obj_property>
+         <obj_property name="ObjectShortName">b[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/aluop" type="array">
+         <obj_property name="ElementShortName">aluop[5:0]</obj_property>
+         <obj_property name="ObjectShortName">aluop[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mode" type="array">
+         <obj_property name="ElementShortName">mode[2:0]</obj_property>
+         <obj_property name="ObjectShortName">mode[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/result" type="array">
+         <obj_property name="ElementShortName">result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_a" type="logic">
+         <obj_property name="ElementShortName">sign_a</obj_property>
+         <obj_property name="ObjectShortName">sign_a</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_b" type="logic">
+         <obj_property name="ElementShortName">sign_b</obj_property>
+         <obj_property name="ObjectShortName">sign_b</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_a" type="array">
+         <obj_property name="ElementShortName">exp_a[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_a[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_b" type="array">
+         <obj_property name="ElementShortName">exp_b[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_b[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_a" type="array">
+         <obj_property name="ElementShortName">mant_a[22:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_a[22:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_b" type="array">
+         <obj_property name="ElementShortName">mant_b[22:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_b[22:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/norm_mant_a" type="array">
+         <obj_property name="ElementShortName">norm_mant_a[23:0]</obj_property>
+         <obj_property name="ObjectShortName">norm_mant_a[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/norm_mant_b" type="array">
+         <obj_property name="ElementShortName">norm_mant_b[23:0]</obj_property>
+         <obj_property name="ObjectShortName">norm_mant_b[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_diff" type="array">
+         <obj_property name="ElementShortName">exp_diff[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_diff[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_big" type="array">
+         <obj_property name="ElementShortName">exp_big[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_big[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_48bit_a" type="array">
+         <obj_property name="ElementShortName">mant_48bit_a[47:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_48bit_a[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_48bit_b" type="array">
+         <obj_property name="ElementShortName">mant_48bit_b[47:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_48bit_b[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_round_a" type="array">
+         <obj_property name="ElementShortName">mant_round_a[47:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_round_a[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_round_b" type="array">
+         <obj_property name="ElementShortName">mant_round_b[47:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_round_b[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/shifted_mant_a" type="array">
+         <obj_property name="ElementShortName">shifted_mant_a[23:0]</obj_property>
+         <obj_property name="ObjectShortName">shifted_mant_a[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/shifted_mant_b" type="array">
+         <obj_property name="ElementShortName">shifted_mant_b[23:0]</obj_property>
+         <obj_property name="ObjectShortName">shifted_mant_b[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_mant_a" type="array">
+         <obj_property name="ElementShortName">sign_mant_a[23:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_mant_a[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_mant_b" type="array">
+         <obj_property name="ElementShortName">sign_mant_b[23:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_mant_b[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_sum" type="array">
+         <obj_property name="ElementShortName">mant_sum[23:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_sum[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_cout" type="logic">
+         <obj_property name="ElementShortName">mant_cout</obj_property>
+         <obj_property name="ObjectShortName">mant_cout</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_bit" type="array">
+         <obj_property name="ElementShortName">sign_bit[1:0]</obj_property>
+         <obj_property name="ObjectShortName">sign_bit[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_final_add" type="array">
+         <obj_property name="ElementShortName">mant_final_add[22:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_final_add[22:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_final_add" type="array">
+         <obj_property name="ElementShortName">exp_final_add[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_final_add[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_shift_count_add" type="array">
+         <obj_property name="ElementShortName">exp_shift_count_add[4:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_shift_count_add[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_sum_comple_add" type="array">
+         <obj_property name="ElementShortName">mant_sum_comple_add[23:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_sum_comple_add[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_result_add" type="logic">
+         <obj_property name="ElementShortName">sign_result_add</obj_property>
+         <obj_property name="ObjectShortName">sign_result_add</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/add_result" type="array">
+         <obj_property name="ElementShortName">add_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">add_result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_final_sub" type="array">
+         <obj_property name="ElementShortName">mant_final_sub[22:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_final_sub[22:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_final_sub" type="array">
+         <obj_property name="ElementShortName">exp_final_sub[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_final_sub[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_shift_count_sub" type="array">
+         <obj_property name="ElementShortName">exp_shift_count_sub[4:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_shift_count_sub[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_sum_comple_sub" type="array">
+         <obj_property name="ElementShortName">mant_sum_comple_sub[23:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_sum_comple_sub[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sign_result_sub" type="logic">
+         <obj_property name="ElementShortName">sign_result_sub</obj_property>
+         <obj_property name="ObjectShortName">sign_result_sub</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/sub_result" type="array">
+         <obj_property name="ElementShortName">sub_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sub_result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_mult_out" type="array">
+         <obj_property name="ElementShortName">mant_mult_out[47:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_mult_out[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_mult" type="array">
+         <obj_property name="ElementShortName">exp_mult[8:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_mult[8:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/check_over" type="array">
+         <obj_property name="ElementShortName">check_over[7:0]</obj_property>
+         <obj_property name="ObjectShortName">check_over[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_count" type="array">
+         <obj_property name="ElementShortName">mant_count[5:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_count[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_final_mult" type="array">
+         <obj_property name="ElementShortName">mant_final_mult[22:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_final_mult[22:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_final_mult" type="array">
+         <obj_property name="ElementShortName">exp_final_mult[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_final_mult[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mult_result" type="array">
+         <obj_property name="ElementShortName">mult_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mult_result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_divide" type="array">
+         <obj_property name="ElementShortName">mant_divide[23:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_divide[23:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_divide" type="array">
+         <obj_property name="ElementShortName">exp_divide[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_divide[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_temp" type="array">
+         <obj_property name="ElementShortName">exp_temp[8:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_temp[8:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/mant_final_divide" type="array">
+         <obj_property name="ElementShortName">mant_final_divide[22:0]</obj_property>
+         <obj_property name="ObjectShortName">mant_final_divide[22:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/exp_final_divide" type="array">
+         <obj_property name="ElementShortName">exp_final_divide[7:0]</obj_property>
+         <obj_property name="ObjectShortName">exp_final_divide[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/divide_result" type="array">
+         <obj_property name="ElementShortName">divide_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">divide_result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/min_result" type="array">
+         <obj_property name="ElementShortName">min_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">min_result[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp/floating/max_result" type="array">
+         <obj_property name="ElementShortName">max_result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">max_result[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group528" type="group">
+      <obj_property name="label">complet</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/completion/rob_out_inst_0" type="array">
+         <obj_property name="ElementShortName">rob_out_inst_0[72:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_out_inst_0[72:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/rob_out_inst_1" type="array">
+         <obj_property name="ElementShortName">rob_out_inst_1[72:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_out_inst_1[72:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/rob_out_valid_0" type="logic">
+         <obj_property name="ElementShortName">rob_out_valid_0</obj_property>
+         <obj_property name="ObjectShortName">rob_out_valid_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/rob_out_valid_1" type="logic">
+         <obj_property name="ElementShortName">rob_out_valid_1</obj_property>
+         <obj_property name="ObjectShortName">rob_out_valid_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/completed_inst_0" type="array">
+         <obj_property name="ElementShortName">completed_inst_0[64:0]</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_0[64:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/completed_inst_1" type="array">
+         <obj_property name="ElementShortName">completed_inst_1[64:0]</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_1[64:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/completed_inst_0_valid" type="logic">
+         <obj_property name="ElementShortName">completed_inst_0_valid</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/completed_inst_1_valid" type="logic">
+         <obj_property name="ElementShortName">completed_inst_1_valid</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateAddrA" type="array">
+         <obj_property name="ElementShortName">updateAddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateAddrB" type="array">
+         <obj_property name="ElementShortName">updateAddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateEnA" type="logic">
+         <obj_property name="ElementShortName">updateEnA</obj_property>
+         <obj_property name="ObjectShortName">updateEnA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateEnB" type="logic">
+         <obj_property name="ElementShortName">updateEnB</obj_property>
+         <obj_property name="ObjectShortName">updateEnB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateAddrA_fp" type="array">
+         <obj_property name="ElementShortName">updateAddrA_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrA_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateAddrB_fp" type="array">
+         <obj_property name="ElementShortName">updateAddrB_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrB_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateEnA_fp" type="logic">
+         <obj_property name="ElementShortName">updateEnA_fp</obj_property>
+         <obj_property name="ObjectShortName">updateEnA_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/updateEnB_fp" type="logic">
+         <obj_property name="ElementShortName">updateEnB_fp</obj_property>
+         <obj_property name="ObjectShortName">updateEnB_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/fp_signal_0" type="logic">
+         <obj_property name="ElementShortName">fp_signal_0</obj_property>
+         <obj_property name="ObjectShortName">fp_signal_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completion/fp_signal_1" type="logic">
+         <obj_property name="ElementShortName">fp_signal_1</obj_property>
+         <obj_property name="ObjectShortName">fp_signal_1</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group548" type="group">
+      <obj_property name="label">cor</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rst_n" type="logic">
+         <obj_property name="ElementShortName">rst_n</obj_property>
+         <obj_property name="ObjectShortName">rst_n</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/instA" type="array">
+         <obj_property name="ElementShortName">instA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/instB" type="array">
+         <obj_property name="ElementShortName">instB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_finish" type="logic">
+         <obj_property name="ElementShortName">store_finish</obj_property>
+         <obj_property name="ObjectShortName">store_finish</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_fin_addr" type="array">
+         <obj_property name="ElementShortName">store_fin_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">store_fin_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/pcF1" type="array">
+         <obj_property name="ElementShortName">pcF1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcF1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/pcF2" type="array">
+         <obj_property name="ElementShortName">pcF2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcF2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_A" type="array">
+         <obj_property name="ElementShortName">imm_A[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_A[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_jal_A" type="array">
+         <obj_property name="ElementShortName">imm_jal_A[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_A[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_jalr_A" type="array">
+         <obj_property name="ElementShortName">imm_jalr_A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr_A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/PCSrc_A" type="array">
+         <obj_property name="ElementShortName">PCSrc_A[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc_A[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_B" type="array">
+         <obj_property name="ElementShortName">imm_B[11:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_B[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_jal_B" type="array">
+         <obj_property name="ElementShortName">imm_jal_B[19:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jal_B[19:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_jalr_B" type="array">
+         <obj_property name="ElementShortName">imm_jalr_B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr_B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/PCSrc_B" type="array">
+         <obj_property name="ElementShortName">PCSrc_B[1:0]</obj_property>
+         <obj_property name="ObjectShortName">PCSrc_B[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/instA_decode" type="array">
+         <obj_property name="ElementShortName">instA_decode[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instA_decode[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/instB_decode" type="array">
+         <obj_property name="ElementShortName">instB_decode[31:0]</obj_property>
+         <obj_property name="ObjectShortName">instB_decode[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/pcF1_decoder" type="array">
+         <obj_property name="ElementShortName">pcF1_decoder[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcF1_decoder[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/pcF2_decoder" type="array">
+         <obj_property name="ElementShortName">pcF2_decoder[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pcF2_decoder[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoded_instA" type="array">
+         <obj_property name="ElementShortName">decoded_instA[115:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_instA[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoded_instB" type="array">
+         <obj_property name="ElementShortName">decoded_instB[115:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_instB[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/instA_dispatch" type="array">
+         <obj_property name="ElementShortName">instA_dispatch[115:0]</obj_property>
+         <obj_property name="ObjectShortName">instA_dispatch[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/instB_dispatch" type="array">
+         <obj_property name="ElementShortName">instB_dispatch[115:0]</obj_property>
+         <obj_property name="ObjectShortName">instB_dispatch[115:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/errorA" type="logic">
+         <obj_property name="ElementShortName">errorA</obj_property>
+         <obj_property name="ObjectShortName">errorA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/errorB" type="logic">
+         <obj_property name="ElementShortName">errorB</obj_property>
+         <obj_property name="ObjectShortName">errorB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/errorA_fp" type="logic">
+         <obj_property name="ElementShortName">errorA_fp</obj_property>
+         <obj_property name="ObjectShortName">errorA_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/errorB_fp" type="logic">
+         <obj_property name="ElementShortName">errorB_fp</obj_property>
+         <obj_property name="ObjectShortName">errorB_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s1A" type="array">
+         <obj_property name="ElementShortName">s1A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s2A" type="array">
+         <obj_property name="ElementShortName">s2A[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2A[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s1B" type="array">
+         <obj_property name="ElementShortName">s1B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s2B" type="array">
+         <obj_property name="ElementShortName">s2B[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2B[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs1A_valid" type="logic">
+         <obj_property name="ElementShortName">rs1A_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1A_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs2A_valid" type="logic">
+         <obj_property name="ElementShortName">rs2A_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2A_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs1B_valid" type="logic">
+         <obj_property name="ElementShortName">rs1B_valid</obj_property>
+         <obj_property name="ObjectShortName">rs1B_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs2B_valid" type="logic">
+         <obj_property name="ElementShortName">rs2B_valid</obj_property>
+         <obj_property name="ObjectShortName">rs2B_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/map_en_A" type="logic">
+         <obj_property name="ElementShortName">map_en_A</obj_property>
+         <obj_property name="ObjectShortName">map_en_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/map_en_B" type="logic">
+         <obj_property name="ElementShortName">map_en_B</obj_property>
+         <obj_property name="ObjectShortName">map_en_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs1A" type="array">
+         <obj_property name="ElementShortName">rs1A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs2A" type="array">
+         <obj_property name="ElementShortName">rs2A[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2A[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs1B" type="array">
+         <obj_property name="ElementShortName">rs1B[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs1B[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs2B" type="array">
+         <obj_property name="ElementShortName">rs2B[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rs2B[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rdA" type="array">
+         <obj_property name="ElementShortName">rdA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rdB" type="array">
+         <obj_property name="ElementShortName">rdB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs1A_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs1A_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs1A_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs2A_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs2A_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs2A_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs1B_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs1B_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs1B_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs2B_valid_fp" type="logic">
+         <obj_property name="ElementShortName">rs2B_valid_fp</obj_property>
+         <obj_property name="ObjectShortName">rs2B_valid_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/map_en_A_fp" type="logic">
+         <obj_property name="ElementShortName">map_en_A_fp</obj_property>
+         <obj_property name="ObjectShortName">map_en_A_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/map_en_B_fp" type="logic">
+         <obj_property name="ElementShortName">map_en_B_fp</obj_property>
+         <obj_property name="ObjectShortName">map_en_B_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rdA_fp" type="array">
+         <obj_property name="ElementShortName">rdA_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdA_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rdB_fp" type="array">
+         <obj_property name="ElementShortName">rdB_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">rdB_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/jump_A" type="logic">
+         <obj_property name="ElementShortName">jump_A</obj_property>
+         <obj_property name="ObjectShortName">jump_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_A" type="logic">
+         <obj_property name="ElementShortName">fp_A</obj_property>
+         <obj_property name="ObjectShortName">fp_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fence_A" type="logic">
+         <obj_property name="ElementShortName">fence_A</obj_property>
+         <obj_property name="ObjectShortName">fence_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/ebreak_A" type="logic">
+         <obj_property name="ElementShortName">ebreak_A</obj_property>
+         <obj_property name="ObjectShortName">ebreak_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/ecall_A" type="logic">
+         <obj_property name="ElementShortName">ecall_A</obj_property>
+         <obj_property name="ObjectShortName">ecall_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/jump_B" type="logic">
+         <obj_property name="ElementShortName">jump_B</obj_property>
+         <obj_property name="ObjectShortName">jump_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_B" type="logic">
+         <obj_property name="ElementShortName">fp_B</obj_property>
+         <obj_property name="ObjectShortName">fp_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fence_B" type="logic">
+         <obj_property name="ElementShortName">fence_B</obj_property>
+         <obj_property name="ObjectShortName">fence_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/ebreak_B" type="logic">
+         <obj_property name="ElementShortName">ebreak_B</obj_property>
+         <obj_property name="ObjectShortName">ebreak_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/ecall_B" type="logic">
+         <obj_property name="ElementShortName">ecall_B</obj_property>
+         <obj_property name="ObjectShortName">ecall_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wrAddrFP" type="array">
+         <obj_property name="ElementShortName">wrAddrFP[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wrAddrFP[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wr_enable_FP" type="logic">
+         <obj_property name="ElementShortName">wr_enable_FP</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_FP</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/writeDataFP" type="array">
+         <obj_property name="ElementShortName">writeDataFP[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataFP[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/error_decode_A" type="logic">
+         <obj_property name="ElementShortName">error_decode_A</obj_property>
+         <obj_property name="ObjectShortName">error_decode_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/error_decode_B" type="logic">
+         <obj_property name="ElementShortName">error_decode_B</obj_property>
+         <obj_property name="ObjectShortName">error_decode_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_empty" type="array">
+         <obj_property name="ElementShortName">complex_empty[1:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_empty[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_empty" type="array">
+         <obj_property name="ElementShortName">simple_empty[1:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_empty[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_empty" type="array">
+         <obj_property name="ElementShortName">fp_empty[1:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_empty[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_simple_0" type="array">
+         <obj_property name="ElementShortName">rs_simple_0[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_0[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_simple_1" type="array">
+         <obj_property name="ElementShortName">rs_simple_1[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_1[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_complex_0" type="array">
+         <obj_property name="ElementShortName">rs_complex_0[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_complex_0[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_complex_1" type="array">
+         <obj_property name="ElementShortName">rs_complex_1[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_complex_1[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_fp_0" type="array">
+         <obj_property name="ElementShortName">rs_fp_0[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_0[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_fp_1" type="array">
+         <obj_property name="ElementShortName">rs_fp_1[113:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_1[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_selector_complex" type="logic">
+         <obj_property name="ElementShortName">rs_selector_complex</obj_property>
+         <obj_property name="ObjectShortName">rs_selector_complex</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_selector_simple" type="logic">
+         <obj_property name="ElementShortName">rs_selector_simple</obj_property>
+         <obj_property name="ObjectShortName">rs_selector_simple</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_selector_fp" type="logic">
+         <obj_property name="ElementShortName">rs_selector_fp</obj_property>
+         <obj_property name="ObjectShortName">rs_selector_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_0_data" type="array">
+         <obj_property name="ElementShortName">complex_0_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_0_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_0_valid" type="logic">
+         <obj_property name="ElementShortName">complex_0_valid</obj_property>
+         <obj_property name="ObjectShortName">complex_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_1_data" type="array">
+         <obj_property name="ElementShortName">complex_1_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_1_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_1_valid" type="logic">
+         <obj_property name="ElementShortName">complex_1_valid</obj_property>
+         <obj_property name="ObjectShortName">complex_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_0_data" type="array">
+         <obj_property name="ElementShortName">simple_0_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_0_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_0_valid" type="logic">
+         <obj_property name="ElementShortName">simple_0_valid</obj_property>
+         <obj_property name="ObjectShortName">simple_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_1_data" type="array">
+         <obj_property name="ElementShortName">simple_1_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_1_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_1_valid" type="logic">
+         <obj_property name="ElementShortName">simple_1_valid</obj_property>
+         <obj_property name="ObjectShortName">simple_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_0_data" type="array">
+         <obj_property name="ElementShortName">fp_0_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_0_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_0_vali" type="logic">
+         <obj_property name="ElementShortName">fp_0_vali</obj_property>
+         <obj_property name="ObjectShortName">fp_0_vali</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_1_data" type="array">
+         <obj_property name="ElementShortName">fp_1_data[113:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_1_data[113:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_1_valid" type="logic">
+         <obj_property name="ElementShortName">fp_1_valid</obj_property>
+         <obj_property name="ObjectShortName">fp_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_full_A" type="logic">
+         <obj_property name="ElementShortName">rs_full_A</obj_property>
+         <obj_property name="ObjectShortName">rs_full_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_full_B" type="logic">
+         <obj_property name="ElementShortName">rs_full_B</obj_property>
+         <obj_property name="ObjectShortName">rs_full_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/comp_0_entry_num" type="array">
+         <obj_property name="ElementShortName">comp_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">comp_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/comp_1_entry_num" type="array">
+         <obj_property name="ElementShortName">comp_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">comp_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_0_entry_num" type="array">
+         <obj_property name="ElementShortName">simple_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_1_entry_num" type="array">
+         <obj_property name="ElementShortName">simple_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_0_entry_num" type="array">
+         <obj_property name="ElementShortName">fp_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_1_entry_num" type="array">
+         <obj_property name="ElementShortName">fp_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_comp_0_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_comp_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_comp_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_comp_1_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_comp_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_comp_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_simple_0_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_simple_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_simple_1_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_simple_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_simple_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_fp_0_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_fp_0_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_0_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_fp_1_entry_num" type="array">
+         <obj_property name="ElementShortName">rs_fp_1_entry_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_fp_1_entry_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_0_issue" type="logic">
+         <obj_property name="ElementShortName">complex_0_issue</obj_property>
+         <obj_property name="ObjectShortName">complex_0_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_1_issue" type="logic">
+         <obj_property name="ElementShortName">complex_1_issue</obj_property>
+         <obj_property name="ObjectShortName">complex_1_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_0_issue" type="logic">
+         <obj_property name="ElementShortName">simple_0_issue</obj_property>
+         <obj_property name="ObjectShortName">simple_0_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_1_issue" type="logic">
+         <obj_property name="ElementShortName">simple_1_issue</obj_property>
+         <obj_property name="ObjectShortName">simple_1_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_0_issue" type="logic">
+         <obj_property name="ElementShortName">fp_0_issue</obj_property>
+         <obj_property name="ObjectShortName">fp_0_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_1_issue" type="logic">
+         <obj_property name="ElementShortName">fp_1_issue</obj_property>
+         <obj_property name="ObjectShortName">fp_1_issue</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c0_RS1" type="array">
+         <obj_property name="ElementShortName">rs_c0_RS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_c0_RS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c0_RS2" type="array">
+         <obj_property name="ElementShortName">rs_c0_RS2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_c0_RS2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c0_RS1_valid" type="logic">
+         <obj_property name="ElementShortName">rs_c0_RS1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_c0_RS1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c0_RS2_valid" type="logic">
+         <obj_property name="ElementShortName">rs_c0_RS2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_c0_RS2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c1_RS1" type="array">
+         <obj_property name="ElementShortName">rs_c1_RS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_c1_RS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c1_RS2" type="array">
+         <obj_property name="ElementShortName">rs_c1_RS2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_c1_RS2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c1_RS1_valid" type="logic">
+         <obj_property name="ElementShortName">rs_c1_RS1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_c1_RS1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_c1_RS2_valid" type="logic">
+         <obj_property name="ElementShortName">rs_c1_RS2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_c1_RS2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s0_RS1" type="array">
+         <obj_property name="ElementShortName">rs_s0_RS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_s0_RS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s0_RS2" type="array">
+         <obj_property name="ElementShortName">rs_s0_RS2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_s0_RS2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s0_RS1_valid" type="logic">
+         <obj_property name="ElementShortName">rs_s0_RS1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_s0_RS1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s0_RS2_valid" type="logic">
+         <obj_property name="ElementShortName">rs_s0_RS2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_s0_RS2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s1_RS1" type="array">
+         <obj_property name="ElementShortName">rs_s1_RS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_s1_RS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s1_RS2" type="array">
+         <obj_property name="ElementShortName">rs_s1_RS2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_s1_RS2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s1_RS1_valid" type="logic">
+         <obj_property name="ElementShortName">rs_s1_RS1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_s1_RS1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_s1_RS2_valid" type="logic">
+         <obj_property name="ElementShortName">rs_s1_RS2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_s1_RS2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f0_RS1" type="array">
+         <obj_property name="ElementShortName">rs_f0_RS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_f0_RS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f0_RS2" type="array">
+         <obj_property name="ElementShortName">rs_f0_RS2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_f0_RS2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f0_RS1_valid" type="logic">
+         <obj_property name="ElementShortName">rs_f0_RS1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_f0_RS1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f0_RS2_valid" type="logic">
+         <obj_property name="ElementShortName">rs_f0_RS2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_f0_RS2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f1_RS1" type="array">
+         <obj_property name="ElementShortName">rs_f1_RS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_f1_RS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f1_RS2" type="array">
+         <obj_property name="ElementShortName">rs_f1_RS2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_f1_RS2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f1_RS1_valid" type="logic">
+         <obj_property name="ElementShortName">rs_f1_RS1_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_f1_RS1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rs_f1_RS2_valid" type="logic">
+         <obj_property name="ElementShortName">rs_f1_RS2_valid</obj_property>
+         <obj_property name="ObjectShortName">rs_f1_RS2_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_busy" type="array">
+         <obj_property name="ElementShortName">rob_busy[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_busy[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_issued" type="array">
+         <obj_property name="ElementShortName">rob_issued[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_issued[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_finished" type="array">
+         <obj_property name="ElementShortName">rob_finished[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_finished[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_speculative" type="array">
+         <obj_property name="ElementShortName">rob_speculative[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_speculative[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_valid" type="array">
+         <obj_property name="ElementShortName">rob_valid[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_valid[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/head" type="array">
+         <obj_property name="ElementShortName">head[3:0]</obj_property>
+         <obj_property name="ObjectShortName">head[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/tail" type="array">
+         <obj_property name="ElementShortName">tail[3:0]</obj_property>
+         <obj_property name="ObjectShortName">tail[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_rob_tail" type="logic">
+         <obj_property name="ElementShortName">next_rob_tail</obj_property>
+         <obj_property name="ObjectShortName">next_rob_tail</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/executed_inst_simple" type="array">
+         <obj_property name="ElementShortName">executed_inst_simple[74:0]</obj_property>
+         <obj_property name="ObjectShortName">executed_inst_simple[74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/executed_inst_complex" type="array">
+         <obj_property name="ElementShortName">executed_inst_complex[74:0]</obj_property>
+         <obj_property name="ObjectShortName">executed_inst_complex[74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/executed_inst_fp" type="array">
+         <obj_property name="ElementShortName">executed_inst_fp[74:0]</obj_property>
+         <obj_property name="ObjectShortName">executed_inst_fp[74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wraddrA" type="array">
+         <obj_property name="ElementShortName">wraddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wraddrB" type="array">
+         <obj_property name="ElementShortName">wraddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/writeDataA" type="array">
+         <obj_property name="ElementShortName">writeDataA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/writeDataB" type="array">
+         <obj_property name="ElementShortName">writeDataB[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataB[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wr_enable_A" type="logic">
+         <obj_property name="ElementShortName">wr_enable_A</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_A</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wr_enable_B" type="logic">
+         <obj_property name="ElementShortName">wr_enable_B</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_B</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateAddrA" type="array">
+         <obj_property name="ElementShortName">updateAddrA[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrA[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateAddrB" type="array">
+         <obj_property name="ElementShortName">updateAddrB[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrB[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateEnA" type="logic">
+         <obj_property name="ElementShortName">updateEnA</obj_property>
+         <obj_property name="ObjectShortName">updateEnA</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateEnB" type="logic">
+         <obj_property name="ElementShortName">updateEnB</obj_property>
+         <obj_property name="ObjectShortName">updateEnB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wraddrA_fp" type="array">
+         <obj_property name="ElementShortName">wraddrA_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrA_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wraddrB_fp" type="array">
+         <obj_property name="ElementShortName">wraddrB_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">wraddrB_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/writeDataA_fp" type="array">
+         <obj_property name="ElementShortName">writeDataA_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataA_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/writeDataB_fp" type="array">
+         <obj_property name="ElementShortName">writeDataB_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">writeDataB_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wr_enable_A_fp" type="logic">
+         <obj_property name="ElementShortName">wr_enable_A_fp</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_A_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wr_enable_B_fp" type="logic">
+         <obj_property name="ElementShortName">wr_enable_B_fp</obj_property>
+         <obj_property name="ObjectShortName">wr_enable_B_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateAddrA_fp" type="array">
+         <obj_property name="ElementShortName">updateAddrA_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrA_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateAddrB_fp" type="array">
+         <obj_property name="ElementShortName">updateAddrB_fp[4:0]</obj_property>
+         <obj_property name="ObjectShortName">updateAddrB_fp[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateEnA_fp" type="logic">
+         <obj_property name="ElementShortName">updateEnA_fp</obj_property>
+         <obj_property name="ObjectShortName">updateEnA_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/updateEnB_fp" type="logic">
+         <obj_property name="ElementShortName">updateEnB_fp</obj_property>
+         <obj_property name="ObjectShortName">updateEnB_fp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_buffer" type="array">
+         <obj_property name="ElementShortName">store_buffer[7:0][63:0]</obj_property>
+         <obj_property name="ObjectShortName">store_buffer[7:0][63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_buffer_busy" type="array">
+         <obj_property name="ElementShortName">store_buffer_busy[7:0]</obj_property>
+         <obj_property name="ObjectShortName">store_buffer_busy[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_buffer_busy_1" type="array">
+         <obj_property name="ElementShortName">store_buffer_busy_1[7:0]</obj_property>
+         <obj_property name="ObjectShortName">store_buffer_busy_1[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_empty_0" type="array">
+         <obj_property name="ElementShortName">store_empty_0[2:0]</obj_property>
+         <obj_property name="ObjectShortName">store_empty_0[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_empty_1" type="array">
+         <obj_property name="ElementShortName">store_empty_1[2:0]</obj_property>
+         <obj_property name="ObjectShortName">store_empty_1[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_empty_valid" type="array">
+         <obj_property name="ElementShortName">store_empty_valid[1:0]</obj_property>
+         <obj_property name="ObjectShortName">store_empty_valid[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_rob_num" type="array">
+         <obj_property name="ElementShortName">simple_rob_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">simple_rob_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/simple_valid" type="logic">
+         <obj_property name="ElementShortName">simple_valid</obj_property>
+         <obj_property name="ObjectShortName">simple_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_valid" type="logic">
+         <obj_property name="ElementShortName">complex_valid</obj_property>
+         <obj_property name="ObjectShortName">complex_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_valid" type="logic">
+         <obj_property name="ElementShortName">fp_valid</obj_property>
+         <obj_property name="ObjectShortName">fp_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/complex_rob_num" type="array">
+         <obj_property name="ElementShortName">complex_rob_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">complex_rob_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_rob_num" type="array">
+         <obj_property name="ElementShortName">fp_rob_num[3:0]</obj_property>
+         <obj_property name="ObjectShortName">fp_rob_num[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob" type="array">
+         <obj_property name="ElementShortName">rob[15:0][74:0]</obj_property>
+         <obj_property name="ObjectShortName">rob[15:0][74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_inst_0" type="array">
+         <obj_property name="ElementShortName">rob_out_inst_0[72:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_out_inst_0[72:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_inst_1" type="array">
+         <obj_property name="ElementShortName">rob_out_inst_1[72:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_out_inst_1[72:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_valid_0" type="logic">
+         <obj_property name="ElementShortName">rob_out_valid_0</obj_property>
+         <obj_property name="ObjectShortName">rob_out_valid_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_valid_1" type="logic">
+         <obj_property name="ElementShortName">rob_out_valid_1</obj_property>
+         <obj_property name="ObjectShortName">rob_out_valid_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_bit0" type="logic">
+         <obj_property name="ElementShortName">store_bit0</obj_property>
+         <obj_property name="ObjectShortName">store_bit0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_bit1" type="logic">
+         <obj_property name="ElementShortName">store_bit1</obj_property>
+         <obj_property name="ObjectShortName">store_bit1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completed_inst_0" type="array">
+         <obj_property name="ElementShortName">completed_inst_0[64:0]</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_0[64:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completed_inst_1" type="array">
+         <obj_property name="ElementShortName">completed_inst_1[64:0]</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_1[64:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/compled_inst_0_valid" type="logic">
+         <obj_property name="ElementShortName">compled_inst_0_valid</obj_property>
+         <obj_property name="ObjectShortName">compled_inst_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/compled_inst_1_valid" type="logic">
+         <obj_property name="ElementShortName">compled_inst_1_valid</obj_property>
+         <obj_property name="ObjectShortName">compled_inst_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_i" type="array">
+         <obj_property name="ElementShortName">store_i[31:0]</obj_property>
+         <obj_property name="ObjectShortName">store_i[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_fin_tag" type="array">
+         <obj_property name="ElementShortName">store_fin_tag[2:0]</obj_property>
+         <obj_property name="ObjectShortName">store_fin_tag[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/j" type="array">
+         <obj_property name="ElementShortName">j[31:0]</obj_property>
+         <obj_property name="ObjectShortName">j[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm" type="logic">
+         <obj_property name="ElementShortName">imm</obj_property>
+         <obj_property name="ObjectShortName">imm</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_jal" type="logic">
+         <obj_property name="ElementShortName">imm_jal</obj_property>
+         <obj_property name="ObjectShortName">imm_jal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/imm_jalr" type="logic">
+         <obj_property name="ElementShortName">imm_jalr</obj_property>
+         <obj_property name="ObjectShortName">imm_jalr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/PCSrc" type="logic">
+         <obj_property name="ElementShortName">PCSrc</obj_property>
+         <obj_property name="ObjectShortName">PCSrc</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/errorA_FP" type="logic">
+         <obj_property name="ElementShortName">errorA_FP</obj_property>
+         <obj_property name="ObjectShortName">errorA_FP</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/errorB_FP" type="logic">
+         <obj_property name="ElementShortName">errorB_FP</obj_property>
+         <obj_property name="ObjectShortName">errorB_FP</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/fp_0_valid" type="logic">
+         <obj_property name="ElementShortName">fp_0_valid</obj_property>
+         <obj_property name="ObjectShortName">fp_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/wrAddrB" type="logic">
+         <obj_property name="ElementShortName">wrAddrB</obj_property>
+         <obj_property name="ObjectShortName">wrAddrB</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/branch_taken" type="logic">
+         <obj_property name="ElementShortName">branch_taken</obj_property>
+         <obj_property name="ObjectShortName">branch_taken</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/branch_update" type="logic">
+         <obj_property name="ElementShortName">branch_update</obj_property>
+         <obj_property name="ObjectShortName">branch_update</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completed_inst_0_valid" type="logic">
+         <obj_property name="ElementShortName">completed_inst_0_valid</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completed_inst_1_valid" type="logic">
+         <obj_property name="ElementShortName">completed_inst_1_valid</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_1_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/forwarding" type="logic">
+         <obj_property name="ElementShortName">forwarding</obj_property>
+         <obj_property name="ObjectShortName">forwarding</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/forwarding_addr" type="logic">
+         <obj_property name="ElementShortName">forwarding_addr</obj_property>
+         <obj_property name="ObjectShortName">forwarding_addr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s1A_fp" type="array">
+         <obj_property name="ElementShortName">s1A_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1A_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s2A_fp" type="array">
+         <obj_property name="ElementShortName">s2A_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2A_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s1B_fp" type="array">
+         <obj_property name="ElementShortName">s1B_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s1B_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/s2B_fp" type="array">
+         <obj_property name="ElementShortName">s2B_fp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2B_fp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/decoded_inst_bit" type="array">
+         <obj_property name="ElementShortName">decoded_inst_bit[31:0]</obj_property>
+         <obj_property name="ObjectShortName">decoded_inst_bit[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/dispatched_inst_bit" type="array">
+         <obj_property name="ElementShortName">dispatched_inst_bit[31:0]</obj_property>
+         <obj_property name="ObjectShortName">dispatched_inst_bit[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group774" type="group">
+      <obj_property name="label">rob</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_core_simple/uut/rob_busy" type="array">
+         <obj_property name="ElementShortName">rob_busy[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_busy[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_issued" type="array">
+         <obj_property name="ElementShortName">rob_issued[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_issued[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_finished" type="array">
+         <obj_property name="ElementShortName">rob_finished[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_finished[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_speculative" type="array">
+         <obj_property name="ElementShortName">rob_speculative[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_speculative[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_valid" type="array">
+         <obj_property name="ElementShortName">rob_valid[15:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_valid[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/head" type="array">
+         <obj_property name="ElementShortName">head[3:0]</obj_property>
+         <obj_property name="ObjectShortName">head[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/tail" type="array">
+         <obj_property name="ElementShortName">tail[3:0]</obj_property>
+         <obj_property name="ObjectShortName">tail[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/next_rob_tail" type="logic">
+         <obj_property name="ElementShortName">next_rob_tail</obj_property>
+         <obj_property name="ObjectShortName">next_rob_tail</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob" type="array">
+         <obj_property name="ElementShortName">rob[15:0][74:0]</obj_property>
+         <obj_property name="ObjectShortName">rob[15:0][74:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_inst_0" type="array">
+         <obj_property name="ElementShortName">rob_out_inst_0[72:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_out_inst_0[72:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_inst_1" type="array">
+         <obj_property name="ElementShortName">rob_out_inst_1[72:0]</obj_property>
+         <obj_property name="ObjectShortName">rob_out_inst_1[72:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_valid_0" type="logic">
+         <obj_property name="ElementShortName">rob_out_valid_0</obj_property>
+         <obj_property name="ObjectShortName">rob_out_valid_0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/rob_out_valid_1" type="logic">
+         <obj_property name="ElementShortName">rob_out_valid_1</obj_property>
+         <obj_property name="ObjectShortName">rob_out_valid_1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_bit0" type="logic">
+         <obj_property name="ElementShortName">store_bit0</obj_property>
+         <obj_property name="ObjectShortName">store_bit0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/store_bit1" type="logic">
+         <obj_property name="ElementShortName">store_bit1</obj_property>
+         <obj_property name="ObjectShortName">store_bit1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completed_inst_0" type="array">
+         <obj_property name="ElementShortName">completed_inst_0[64:0]</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_0[64:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/completed_inst_1" type="array">
+         <obj_property name="ElementShortName">completed_inst_1[64:0]</obj_property>
+         <obj_property name="ObjectShortName">completed_inst_1[64:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/compled_inst_0_valid" type="logic">
+         <obj_property name="ElementShortName">compled_inst_0_valid</obj_property>
+         <obj_property name="ObjectShortName">compled_inst_0_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_core_simple/uut/compled_inst_1_valid" type="logic">
+         <obj_property name="ElementShortName">compled_inst_1_valid</obj_property>
+         <obj_property name="ObjectShortName">compled_inst_1_valid</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

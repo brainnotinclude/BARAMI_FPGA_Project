@@ -20,60 +20,81 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 //ALU wrapper for FU "simple"
-//Assume RS entry is compriesed of rs2_vt(32bit) + valid bit(1bit) + rs1_vt(32bit) + valid bit(1bit) + rd(5bit) + ALU_ctrl(5bit) = 76bit
-//Output: excuted instruction: Rd value(32bit) + Rd addr(5bit) = 37bit
+//Last modified: 2024-08-28 jeyun park
+
+//Input decoded instrucion assumption: last modified 2024-08-23 jeyun park
+//32bit for source1, 32bit for source2, 5 bit for Rd
+//Also we need control bits: aluop(5bit), memread/memwrite/memtoreg(3bit), regWrite(1bit), branch(1bit) => 10bit
+//We don't have regWrite signal at present: we need to modify decoder logic)
+//Arrange it as {aluop, memwrite, memread, memtoreg, branch, regwrite, s2, s2_valid, s1, s1_valid, rd} => For the ease of modification: aluop signal will change with the expansion of pipeline(complex signal & fp signal added)
 module ex_simple(
+    input rst_n,
     //From RS
-    input [75:0] rs_simple_0,
-    input [75:0] rs_simple_1,
+    input [113:0] rs_simple_0,
+    input [113:0] rs_simple_1,
+    input [3:0] rs_simple_0_entry_num,
+    input [3:0] rs_simple_1_entry_num,
     input selector,
-    
-    //To RS
+
     output simple_0_issue,
     output simple_1_issue,
     //To ROB
-    output [36:0] excuted_inst,
-    output reg valid
+    output [74:0] executed_inst,                     //regWrite+result+writeAddr
+    output reg valid,
+    //To RF
+    output [31:0] writeData,
+    output [4:0] writeAddr,
+    output writeEn,
+    output reg [3:0] simple_rob_num
     );
-    wire valid0;
-    wire valid1;
+    wire valid0;            //RS0 ready bit
+    wire valid1;            //RS1 ready bit
+    reg regWrite;
     wire [31:0] aluout;
     reg [31:0] aluin1;
     reg [31:0] aluin2;
-    reg [4:0] aluop;
+    reg [5:0] aluop;
     reg [4:0] wrAddr;
     
     //Check if rs1, rs2 are both ready
-    assign valid0 = rs_simple_0[10] & rs_simple_0[43];
-    assign valid1 = rs_simple_1[10] & rs_simple_1[43];
+    assign valid0 = rs_simple_0[5] & rs_simple_0[38];
+    assign valid1 = rs_simple_1[5] & rs_simple_1[38];
     
     always@(*) begin
-        if((valid0==1'b1) && (valid1==1'b0)) begin
-            aluin1 = rs_simple_0[42:11];
-            aluin2 = rs_simple_0[75:44];
-            aluop = rs_simple_0[4:0];
-            wrAddr = rs_simple_0[9:5];
+        if((valid0==1'b1) && (valid1==1'b0)) begin          //RS0 is ready
+            aluin1 = rs_simple_0[37:6];
+            aluin2 = rs_simple_0[70:39];
+            aluop = rs_simple_0[81:76];
+            wrAddr = rs_simple_0[4:0];
             valid = 1'b1;
+            regWrite = rs_simple_0[71];
+            simple_rob_num = rs_simple_0_entry_num;
         end
-        else if((valid0==1'b0) && (valid1==1'b1)) begin
-            aluin1 = rs_simple_1[42:11];
-            aluin2 = rs_simple_1[75:44];
-            aluop = rs_simple_1[4:0];
-            wrAddr = rs_simple_1[9:5];
+        else if((valid0==1'b0) && (valid1==1'b1)) begin         //RS1 is ready
+            aluin1 = rs_simple_1[37:6];
+            aluin2 = rs_simple_1[70:39];
+            aluop = rs_simple_1[81:76];
+            wrAddr = rs_simple_1[4:0];
             valid = 1'b1;
+            regWrite = rs_simple_1[71];
+            simple_rob_num = rs_simple_1_entry_num;
         end
-        else if((valid0==1'b0) && (valid1==1'b1)) begin
-            if(selector == 1'b0) begin
-                aluin1 = rs_simple_1[42:11];
-                aluin2 = rs_simple_1[75:44];
-                aluop = rs_simple_1[4:0];
-                wrAddr = rs_simple_1[9:5];
+        else if((valid0==1'b0) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
+            if(selector == 1'b0) begin                          //Selector points newer one, so we choose non-pointed entry 
+                aluin1 = rs_simple_1[37:6];
+                aluin2 = rs_simple_1[70:39];
+                aluop = rs_simple_1[81:76];
+                wrAddr = rs_simple_1[4:0];
+                regWrite = rs_simple_1[71];
+                simple_rob_num = rs_simple_1_entry_num;
             end
             else begin
-                aluin1 = rs_simple_0[42:11];
-                aluin2 = rs_simple_0[75:44];
-                aluop = rs_simple_0[4:0];
-                wrAddr = rs_simple_0[9:5];
+                aluin1 = rs_simple_0[37:6];
+                aluin2 = rs_simple_0[70:39];
+                aluop = rs_simple_0[81:76];
+                wrAddr = rs_simple_0[4:0];
+                regWrite = rs_simple_0[71];
+                simple_rob_num = rs_simple_0_entry_num;
             end
             valid = 1'b1;
         end
@@ -87,12 +108,17 @@ module ex_simple(
     end
     
     alu alu(
+        .rst_n(rst_n),
         .aluop(aluop),
         .aluin1(aluin1),     // pc는 aluin1으로 받겠음
         .aluin2(aluin2),     // imm, shamt는 aluin2으로 받겠음
         .aluout(aluout)
     );
+    //memdata + memwrite + memread + memtoreg + branch + fpregwrite + regWrite + result + writeAddr
+    assign executed_inst = {37'b0,regWrite, aluout, wrAddr};
+    assign writeData = aluout;
+    assign writeAddr = wrAddr;
+    assign writeEn = valid & regWrite;
     
-    assign excuted_output = {aluout, wrAddr};
     
 endmodule

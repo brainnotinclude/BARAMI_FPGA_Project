@@ -7,7 +7,7 @@ https://ojh0616.tistory.com/530
 module floating(
     input [31:0] a, // 입력
     input [31:0] b, 
-    input [4:0] aluop,     // aluop
+    input [5:0] aluop,     // aluop
     input [2:0] mode,
     output reg [31:0] result // 결과
 );
