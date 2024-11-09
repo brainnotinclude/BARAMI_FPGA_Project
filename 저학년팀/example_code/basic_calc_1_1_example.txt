@@ -56,6 +56,7 @@ sw <rs2> <rs1> <off>
 <코드>
 
 //비교를 위한 레지스터 초기화
+xor RSTA RSTA RSTA
 add R0 RSTA 48
 add R1 RSTA 49
 add R2 RSTA 50
