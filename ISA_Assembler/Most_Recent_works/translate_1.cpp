@@ -98,21 +98,21 @@ void processCommand(const std::string& command) {
         std::cout << "mov: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << "\n" << std::endl;
         return;
     } 
-    if (instruction == "add") {
+    else if (instruction == "add") {
         int reg2Value = getValue(arg2);
         registers[getRegisterIndex(arg3)] = value1 + reg2Value;
         std::cout << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
         return;
     }
-    if (instruction == "sub") {
+    else if (instruction == "sub") {
         int reg2Value = getValue(arg2);
         registers[getRegisterIndex(arg3)] = value1 - reg2Value;
         std::cout << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0100000\n" << std::endl;
         return;
     }
-    if (instruction == "and") {
+    else if (instruction == "and") {
         registers[destIndex] = value1 & value2;
         std::cout << "AND: " << arg3 << " = " << registers[destIndex] << std::endl;
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
@@ -257,10 +257,24 @@ void processCommand(const std::string& command) {
         }
     }
     else if (instruction == "lui") {
-        int imm = parseNumber(arg1); // Immediate value
+        int imm = parseNumber(arg1);
         registers[destIndex] = imm << 12;
         std::cout << "LUI: " << arg3 << " = " << registers[destIndex] << std::endl;
         std::cout << "Result: " << "0110111" << std::bitset<5>(value3) << std::bitset<20>(imm) << "\n" << std::endl;
+    }
+    else if (instruction == "auipc") {
+        int imm = parseNumber(arg2); 
+        registers[getRegisterIndex(arg1)] = pc + (imm << 12);
+        std::cout << "AUIPC: " << arg1 << " = " << registers[getRegisterIndex(arg1)] << std::endl;
+        std::cout << "Result: " << "0010111" << std::bitset<5>(getRegisterIndex(arg1)) << std::bitset<20>(imm) << "\n" << std::endl;
+    }
+    else if (instruction == "jal") {
+        int imm = parseNumber(arg2); 
+        registers[getRegisterIndex(arg1)] = pc + 4;
+        pc = pc + imm; 
+        std::cout << "JAL: " << arg1 << " = " << registers[getRegisterIndex(arg1)] << " (Return Address)" << std::endl;
+        std::cout << "PC updated to: " << pc << std::endl;
+        std::cout << "Result: " << "1101111" << std::bitset<5>(getRegisterIndex(arg1)) << std::bitset<20>(imm) << "\n" << std::endl;
     }
     else if (instruction == "ecall") {
         std::cout << "ECALL: Environment Call\n" << std::endl;
