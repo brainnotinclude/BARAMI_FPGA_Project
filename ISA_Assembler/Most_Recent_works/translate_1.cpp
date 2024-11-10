@@ -322,6 +322,59 @@ void processCommand(const std::string& command) {
         std::cout << "REMU: " << arg3 << " = " << registers[destIndex] << std::endl;
         std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
+    else if (instruction == "fadd.s") {
+        float reg2Value = getFloatValue(arg2);
+        float reg1Value = getFloatValue(arg1);
+        registers[getRegisterIndex(arg3)] = reg1Value + reg2Value;
+        std::cout << "FADD.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    }
+    else if (instruction == "fsub.s") {
+        float reg2Value = getFloatValue(arg2);
+        float reg1Value = getFloatValue(arg1);
+        registers[getRegisterIndex(arg3)] = reg1Value - reg2Value;
+        std::cout << "FSUB.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    }
+    else if (instruction == "fmul.s") {
+        float reg2Value = getFloatValue(arg2);
+        float reg1Value = getFloatValue(arg1);
+        registers[getRegisterIndex(arg3)] = reg1Value * reg2Value;
+        std::cout << "FMUL.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    }
+    else if (instruction == "fdiv.s") {
+        float reg2Value = getFloatValue(arg2);
+        float reg1Value = getFloatValue(arg1);
+        registers[getRegisterIndex(arg3)] = (reg2Value != 0) ? reg1Value / reg2Value : 0; // Division by zero check
+        std::cout << "FDIV.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    }
+    else if (instruction == "fmin.s") {
+        float reg2Value = getFloatValue(arg2);
+        float reg1Value = getFloatValue(arg1);
+        registers[getRegisterIndex(arg3)] = std::min(reg1Value, reg2Value);
+        std::cout << "FMIN.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    }
+    else if (instruction == "fmax.s") {
+        float reg2Value = getFloatValue(arg2);
+        float reg1Value = getFloatValue(arg1);
+        registers[getRegisterIndex(arg3)] = std::max(reg1Value, reg2Value);
+        std::cout << "FMAX.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+    }
+    else if (instruction == "fmadd.s") {
+        float reg1Value = getFloatValue(arg1);
+        float reg2Value = getFloatValue(arg2);
+        float reg3Value = getFloatValue(arg3);
+        registers[getRegisterIndex(arg4)] = (reg1Value * reg2Value) + reg3Value;
+        std::cout << "FMADD.S: " << arg4 << " = " << registers[getRegisterIndex(arg4)] << std::endl;
+    }
+    else if (instruction == "fmv.x.w") {
+        int intValue = static_cast<int>(getFloatValue(arg1));
+        registers[getRegisterIndex(arg2)] = intValue;
+        std::cout << "FMV.X.W: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << std::endl;
+    }
+    else if (instruction == "fmv.w.x") {
+        float floatValue = static_cast<float>(getIntValue(arg1));
+        registers[getRegisterIndex(arg2)] = floatValue;
+        std::cout << "FMV.W.X: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << std::endl;
+    }
     else {
         std::cout << "Unknown instruction: " << instruction << std::endl;
     }
