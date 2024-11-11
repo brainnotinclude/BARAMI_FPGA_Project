@@ -9,39 +9,6 @@
 #include <iomanip>
 #include <bitset>
 
-
-
-/*
-// 명령어 처리 함수 원본
-void processCommand(const std::string& command) {
-    std::istringstream ss(command);
-    std::string instruction, arg1, arg2, arg3;
-    ss >> instruction >> arg1 >> arg2 >> arg3;
-
-    // Determine if arg1 is a register or a number/variable
-    int value = getValue(arg1);
-    int destIndex = getRegisterIndex(arg2);
-
-    if (instruction == "MOV") {
-        registers[destIndex] = value;
-        std::cout << "MOV: " << arg2 << " = " << registers[destIndex] << std::endl;
-    }
-    else if (instruction == "ADD") {
-        int reg2Value = getValue(arg2);
-        registers[getRegisterIndex(arg3)] = value + reg2Value;
-        std::cout << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << "\n" << std::endl;
-        std::cout << "Result: " << "0110011_" << std::bitset<5>(getValue2(arg3)) << "_000_" << std::bitset<5>(getValue2(arg1)) << "_" << std::bitset<5>(getValue2(arg2)) << "_0000000" << std::endl;
-    }
-    else if (instruction == "SUB") {
-        int reg2Value = getValue(arg2);
-        registers[getRegisterIndex(arg3)] = value - reg2Value;
-        std::cout << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
-    }
-    else {
-        std::cout << "Unknown instruction: " << instruction << std::endl;
-    }
-}
-*/
 // 명령어 처리 함수
 void processCommand2(const std::string& command) {
     std::istringstream ss(command);
@@ -56,288 +23,288 @@ void processCommand2(const std::string& command) {
 
     if (instruction == "mov") {
         registers[getRegisterIndex(arg2)] = value1;
-        std::cout << "mov: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << "\n" << std::endl;
+        output_translate_2 << "mov: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << "\n" << std::endl;
         return;
     } 
     else if (instruction == "add") {
         int reg2Value = getValue(arg2);
         registers[getRegisterIndex(arg3)] = value1 + reg2Value;
-        std::cout << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "ADD: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
         return;
     }
     else if (instruction == "sub") {
         int reg2Value = getValue(arg2);
         registers[getRegisterIndex(arg3)] = value1 - reg2Value;
-        std::cout << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0100000\n" << std::endl;
+        output_translate_2 << "SUB: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0100000\n" << std::endl;
         return;
     }
     else if (instruction == "and") {
         registers[destIndex] = value1 & value2;
-        std::cout << "AND: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "AND: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "or") {
         registers[destIndex] = value1 | value2;
-        std::cout << "OR: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "110" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "OR: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "110" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "xor") {
         registers[destIndex] = value1 ^ value2;
-        std::cout << "XOR: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "XOR: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "sll") {
         registers[destIndex] = value1 << value2;
-        std::cout << "SLL: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "SLL: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "srl") {
         registers[destIndex] = static_cast<unsigned int>(value1) >> value2;
-        std::cout << "SRL: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "SRL: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "sra") {
         registers[destIndex] = value1 >> value2;
-        std::cout << "SRA: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0100000\n" << std::endl;
+        output_translate_2 << "SRA: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0100000\n" << std::endl;
     }
     else if (instruction == "slt") {
         registers[destIndex] = (value1 < value2) ? 1 : 0;
-        std::cout << "SLT: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "SLT: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "sltu") {
         registers[destIndex] = (static_cast<unsigned int>(value1) < static_cast<unsigned int>(value2)) ? 1 : 0;
-        std::cout << "SLTU: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
+        output_translate_2 << "SLTU: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << "" << std::bitset<5>(value2) << "0000000\n" << std::endl;
     }
     else if (instruction == "addi") {
         int imm = parseNumber(arg2);  // Immediate value
         registers[destIndex] = value1 + imm;
-        std::cout << "ADDI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
+        output_translate_2 << "ADDI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
     }
     else if (instruction == "andi") {
         int imm = parseNumber(arg2);
         registers[destIndex] = value1 & imm;
-        std::cout << "ANDI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
+        output_translate_2 << "ANDI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
     }
     else if (instruction == "ori") {
         int imm = parseNumber(arg2);
         registers[destIndex] = value1 | imm;
-        std::cout << "ORI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "110" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
+        output_translate_2 << "ORI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "110" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
     }
     else if (instruction == "xori") {
         int imm = parseNumber(arg2);
         registers[destIndex] = value1 ^ imm;
-        std::cout << "XORI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
+        output_translate_2 << "XORI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
     }
     else if (instruction == "slli") {
         int imm = parseNumber(arg2);
         registers[destIndex] = value1 << imm;
-        std::cout << "SLLI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << "" << std::bitset<5>(imm) << "0000000\n" << std::endl;
+        output_translate_2 << "SLLI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << "" << std::bitset<5>(imm) << "0000000\n" << std::endl;
     }
     else if (instruction == "srli") {
         int imm = parseNumber(arg2);
         registers[destIndex] = static_cast<unsigned int>(value1) >> imm;
-        std::cout << "SRLI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(imm) << "0000000\n" << std::endl;
+        output_translate_2 << "SRLI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(imm) << "0000000\n" << std::endl;
     }
     else if (instruction == "srai") {
         int imm = parseNumber(arg2);
         registers[destIndex] = value1 >> imm;
-        std::cout << "SRAI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(imm) << "0100000\n" << std::endl;
+        output_translate_2 << "SRAI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << "" << std::bitset<5>(imm) << "0100000\n" << std::endl;
     }
     else if (instruction == "slti") {
         int imm = parseNumber(arg2);
         registers[destIndex] = (value1 < imm) ? 1 : 0;
-        std::cout << "SLTI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
+        output_translate_2 << "SLTI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
     }
     else if (instruction == "sltiu") { // sltiu에서 얻은 언사인드 값이 bitset 통과할 때는 어찌되는지?
         int imm = parseNumber(arg2);
         registers[destIndex] = (static_cast<unsigned int>(value1) < static_cast<unsigned int>(imm)) ? 1 : 0;
-        std::cout << "SLTIU: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0010011" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
+        output_translate_2 << "SLTIU: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0010011" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << "" << std::bitset<12>(imm) << "\n" << std::endl;
     }
     else if (instruction == "lw") {
         int offset = parseNumber(arg2);
         int baseRegisterIndex = getRegisterIndex(arg3);
         //registers[destIndex] = memory[registers[baseRegisterIndex] + offset];
-        std::cout << "LW: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0000011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << "" << std::bitset<12>(offset) << "\n" << std::endl;
+        output_translate_2 << "LW: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0000011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << "" << std::bitset<12>(offset) << "\n" << std::endl;
     }
     else if (instruction == "jalr") {
         int offset = parseNumber(arg2);
         int baseRegisterIndex = getRegisterIndex(arg3);
         registers[destIndex] = registers[baseRegisterIndex] + offset;
-        std::cout << "JALR: " << arg1 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "1100111" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<12>(offset) << "\n" << std::endl;
+        output_translate_2 << "JALR: " << arg1 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "1100111" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << "" << std::bitset<12>(offset) << "\n" << std::endl;
     }
     else if (instruction == "beq") {
         if (value1 == value2) {
-            std::cout << "BEQ: Branching if equal" << std::endl;
-            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "000" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+            output_translate_2 << "BEQ: Branching if equal" << std::endl;
+            output_translate_2 << "Result: " << "1100011" << std::bitset<5>(value1) << "000" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
         }
     }
     else if (instruction == "bne") {
         if (value1 != value2) {
-            std::cout << "BNE: Branching if not equal" << std::endl;
-            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "001" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+            output_translate_2 << "BNE: Branching if not equal" << std::endl;
+            output_translate_2 << "Result: " << "1100011" << std::bitset<5>(value1) << "001" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
         }
     }
     else if (instruction == "bge") {
         if (value1 >= value2) {
-            std::cout << "BGE: Branching if greater than or equal" << std::endl;
-            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "101" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+            output_translate_2 << "BGE: Branching if greater than or equal" << std::endl;
+            output_translate_2 << "Result: " << "1100011" << std::bitset<5>(value1) << "101" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
         }
     }
     else if (instruction == "bgeu") {
         if (static_cast<unsigned int>(value1) >= static_cast<unsigned int>(value2)) {
-            std::cout << "BGEU: Branching if greater than or equal unsigned" << std::endl;
-            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "111" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+            output_translate_2 << "BGEU: Branching if greater than or equal unsigned" << std::endl;
+            output_translate_2 << "Result: " << "1100011" << std::bitset<5>(value1) << "111" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
         }
     }
     else if (instruction == "blt") {
         if (value1 < value2) {
-            std::cout << "BLT: Branching if less than" << std::endl;
-            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "100" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+            output_translate_2 << "BLT: Branching if less than" << std::endl;
+            output_translate_2 << "Result: " << "1100011" << std::bitset<5>(value1) << "100" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
         }
     }
     else if (instruction == "bltu") {
         if (static_cast<unsigned int>(value1) < static_cast<unsigned int>(value2)) {
-            std::cout << "BLTU: Branching if less than unsigned" << std::endl;
-            std::cout << "Result: " << "1100011" << std::bitset<5>(value1) << "110" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
+            output_translate_2 << "BLTU: Branching if less than unsigned" << std::endl;
+            output_translate_2 << "Result: " << "1100011" << std::bitset<5>(value1) << "110" << std::bitset<5>(value2) << std::bitset<12>(value3) << "\n" << std::endl;
         }
     }
     else if (instruction == "lui") {
         int imm = parseNumber(arg1);
         registers[destIndex] = imm << 12;
-        std::cout << "LUI: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110111" << std::bitset<5>(value3) << std::bitset<20>(imm) << "\n" << std::endl;
+        output_translate_2 << "LUI: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110111" << std::bitset<5>(value3) << std::bitset<20>(imm) << "\n" << std::endl;
     }
     else if (instruction == "auipc") {
         int imm = parseNumber(arg2); 
         registers[getRegisterIndex(arg1)] = pc + (imm << 12);
-        std::cout << "AUIPC: " << arg1 << " = " << registers[getRegisterIndex(arg1)] << std::endl;
-        std::cout << "Result: " << "0010111" << std::bitset<5>(getRegisterIndex(arg1)) << std::bitset<20>(imm) << "\n" << std::endl;
+        output_translate_2 << "AUIPC: " << arg1 << " = " << registers[getRegisterIndex(arg1)] << std::endl;
+        output_translate_2 << "Result: " << "0010111" << std::bitset<5>(getRegisterIndex(arg1)) << std::bitset<20>(imm) << "\n" << std::endl;
     }
     else if (instruction == "jal") {
         int imm = parseNumber(arg2); 
         registers[getRegisterIndex(arg1)] = pc + 4;
         pc = pc + imm; 
-        std::cout << "JAL: " << arg1 << " = " << registers[getRegisterIndex(arg1)] << " (Return Address)" << std::endl;
-        std::cout << "PC updated to: " << pc << std::endl;
-        std::cout << "Result: " << "1101111" << std::bitset<5>(getRegisterIndex(arg1)) << std::bitset<20>(imm) << "\n" << std::endl;
+        output_translate_2 << "JAL: " << arg1 << " = " << registers[getRegisterIndex(arg1)] << " (Return Address)" << std::endl;
+        output_translate_2 << "PC updated to: " << pc << std::endl;
+        output_translate_2 << "Result: " << "1101111" << std::bitset<5>(getRegisterIndex(arg1)) << std::bitset<20>(imm) << "\n" << std::endl;
     }
     else if (instruction == "ecall") {
-        std::cout << "ECALL: Environment Call\n" << std::endl;
+        output_translate_2 << "ECALL: Environment Call\n" << std::endl;
     }
     else if (instruction == "ebreak") {
-        std::cout << "EBREAK: Environment Break\n" << std::endl;
+        output_translate_2 << "EBREAK: Environment Break\n" << std::endl;
     }
     else if (instruction == "mul") {
         registers[destIndex] = value1 * value2;
-        std::cout << "MUL: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "MUL: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "000" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "mulh") {
         registers[destIndex] = ((int64_t)value1 * (int64_t)value2) >> 32;
-        std::cout << "MULH: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "MULH: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "001" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "mulhsu") {
         registers[destIndex] = ((int64_t)value1 * (uint64_t)value2) >> 32;
-        std::cout << "MULHSU: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "MULHSU: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "010" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "mulhu") {
         registers[destIndex] = ((uint64_t)value1 * (uint64_t)value2) >> 32;
-        std::cout << "MULHU: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "MULHU: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "011" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "div") {
         registers[destIndex] = value2 != 0 ? value1 / value2 : 0; // Division by zero check
-        std::cout << "DIV: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "DIV: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "100" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "divu") {
         registers[destIndex] = value2 != 0 ? (unsigned)value1 / (unsigned)value2 : 0;
-        std::cout << "DIVU: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "DIVU: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "101" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "rem") {
         registers[destIndex] = value2 != 0 ? value1 % value2 : 0;
-        std::cout << "REM: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "110" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "REM: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "110" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "remu") {
         registers[destIndex] = value2 != 0 ? (unsigned)value1 % (unsigned)value2 : 0;
-        std::cout << "REMU: " << arg3 << " = " << registers[destIndex] << std::endl;
-        std::cout << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
+        output_translate_2 << "REMU: " << arg3 << " = " << registers[destIndex] << std::endl;
+        output_translate_2 << "Result: " << "0110011" << std::bitset<5>(value3) << "111" << std::bitset<5>(value1) << std::bitset<5>(value2) << "0000001\n" << std::endl;
     }
     else if (instruction == "fadd.s") {
         float reg2Value = getFloatValue(arg2);
         float reg1Value = getFloatValue(arg1);
         registers[getRegisterIndex(arg3)] = reg1Value + reg2Value;
-        std::cout << "FADD.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "FADD.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
     }
     else if (instruction == "fsub.s") {
         float reg2Value = getFloatValue(arg2);
         float reg1Value = getFloatValue(arg1);
         registers[getRegisterIndex(arg3)] = reg1Value - reg2Value;
-        std::cout << "FSUB.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "FSUB.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
     }
     else if (instruction == "fmul.s") {
         float reg2Value = getFloatValue(arg2);
         float reg1Value = getFloatValue(arg1);
         registers[getRegisterIndex(arg3)] = reg1Value * reg2Value;
-        std::cout << "FMUL.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "FMUL.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
     }
     else if (instruction == "fdiv.s") {
         float reg2Value = getFloatValue(arg2);
         float reg1Value = getFloatValue(arg1);
         registers[getRegisterIndex(arg3)] = (reg2Value != 0) ? reg1Value / reg2Value : 0; // Division by zero check
-        std::cout << "FDIV.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "FDIV.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
     }
     else if (instruction == "fmin.s") {
         float reg2Value = getFloatValue(arg2);
         float reg1Value = getFloatValue(arg1);
         registers[getRegisterIndex(arg3)] = std::min(reg1Value, reg2Value);
-        std::cout << "FMIN.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "FMIN.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
     }
     else if (instruction == "fmax.s") {
         float reg2Value = getFloatValue(arg2);
         float reg1Value = getFloatValue(arg1);
         registers[getRegisterIndex(arg3)] = std::max(reg1Value, reg2Value);
-        std::cout << "FMAX.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
+        output_translate_2 << "FMAX.S: " << arg3 << " = " << registers[getRegisterIndex(arg3)] << std::endl;
     }
     else if (instruction == "fmadd.s") {
         float reg1Value = getFloatValue(arg1);
         float reg2Value = getFloatValue(arg2);
         float reg3Value = getFloatValue(arg3);
         registers[getRegisterIndex(arg4)] = (reg1Value * reg2Value) + reg3Value;
-        std::cout << "FMADD.S: " << arg4 << " = " << registers[getRegisterIndex(arg4)] << std::endl;
+        output_translate_2 << "FMADD.S: " << arg4 << " = " << registers[getRegisterIndex(arg4)] << std::endl;
     }
     else if (instruction == "fmv.x.w") {
         int intValue = static_cast<int>(getFloatValue(arg1));
         registers[getRegisterIndex(arg2)] = intValue;
-        std::cout << "FMV.X.W: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << std::endl;
+        output_translate_2 << "FMV.X.W: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << std::endl;
     }
     else if (instruction == "fmv.w.x") {
         float floatValue = static_cast<float>(getIntValue(arg1));
         registers[getRegisterIndex(arg2)] = floatValue;
-        std::cout << "FMV.W.X: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << std::endl;
+        output_translate_2 << "FMV.W.X: " << arg2 << " = " << registers[getRegisterIndex(arg2)] << std::endl;
     }
     else {
-        std::cout << "Unknown instruction: " << instruction << std::endl;
+        output_translate_2 << "Unknown instruction: " << instruction << std::endl;
     }
 }
 
@@ -351,9 +318,9 @@ void declareVariable2(const std::string& line) {
         int value = parseNumber(valueStr);
         variableNames.push_back(varName);
         variableValues.push_back(value);
-        std::cout << "Variable " << varName << " declared with value " << value << std::endl;
+        output_translate_2 << "Variable " << varName << " declared with value " << value << std::endl;
     } else {
-        std::cout << "Invalid variable declaration: " << line << std::endl;
+        output_translate_2 << "Invalid variable declaration: " << line << std::endl;
     }
 }
 
@@ -366,7 +333,7 @@ void execute_translate_2(std::vector<std::string>& lines) {
         else if (line.find('!') != std::string::npos) {
             printf("Declared Variables: ");
             for (int i = 0; i < variableNames.size(); i++) {
-                std::cout << variableNames.at(i) << " = " << variableValues.at(i) << ", ";
+                output_translate_2 << variableNames.at(i) << " = " << variableValues.at(i) << ", ";
             }
             printf("\n");
             printf("Register Status: {");
@@ -382,19 +349,3 @@ void execute_translate_2(std::vector<std::string>& lines) {
     }
 
 }
-/*
-int main() {
-    // 테스트 입력
-    std::vector<std::string> lines = {
-        "VAR_A = 0x1A",  // 변수 선언
-        "mov VAR_A R1",  // 변수 값을 레지스터로 이동
-        "mov 0b1010 R2",  // 2진수로 레지스터 값 설정
-        "add R1 R2 R3",   // 레지스터 간 더하기
-        "sub R1 R2 R0"    // 레지스터 간 빼기
-    };
-    //execute_translate_1( lines );
-
-
-    return 0;
-}
-*/
