@@ -84,8 +84,8 @@ int getValue(const std::string& arg) {
 // 명령어 처리 함수
 void processCommand(const std::string& command) {
     std::istringstream ss(command);
-    std::string instruction, arg1, arg2, arg3;
-    ss >> instruction >> arg3 >> arg1 >> arg2;
+    std::string instruction, arg1, arg2, arg3, arg4;
+    ss >> instruction >> arg3 >> arg1 >> arg2 >> arg4;
 
     // Determine if arg1 is a register or a number/variable
     int value1 = getValue(arg1);
