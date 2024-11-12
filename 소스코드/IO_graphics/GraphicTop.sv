@@ -4,13 +4,14 @@
 
 `default_nettype none
 `timescale 1ns / 1ps
-
+//16*16 px for a character, 1280*720 display => 80*45*7 matrix needed
 module GraphicTop (
     input wire clk_125m,         // 125 MHz clock
-    input wire btn0,        // reset button
-    input wire btn2,
-    input wire [1:0] gpio_in,
-    output      logic gpio_out,
+    input wire rst_n,
+    input wire [6:0] xpos,
+    input wire [5:0] ypos,
+    input wire [6:0] charInput,
+
     output      logic hdmi_tx_ch0_p,    // HDMI source channel 0 diff+
     output      logic hdmi_tx_ch0_n,    // HDMI source channel 0 diff-
     output      logic hdmi_tx_ch1_p,    // HDMI source channel 1 diff+
@@ -21,16 +22,25 @@ module GraphicTop (
     output      logic hdmi_tx_clk_n     // HDMI source clock diff-
     );
     
-    //button definition
-    wire btn_rst;
-    wire touch;
-    wire trigger_note;
-    wire finish_sig;
-    assign btn_rst = btn0;
-    assign touch = btn2;
-    assign trigger_note = gpio_in[0];
-    assign finish_sig = gpio_in[1];             //song finsihed;
-
+    wire [6:0] character;
+    
+    //Output matrix: 80*45
+    reg [6:0] matrix [6:0][5:0];
+    integer i, j;
+    
+    //Initialize & update output matrix
+    always@(posedge clk_125m, negedge rst_n) begin
+        if(!rst_n) begin
+            for(i = 0; i < 80; i=i+1) begin
+                for(j = 0; j < 80; j=j+1) begin
+                    matrix[i][j] <= 7'b0;
+                end
+            end
+        end
+        else begin
+            matrix[xpos][ypos] <= charInput;
+        end
+    end
 
     // generate pixel clock
     logic clk_pix;
@@ -38,7 +48,7 @@ module GraphicTop (
     logic clk_pix_locked;
     clock_720p clock_pix_inst (
        .clk_125m,
-       .rst(btn_rst),  // reset button is active low
+       .rst(rst_n),  // reset button is active low
        .clk_pix,
        .clk_pix_5x,
        .clk_pix_locked
@@ -60,18 +70,17 @@ module GraphicTop (
     
     //define grahics
     logic [7:0] paint_r, paint_g, paint_b;
+    assign character = matrix[sx/16][sy/16];
+    
     gfx gfx_inst (
         .i_x(sx),
         .i_y(sy),
         .pix_clk(clk_pix),
-        .finish_sig(finish_sig),
-        .trigger_note(trigger_note),
-        .touch(touch),
+        .character(character),
     
         .o_red(paint_r),
         .o_blue(paint_b),
-        .o_green(paint_g),
-        .dead(gpio_out)
+        .o_green(paint_g)
     );
 
     // display colour: paint colour but black in blanking interval
