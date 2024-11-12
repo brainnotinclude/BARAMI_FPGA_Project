@@ -31,7 +31,7 @@ module misaligned_exception(
         end else begin
             //4의 배수인지 확인
             if (valid && (address[1:0] != 2'b00)) begin
-                exception <= 1;
+                exception <= 1; // 레지스터값 참조해서 어떻게 처리되는
                 flush <= 1;   // Trigger flush
                 mcause <= MISALIGNED_EXCEPTION_CODE;
                 mepc <= address; // Capture the address causing the exception
