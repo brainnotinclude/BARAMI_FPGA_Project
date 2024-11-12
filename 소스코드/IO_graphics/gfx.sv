@@ -55,20 +55,67 @@ module gfx(
        4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0
    };
    
-   localparam [0:15][0:15] one;
-   localparam [0:15][0:15] two;
-   localparam [0:15][0:15] three;
-   localparam [0:15][0:15] four;
-   localparam [0:15][0:15] five;
-   localparam [0:15][0:15] six;
-   localparam [0:15][0:15] seven;
-   localparam [0:15][0:15] eight;
-   localparam [0:15][0:15] nine;
-   localparam [0:15][0:15] plus;
-   localparam [0:15][0:15] minus;
-   localparam [0:15][0:15] product;
-   localparam [0:15][0:15] divide;
-   localparam [0:15][0:15] modular;
+    localparam [0:15][0:15] one = {
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd1,4'd1,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,
+       4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0,4'd0
+   };
+
+    localparam [0:15][0:15] two = {
+       
+   };
+    localparam [0:15][0:15] three = {
+       
+   };
+    localparam [0:15][0:15] four = {
+       
+   };
+    localparam [0:15][0:15] five = {
+       
+   };
+    localparam [0:15][0:15] six = {
+       
+   };
+    localparam [0:15][0:15] seven = {
+       
+   };
+    localparam [0:15][0:15] eight = {
+       
+   };
+    localparam [0:15][0:15] nine = {
+       
+   };
+    localparam [0:15][0:15] plus = {
+       
+   };
+    localparam [0:15][0:15] minus = {
+       
+   };
+    localparam [0:15][0:15] product = {
+       
+   };
+    localparam [0:15][0:15] divide = {
+       
+   };
+    localparam [0:15][0:15] modular = {
+       
+   };
+    localparam [0:15][0:15] equalSign = {
+       
+   };
    
    assign res_x = i_x%16;
    assign res_y = i_y%16;
