@@ -65,8 +65,8 @@ module decoder(
     //To RF
     output map_en_A,
     output map_en_B,
-    //output map_en_A_fp,
-    //output map_en_B_fp,
+    output map_en_A_fp,
+    output map_en_B_fp,
     output [4:0] rs1A,
     output [4:0] rs2A,
     output [4:0] rs1B,
@@ -97,12 +97,12 @@ module decoder(
     );
     assign imm_A = {instA[31:25], instA[11:7]};
     assign imm_jal_A = instA[31:12];
-    assign imm_jalr_A = instA[31:20];
+  
     assign imm_B = {instB[31:25], instB[11:7]};
     assign imm_jal_B = instB[31:12];
-    assign imm_jalr_B = instB[31:20];
     //Decode an instruction. We need two instance(decomposeA, decomposeB) because we should decode 2 inst/cycle.
     instruction_decompose decomposeA(
+        .rst_n(rst_n),
         .inst(instA),
         .s1(s1A),
         .s2(s2A),
@@ -119,7 +119,7 @@ module decoder(
         .forwarding_addr_fp(forwarding_addr_fp),
         
         .map_en(map_en_A),
-        //map_en_fp(map_en_A_fp),
+        .map_en_fp(map_en_A_fp),
         .rs1(rs1A),
         .rs2(rs2A),
         .rd(rdA),
@@ -130,12 +130,14 @@ module decoder(
         .fence(fence_A),
         .ebreak(ebreak_A),
         .ecall(ecall_A),
-        .PCSrc(PCSrc_A)
+        .PCSrc(PCSrc_A),
+        .jalr(imm_jalr_A)
     );
     
     
     
     instruction_decompose decomposeB(
+        .rst_n(rst_n),
         .inst(instB),
         .s1(s1B),
         .s2(s2B),
@@ -152,7 +154,7 @@ module decoder(
         .forwarding_addr_fp(forwarding_addr_fp),
         
         .map_en(map_en_B),
-        //.map_en_fp(map_en_B_fp)
+        .map_en_fp(map_en_B_fp),
         .rs1(rs1B),
         .rs2(rs2B),
         .rd(rdB),
@@ -163,7 +165,8 @@ module decoder(
         .fence(fence_B),
         .ebreak(ebreak_B),
         .ecall(ecall_B),
-        .PCSrc(PCSrc_B)
+        .PCSrc(PCSrc_B),
+        .jalr(imm_jalr_B)
     );
     
 endmodule

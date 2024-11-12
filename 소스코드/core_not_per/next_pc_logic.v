@@ -61,8 +61,8 @@ reg rs_full_B_reg;
 reg error_decode_A_reg;
 reg error_decode_B_reg;
 
-assign imm_shift = (PCSrc_A==2'b01) ? {18'b0, imm_A << 2} : (PCSrc_B==2'b01) ? {18'b0, imm_B << 2} : 32'b0 ;  // for  branch  01
-assign imm_jal_shift = (PCSrc_A==2'b01) ? {10'b0, imm_jal_A<<2} : (PCSrc_B==2'b01) ? {10'b0, imm_jal_B<<2} : 32'b0;   // for jal  10
+assign imm_shift = (PCSrc_A==2'b01) ? {18'b0, imm_A, 2'b0} : (PCSrc_B==2'b01) ? {18'b0, imm_B,2'b0} : 32'b0 ;  // for  branch  01
+assign imm_jal_shift = (PCSrc_A==2'b01) ? {10'b0, imm_jal_A, 2'b0} : (PCSrc_B==2'b01) ? {10'b0, imm_jal_B, 2'b0} : 32'b0;   // for jal  10
 
 ripple_carry_adder u_pc_plus_4(
 .a  (pcF2),
@@ -84,10 +84,35 @@ ripple_carry_adder u_pc_target(
 
 /*always @(*)
 begin 
-if (PCSrc_A == 2'b00 & PCSrc_B == 2'b00)   
+if (PCSrc_A == 2'b00 & PCSrc_B == 2'b00)   begin
     PCNext1 = PCPlus4F;
-else if (PCSrc_A == 2'b00 & PCSrc_B == 2'b01)
+    PCNext2 = PCNext1_4add;
+    end
+else if (PCSrc_A == 2'b00 & PCSrc_B == 2'b01) begin
+    PCNext1 = PCPlus4F;
+    PCNext2 = PCBranch;
+    end
+else if (PCSrc_A == 2'b00 & PCsrc_B == 2'b10) begin
+    PCNext1 = PCPlus4F;
+    PCNext2 = imm_jal_shift;
+    end
+else if (PCSrc_A == 2'b00 & PCSrc_B == 2'b11) begin
+    PCNext1 = PCPlus4F;
+    PCNext2 = imm_jalr_B;
+    end
+else if (PCSrc_A == 2'b01) begin
     PCNext1 = PCBranch;
+    PCNext2 = PCNext1_4add;
+    end
+ else if (PCSrc_A == 2'b10) begin
+    PCNext1 = imm_jal_shift;
+    PCNext2 = PCNext1_4add;
+    end
+ else if (PCSrc_A == 2'b11) begin
+    PCNext1 = imm_jalr_A;
+    PCNext2 = PCNext1_4add;
+    end
+ end
 */
 
 ripple_carry_adder second_inst(

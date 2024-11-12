@@ -79,7 +79,7 @@ module ex_simple(
             regWrite = rs_simple_1[71];
             simple_rob_num = rs_simple_1_entry_num;
         end
-        else if((valid0==1'b0) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
+        else if((valid0==1'b1) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
             if(selector == 1'b0) begin                          //Selector points newer one, so we choose non-pointed entry 
                 aluin1 = rs_simple_1[37:6];
                 aluin2 = rs_simple_1[70:39];

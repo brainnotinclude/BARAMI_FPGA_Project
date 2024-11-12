@@ -31,7 +31,7 @@ module core_simple(
         output [31:0] pcF1,
         output [31:0] pcF2
     );
-    
+    //g
     //Parameters for signals
     localparam decoded_inst_bit = 116;      
     localparam dispatched_inst_bit = 114;           //memdata(32) aluop(6) memwrite memread memtoreg branch regwrite in2(32) valid in1(32) valid rd
@@ -281,6 +281,7 @@ module core_simple(
             instB_decode <= 32'b0;
             pcF1_decoder <= 32'b0;
             pcF2_decoder <= 32'b0;
+            
         end
         else begin
             //"error" is the only case that stalls on decode stage
@@ -355,8 +356,8 @@ module core_simple(
     //To RF
         .map_en_A(map_en_A),
         .map_en_B(map_en_B),
-        //.map_en_A_fp(map_en_A_fp),
-        //.map_en_B_fp(map_en_B_fp),
+        .map_en_A_fp(map_en_A_fp),
+        .map_en_B_fp(map_en_B_fp),
         .rs1A(rs1A),
         .rs2A(rs2A),
         .rs1B(rs1B),
@@ -429,8 +430,8 @@ module core_simple(
         .rst_n(rst_n),
         .wr_enable_A(wr_enable_FP),              //write enable
         .wr_enable_B(0),
-        .map_en_A(map_en_A),                 //RRF mapping enable: this means that there is a GPR write instruction in decode stage, so we need destination allocation in this cycle
-        .map_en_B(map_en_B),
+        .map_en_A(map_en_A_fp),                 //RRF mapping enable: this means that there is a GPR write instruction in decode stage, so we need destination allocation in this cycle
+        .map_en_B(map_en_B_fp),
         .addrA_0(rs1A),            //read addresses
         .addrA_1(rs2A),
         .addrB_0(rs1B),

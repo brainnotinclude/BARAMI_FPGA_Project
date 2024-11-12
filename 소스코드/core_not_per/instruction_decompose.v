@@ -21,6 +21,7 @@
 
 //Need for decoder_RF_conv
 module instruction_decompose(
+    input rst_n,
     input [31:0] inst,
     input [31:0] s1,
     input [31:0] s2,
@@ -37,7 +38,7 @@ module instruction_decompose(
     input [31:0] forwarding_fp,
 
     output reg map_en,
-    //output reg map_en_fp,
+    output reg map_en_fp,
     output [4:0] rs1,
     output [4:0] rs2,
     output [4:0] rd,
@@ -48,7 +49,8 @@ module instruction_decompose(
     output fence,
     output ebreak,
     output ecall,
-    output [1:0] PCSrc
+    output [1:0] PCSrc,
+    output [31:0] jalr
     );
     
     //Disassemble instruction
@@ -136,16 +138,26 @@ module instruction_decompose(
     .aluin2(rs2_value)
     );
     
-   
+  //h 
     assign ctrl_signal = {fp, aluop, memwrite, memread, memtoreg, branch, regwrite, dispatch_control}; //1+6+1+1+1+1+1+2 =14
+    wire [31:0] imm_jalr;
     
+    assign imm_jalr = {20'b0, imm_for_i};
+    
+    ripple_carry_adder s1_plus_imm(
+    .a  (s1),
+    .b  (imm_jalr),
+    .cin(1'b0),
+    .sum(jalr),
+    .cout()
+    );
     
     always@(*) begin   
     map_en = (map_enable & !fp) ? 1: 0;                          // 먼저 valid이면 register 값 그대로 쓰면 됨
-    //map_en_fp = (map_enable &fp) ? 1: 0;
+    map_en_fp = (map_enable &fp) ? 1: 0;
     memdata = 0;
     valid1_total = rs1_valid & rs1_valid_fp;
-
+    if(alu_mux1 == 2'b00) begin
     if(valid1_total) begin
         rs1_vt = rs1_value;
         s1_valid = 1;
@@ -172,10 +184,19 @@ module instruction_decompose(
         end
     end
     end
- 
+    end
+    else if (alu_mux1 == 2'b01 | alu_mux1 == 2'b10) begin
+    rs1_vt = rs1_value;
+    s1_valid = 1;
+    end
+    else begin 
+    rs1_vt = 32'b0;
+    s1_valid = 0;
+    end
     
     valid2_total = rs2_valid & rs2_valid_fp;
     
+    if(alu_mux2 == 2'b00) begin 
     if(valid2_total) begin
         rs2_vt = rs2_value;
         s2_valid = 1;
@@ -203,8 +224,22 @@ module instruction_decompose(
         end
     end
     end
+    end
+    else if (alu_mux2 == 2'b01 | alu_mux2 == 2'b10 | alu_mux2 == 2'b11) begin
+    rs2_vt = rs2_value;
+    s2_valid = 1;
+    end
+    else begin 
+    rs2_vt = 32'b0;
+    s2_valid = 0;
+    end
     
+    if(!rst_n) begin
+    error =0;
+    end
+    else begin
     error = !(s1_valid & s2_valid);              // 둘 중 하나라도 valid하지 않으면 error 내보냄
+    end
     
     decomposed_inst = {memdata, ctrl_signal, rs2_vt, s2_valid, rs1_vt, s1_valid, rd};
     end
