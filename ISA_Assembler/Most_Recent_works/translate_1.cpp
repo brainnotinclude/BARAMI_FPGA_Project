@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <bitset>
 
+int pc = 0;
 
 // 레지스터 배열 (R0 ~ R7)
 int registers[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -78,6 +79,16 @@ int getValue(const std::string& arg) {
     }
     else {
         return getVariableValue(arg);
+    }
+}
+
+float getfloatvalue(const std::string& str) {
+    // Convert string to float, assuming str represents a floating-point number.
+    try {
+        return std::stof(str); // Convert string to float
+    } catch (std::invalid_argument&) {
+        std::cerr << "Invalid float value for: " << str << std::endl;
+        return 0.0f; // Default return value if conversion fails
     }
 }
 
