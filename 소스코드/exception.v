@@ -35,7 +35,6 @@ module misaligned_exception(
                 flush <= 1;   // Trigger flush
                 mcause <= MISALIGNED_EXCEPTION_CODE;
                 mepc <= address; // Capture the address causing the exception
-                $display("Misaligned Exception: Address %h is not 4-byte aligned for operation with opcode %b", address, opcode);
             end else begin
                 exception <= 0;
                 flush <= 0;
