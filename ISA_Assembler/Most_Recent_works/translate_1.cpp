@@ -83,12 +83,28 @@ int getValue(const std::string& arg) {
 }
 
 float getfloatvalue(const std::string& str) {
-    // Convert string to float, assuming str represents a floating-point number.
-    try {
-        return std::stof(str); // Convert string to float
-    } catch (std::invalid_argument&) {
+    // Check if the string is a valid float
+    bool is_valid = true;
+    for (char c : str) {
+        if (!std::isdigit(c) && c != '.' && c != '-' && c != '+') {
+            is_valid = false;
+            break;
+        }
+    }
+
+    if (is_valid) {
+        // Try to convert the string to a float manually
+        size_t pos;
+        float result = std::stof(str, &pos);  // pos will store the index of the first unparsed character
+        if (pos == str.length()) {
+            return result;  // Successfully converted the entire string to a float
+        } else {
+            std::cerr << "Invalid float value for: " << str << std::endl;
+            return 0.0f; // Return 0.0 if conversion failed
+        }
+    } else {
         std::cerr << "Invalid float value for: " << str << std::endl;
-        return 0.0f; // Default return value if conversion fails
+        return 0.0f; // Return 0.0 if the string contains invalid characters
     }
 }
 
