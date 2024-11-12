@@ -1,33 +1,45 @@
-//exception 관리 모듈입니다.
-//현재는 address misaligned 정도 구현해놓은 상태입니다.
-
-module exception (
-    input wire [31:0] instruction_address,
-    input wire [31:0] pc,                // 현재 프로그램 카운터 (PC)
-    output reg [31:0] next_pc,           // 다음 프로그램 카운터 (PC)
-    output reg exception_triggered,      // 예외 발생 신호
-    output reg [31:0] exception_code     // 예외 코드
+module misaligned_exception(
+    input wire clk,
+    input wire reset,
+    input wire [31:0] address,  // Memory address input
+    input wire [6:0] opcode,    // 7-bit opcode input for instruction type identification
+    output reg exception,       // Exception signal
+    output reg flush            // Flush signal
 );
 
-// 예외 처리기 시작 주소 (CSR에 정의된 주소를 사용하도록 수정 예정)
-localparam [31:0] EXCEPTION_HANDLER_ADDR = 32'h00000004;
-localparam [31:0] MISALIGNED_INSTRUCTION_EXCEPTION = 32'd0x02; 
+    // Opcode values for lw and sw 변경 필요함
+    localparam LW_OPCODE = 7'b0000011;  // Load Word opcode
+    localparam SW_OPCODE = 7'b0100011;  // Store Word opcode
 
-// 주소의 정렬 검사 (32비트 정렬 확인)
-wire misaligned = (instruction_address[1:0] != 2'b00);
+    // Exception의 에러 코드, 수정가능
+    localparam MISALIGNED_EXCEPTION_CODE = 32'h00000004;
 
-always @(*) begin
-    if (misaligned) begin
-        // 예외 발생 시 처리
-        exception_triggered = 1'b1;       // 예외 발생 표시
-        exception_code = MISALIGNED_INSTRUCTION_EXCEPTION;
-        next_pc = EXCEPTION_HANDLER_ADDR; // 예외 처리기 주소로 PC 설정
-    end else begin
-        // 정상 실행 경로
-        exception_triggered = 1'b0;       // 예외 발생 안 함
-        exception_code = 32'b0;           // 예외 코드 초기화
-        next_pc = pc + 4;                 // 다음 명령어로 PC 증가
+    // Registers for exception status
+    reg [31:0] mcause;   // 익셉션 원인을 저장하는 레지스터
+    reg [31:0] mepc;     // 익셉션이 발생한 명령어의 PC 
+
+    // Signal to indicate valid memory operation (valid only for lw or sw)
+    wire valid;
+    assign valid = (opcode == LW_OPCODE) || (opcode == SW_OPCODE);
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            exception <= 0;
+            flush <= 0;
+            mcause <= 32'b0;
+            mepc <= 32'b0;
+        end else begin
+            //4의 배수인지 확인
+            if (valid && (address[1:0] != 2'b00)) begin
+                exception <= 1;
+                flush <= 1;   // Trigger flush
+                mcause <= MISALIGNED_EXCEPTION_CODE;
+                mepc <= address; // Capture the address causing the exception
+                $display("Misaligned Exception: Address %h is not 4-byte aligned for operation with opcode %b", address, opcode);
+            end else begin
+                exception <= 0;
+                flush <= 0;
+            end
+        end
     end
-end
-
 endmodule
