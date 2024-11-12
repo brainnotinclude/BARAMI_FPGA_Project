@@ -91,21 +91,15 @@ float getfloatvalue(const std::string& str) {
             break;
         }
     }
-
     if (is_valid) {
         // Try to convert the string to a float manually
         size_t pos;
         float result = std::stof(str, &pos);  // pos will store the index of the first unparsed character
         if (pos == str.length()) {
             return result;  // Successfully converted the entire string to a float
-        } else {
-            std::cerr << "Invalid float value for: " << str << std::endl;
-            return 0.0f; // Return 0.0 if conversion failed
         }
-    } else {
-        std::cerr << "Invalid float value for: " << str << std::endl;
-        return 0.0f; // Return 0.0 if the string contains invalid characters
     }
+    return 0.0f; // Return 0.0 if the string is invalid or conversion failed
 }
 
 // 명령어 처리 함수
