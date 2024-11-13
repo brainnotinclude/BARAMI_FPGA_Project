@@ -399,7 +399,7 @@ void processCommand2(const std::string& command) {
     }
 }
 // 변수 선언 함수
-void declareVariable(const std::string& line) {
+void declareVariable2(const std::string& line) {
     std::istringstream ss(line);
     std::string varName, equalsSign, valueStr;
     ss >> varName >> equalsSign >> valueStr;
@@ -414,11 +414,11 @@ void declareVariable(const std::string& line) {
     }
 }
 
-void execute_translate_1(std::vector<std::string>& lines) {
+void execute_translate_2(std::vector<std::string>& lines) {
     // 각 명령어 처리
     for (const auto& line : lines) {
         if (line.find('=') != std::string::npos) {
-            declareVariable(line);  // 변수 선언 처리
+            declareVariable2(line);  // 변수 선언 처리
         }
         else if (line.find('!') != std::string::npos) {
             printf("Declared Variables: ");
@@ -449,7 +449,7 @@ int main() {
         "add R1 R2 R3",   // 레지스터 간 더하기
         "sub R1 R2 R0"    // 레지스터 간 빼기
     };
-    //execute_translate_1( lines );
+    //execute_translate_2( lines );
 
 
     return 0;
