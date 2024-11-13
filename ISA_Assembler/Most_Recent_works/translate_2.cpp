@@ -76,7 +76,7 @@ int getValue2(const std::string& arg) {
         return parseNumber2(arg);
     }
     else {
-        return getVariableValue22(arg);
+        return getVariableValue2(arg);
     }
 }
 
@@ -98,6 +98,25 @@ float getfloatvalue2(const std::string& str) {
         }
     }
     return 0.0f; // Return 0.0 if the string is invalid or conversion failed
+}
+
+int getIntValue(const std::string& arg) {
+    int value;
+    // Check if the argument is a register
+    if (arg[0] == 'r' && std::isdigit(arg[1])) {  // Assuming registers are labeled like r0, r1, etc.
+        int regIndex = getRegisterIndex(arg);
+        value = registers[regIndex];
+    } 
+    // Check if the argument is a numeric value
+    else if (std::isdigit(arg[0]) || (arg[0] == '-' && std::isdigit(arg[1]))) {
+        value = std::stoi(arg);  // Convert string to integer
+    } 
+    else {
+        // If the argument represents a variable, handle appropriately (e.g., look up in a symbol table)
+        // For this example, assume 0 if it's unrecognized
+        value = 0;
+    }
+    return value;
 }
 
 // 명령어 처리 함수
@@ -390,7 +409,7 @@ void processCommand2(const std::string& command) {
         output_translate_2 << "FMV.X.W: " << arg2 << " = " << registers[getRegisterIndex2(arg2)] << std::endl;
     }
     else if (instruction == "fmv.w.x") {
-        float floatValue = static_cast<float>(getIntValue(arg1));
+        float floatValue = static_cast<float>(getIntValue2(arg1));
         registers[getRegisterIndex2(arg2)] = floatValue;
         output_translate_2 << "FMV.W.X: " << arg2 << " = " << registers[getRegisterIndex2(arg2)] << std::endl;
     }
