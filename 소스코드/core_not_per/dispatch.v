@@ -77,8 +77,8 @@ module dispatch(
     //s2, s2_valid, s1, s1_valid, rd =>71bit
     assign dispatch_control_A = instA[72:71];
     assign dispatch_control_B = instB[72:71];
-    assign instA_xdc = {instA[116:73], instA[70:0]};
-    assign instB_xdc = {instB[116:73], instB[70:0]};
+    assign instA_xdc = {instA[115:73], instA[70:0]};
+    assign instB_xdc = {instB[115:73], instB[70:0]};
     
     
     //Select RS position
