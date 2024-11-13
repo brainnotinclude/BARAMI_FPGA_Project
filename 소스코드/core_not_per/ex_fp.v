@@ -9,8 +9,8 @@ module ex_fp(
     input selector,
     
     //To RS
-    output fp_0_issue,
-    output fp_1_issue,
+    output reg fp_0_issue,
+    output reg fp_1_issue,
     //To ROB
     output [74:0] executed_inst,
     output reg valid,
@@ -44,6 +44,7 @@ module ex_fp(
             valid = 1'b1;
             fpregwrite = rs_fp_0[71];
             fp_rob_num = rs_fp_0_entry_num;
+            fp_0_issue = 1'b1;
         end
         else if((valid0==1'b0) && (valid1==1'b1)) begin         //RS1 is ready
             aluin1 = rs_fp_1[37:6];
@@ -53,6 +54,7 @@ module ex_fp(
             valid = 1'b1;
             fpregwrite = rs_fp_1[71];
             fp_rob_num = rs_fp_1_entry_num;
+            fp_1_issue = 1'b1;
         end
         else if((valid0==1'b0) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
             if(selector == 1'b0) begin                          //Selector points newer one, so we choose non-pointed entry 
@@ -62,6 +64,7 @@ module ex_fp(
                 wrAddr = rs_fp_1[4:0];
                 fpregwrite = rs_fp_1[71];
                 fp_rob_num = rs_fp_1_entry_num;
+                fp_1_issue = 1'b1;
             end
             else begin
                 aluin1 = rs_fp_0[37:6];
@@ -70,6 +73,7 @@ module ex_fp(
                 wrAddr = rs_fp_0[4:0];
                 fpregwrite = rs_fp_0[71];
                 fp_rob_num = rs_fp_0_entry_num;
+                fp_0_issue = 1'b1;
             end
             valid = 1'b1;
         end
@@ -79,7 +83,9 @@ module ex_fp(
                 aluop = 5'b0;
                 wrAddr = 5'b0;
                 valid = 1'b0;
-                fpregwrite=0;
+                fpregwrite=1'b0;
+                fp_0_issue = 1'b0;
+                fp_1_issue = 1'b0;
           end
           end
           

@@ -7,8 +7,8 @@ module ex_complex(
     input selector,
    
 
-    output complex_0_issue,
-    output complex_1_issue,
+    output reg complex_0_issue,
+    output reg complex_1_issue,
     //To ROB
     output [74:0] executed_inst,                     //memdata + memwrite + memread + memtoreg + branch + fpregwrite + regWrite + result + writeAddr
     output reg valid,
@@ -54,6 +54,7 @@ module ex_complex(
             branch = rs_complex_0[72];
             regwrite = rs_complex_0[71];
             complex_rob_num = rs_complex_0_entry_num;
+            complex_0_issue = 1'b1;
         end
         else if((valid0==1'b0) && (valid1==1'b1)) begin         //RS1 is ready
             aluin1 = rs_complex_1[37:6];
@@ -68,6 +69,7 @@ module ex_complex(
             branch = rs_complex_1[72];
             regwrite = rs_complex_1[71];
             complex_rob_num = rs_complex_1_entry_num;
+            complex_1_issue = 1'b1;
         end
         else if((valid0==1'b0) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
             if(selector == 1'b0) begin                          //Selector points newer one, so we choose non-pointed entry 
@@ -82,6 +84,7 @@ module ex_complex(
                 branch = rs_complex_1[72];
                 regwrite = rs_complex_1[71];
                 complex_rob_num = rs_complex_1_entry_num;
+                complex_1_issue = 1'b1;
             end
             else begin
                 aluin1 = rs_complex_0[37:6];
@@ -95,6 +98,7 @@ module ex_complex(
                 branch = rs_complex_0[72];
                 regwrite = rs_complex_0[71];
                 complex_rob_num = rs_complex_0_entry_num;
+                complex_0_issue = 1'b1;
             end
             valid = 1'b1;
         end
@@ -110,6 +114,8 @@ module ex_complex(
                 memtoreg = 0;
                 branch = 0;
                 regwrite = 0;
+                complex_0_issue = 1'b0;
+                complex_1_issue = 1'b0;
         end
     end
     wire divide_error;

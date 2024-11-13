@@ -36,8 +36,8 @@ module ex_simple(
     input [3:0] rs_simple_1_entry_num,
     input selector,
 
-    output simple_0_issue,
-    output simple_1_issue,
+    output reg simple_0_issue,
+    output reg simple_1_issue,
     //To ROB
     output [74:0] executed_inst,                     //regWrite+result+writeAddr
     output reg valid,
@@ -69,6 +69,7 @@ module ex_simple(
             valid = 1'b1;
             regWrite = rs_simple_0[71];
             simple_rob_num = rs_simple_0_entry_num;
+            simple_0_issue = 1'b1;
         end
         else if((valid0==1'b0) && (valid1==1'b1)) begin         //RS1 is ready
             aluin1 = rs_simple_1[37:6];
@@ -78,6 +79,7 @@ module ex_simple(
             valid = 1'b1;
             regWrite = rs_simple_1[71];
             simple_rob_num = rs_simple_1_entry_num;
+            simple_1_issue = 1'b1;
         end
         else if((valid0==1'b1) && (valid1==1'b1)) begin         //If both ready, then select one entry using selector
             if(selector == 1'b0) begin                          //Selector points newer one, so we choose non-pointed entry 
@@ -87,6 +89,7 @@ module ex_simple(
                 wrAddr = rs_simple_1[4:0];
                 regWrite = rs_simple_1[71];
                 simple_rob_num = rs_simple_1_entry_num;
+                simple_1_issue = 1'b1;
             end
             else begin
                 aluin1 = rs_simple_0[37:6];
@@ -95,6 +98,8 @@ module ex_simple(
                 wrAddr = rs_simple_0[4:0];
                 regWrite = rs_simple_0[71];
                 simple_rob_num = rs_simple_0_entry_num;
+                simple_0_issue = 1'b1;
+                
             end
             valid = 1'b1;
         end
@@ -104,6 +109,9 @@ module ex_simple(
                 aluop = 5'b0;
                 wrAddr = 5'b0;
                 valid = 1'b0;
+                regWrite = 1'b0;
+                simple_0_issue = 1'b0;
+                simple_1_issue = 1'b0;
         end
     end
     
