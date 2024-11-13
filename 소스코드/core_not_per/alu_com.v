@@ -5,6 +5,7 @@ module alu_com(
     input [5:0] aluop,
     input [31:0] aluin1,     // pc는 aluin1으로 받겠음
     input [31:0] aluin2,     // imm, shamt는 aluin2으로 받겠음
+    input [4:0] rd,
     output reg [31:0] aluout,
     output reg branch_taken,
     output reg branch_update,
@@ -105,15 +106,25 @@ module alu_com(
     assign divu = quotient;
     assign remu = remainder;
     
-    
+    wire [31:0] sw_imm;
+    assign sw_imm = {20'b0, aluin2[11:5], rd};
  
     // lw sw  sw는 aluin2 자리에 rs2가 아닌 imm이 들어오도록, rs2는 메모리에 저장할 값으로 core_simple에서 FF 타게 해서 끌고 오든 다른 방식 필요할듯
-    wire [31:0] lw_sw;
-    ripple_carry_adder lw_sw_ripple_carry_adder(
+    wire [31:0] lw;
+    wire [31:0] sw;
+    ripple_carry_adder lw_ripple_carry_adder(
     .a(aluin1),                       
     .b(aluin2),
     .cin(0),
-    .sum(lw_sw),
+    .sum(lw),
+    .cout()
+    );
+    
+    ripple_carry_adder sw_ripple_carry_adder(
+    .a(aluin1),                       
+    .b(sw_imm),
+    .cin(0),
+    .sum(sw),
     .cout()
     );
     
@@ -201,10 +212,10 @@ module alu_com(
             6'd26: aluout = divu;
             6'd28: aluout = rem;
             6'd30: aluout = remu;
-            6'd32: aluout = lw_sw;
+            6'd32: aluout = lw;
             6'd33: aluout = jalr_jal;
             6'd34: aluout = jalr_jal;
-            6'd35: aluout = lw_sw;
+            6'd35: aluout = sw;
             6'd36: rs2_data = aluin2;
             6'd37: begin
             aluout = aluin1;
