@@ -67,7 +67,7 @@ int parseNumber2(const std::string &str) {
 
 int getValue2(const std::string& arg) {
     // If arg is a register, return its value, otherwise treat it as a variable or number
-    int regIndex = getRegisterIndex22(arg);
+    int regIndex = getRegisterIndex2(arg);
     if (regIndex != -1) {
         if (regIndex >= 8) return registers[regIndex-8];
         return regIndex;
