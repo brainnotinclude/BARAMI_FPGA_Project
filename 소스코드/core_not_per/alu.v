@@ -25,7 +25,8 @@ module alu(
     input [5:0] aluop,
     input [31:0] aluin1,     // pc는 aluin1으로 받겠음
     input [31:0] aluin2,     // imm, shamt는 aluin2으로 받겠음
-    output reg [31:0] aluout
+    output reg [31:0] aluout,
+    output divide_error
     );
 
     // add sub lui auipc part
@@ -99,11 +100,14 @@ module alu(
     assign aluin1_unsigned = (aluop[1] ? aluin1 : (aluin1[31] ? ~aluin1+1 : aluin1));       // 만약 div인데 음수인경우 2의 보수로 양수로 만듦
     assign aluin2_unsigned = (aluop[1] ? aluin2 : (aluin2[31] ? ~aluin2+1 : aluin2));
     
+    
     divide u_divide(                    
     .dividend(aluin1_unsigned),
     .divisor(aluin2_unsigned),
     .quotient(quotient),
-    .remainder(remainder));
+    .remainder(remainder),
+    .error(divide_error)
+    );
     // 나눗셈 결과를 div, divu, rem, remu에 모두 올바른 값으로 저장 필요
     // 이를 위해 처음 받은 두 입력의 최상위 비트를 붙여 2비트 짜리 mod_div라는 변수를 만듦
     // 이 변수를 이용해 나눗셈 몫과 나머지가 양수를 가져야 하는지 음수를 가져야 하는지 결정

@@ -112,6 +112,7 @@ module ex_complex(
                 regwrite = 0;
         end
     end
+    wire divide_error;
     
     alu_com alu_com(
         .aluop(aluop),
@@ -121,7 +122,8 @@ module ex_complex(
         .aluout(aluout),
         .branch_taken(branch_taken),
         .branch_update(branch_update),
-        .mem_reserved(mem_reserved)
+        .mem_reserved(mem_reserved),
+        .error(divide_error)
     );
     
     

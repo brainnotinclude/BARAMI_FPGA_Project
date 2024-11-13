@@ -10,7 +10,8 @@ module alu_com(
     output reg branch_taken,
     output reg branch_update,
     output reg [31:0] rs2_data,     //amoswap할 데이터를 이걸로 내보내기?
-    output reg mem_reserved           
+    output reg mem_reserved,
+    output error          
     );
 
     // add sub lui auipc part
@@ -79,7 +80,7 @@ module alu_com(
     // divide part                  // div = 11000 divu = 11010 rem = 11100 remu = 11110
     wire [31:0] aluin1_unsigned;         // 나눗셈 연산은 기본적으로 절대값을 씌운 다음 진행
     wire [31:0] aluin2_unsigned;         // 그러기 위해서는 명령어가 unsign인지 아닌지 구분 필요
-    wire error;
+
     wire [31:0] quotient;                // aluop[1]을 div와 rem 같게(0), divu, remu(1)같게 설정
     wire [31:0] remainder;               // 이를 이용해 나눗셈 모듈에 넣을 입력을 정해줌
     assign aluin1_unsigned = (aluop[1] ? aluin1 : (aluin1[31] ? ~aluin1+1 : aluin1));       // 만약 div인데 음수인경우 2의 보수로 양수로 만듦

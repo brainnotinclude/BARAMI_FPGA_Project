@@ -107,12 +107,14 @@ module ex_simple(
         end
     end
     
+    wire divide_error;
     alu alu(
         .rst_n(rst_n),
         .aluop(aluop),
         .aluin1(aluin1),     // pc는 aluin1으로 받겠음
         .aluin2(aluin2),     // imm, shamt는 aluin2으로 받겠음
-        .aluout(aluout)
+        .aluout(aluout),
+        .divide_error(divide_error)
     );
     //memdata + memwrite + memread + memtoreg + branch + fpregwrite + regWrite + result + writeAddr
     assign executed_inst = {37'b0,regWrite, aluout, wrAddr};

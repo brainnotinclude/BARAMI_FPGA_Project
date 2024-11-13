@@ -905,8 +905,8 @@ module core_simple(
     //Store: data word(32bit) + store address(32bit) + store bit(1bit)
     wire [64:0] completed_inst_0;
     wire [64:0] completed_inst_1;
-    wire compled_inst_0_valid;
-    wire compled_inst_1_valid;
+    wire completed_inst_0_valid;
+    wire completed_inst_1_valid;
     
     //Retire non-store instruction
     //Pass store to store buffer
