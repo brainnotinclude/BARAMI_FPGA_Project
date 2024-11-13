@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include "translate_1.h"
 #include "FileOpenAPI.h"
 #include "translate_2.h"
@@ -5,6 +6,7 @@
 #include <windows.h>
 
 extern int registers[8];
+extern int pc;
 
 // 변수 배열
 extern std::vector<std::string> variableNames;
