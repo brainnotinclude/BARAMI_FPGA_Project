@@ -117,6 +117,7 @@ module ex_complex(
         .aluop(aluop),
         .aluin1(aluin1),     // pc는 aluin1으로 받겠음
         .aluin2(aluin2),     // imm, shamt는 aluin2으로 받겠음
+        .rd(wrAddr),
         .aluout(aluout),
         .branch_taken(branch_taken),
         .branch_update(branch_update),
