@@ -100,23 +100,26 @@ float getfloatvalue2(const std::string& str) {
     return 0.0f; // Return 0.0 if the string is invalid or conversion failed
 }
 
-int getIntValue2(const std::string& arg) {
-    int value;
-    // Check if the argument is a register
-    if (arg[0] == 'r' && std::isdigit(arg[1])) {  // Assuming registers are labeled like r0, r1, etc.
-        int regIndex = getRegisterIndex(arg);
-        value = registers[regIndex];
-    } 
-    // Check if the argument is a numeric value
-    else if (std::isdigit(arg[0]) || (arg[0] == '-' && std::isdigit(arg[1]))) {
-        value = std::stoi(arg);  // Convert string to integer
-    } 
-    else {
-        // If the argument represents a variable, handle appropriately (e.g., look up in a symbol table)
-        // For this example, assume 0 if it's unrecognized
-        value = 0;
+int getIntValue2(const std::string& str) {
+    // Check if the string is a valid integer
+    bool is_valid = true;
+    for (size_t i = 0; i < str.length(); ++i) {
+        if (!std::isdigit(str[i]) && !(i == 0 && (str[i] == '-' || str[i] == '+'))) {
+            is_valid = false;
+            break;
+        }
     }
-    return value;
+    if (is_valid) {
+        // Try to convert the string to an integer
+        size_t pos;
+        int result = std::stoi(str, &pos);  // pos will store the index of the first unparsed character
+        if (pos == str.length()) {
+            return result;  // Successfully converted the entire string to an integer
+        }
+    }
+
+    // If the string does not represent a valid integer, return 0
+    return 0;
 }
 
 // 명령어 처리 함수
