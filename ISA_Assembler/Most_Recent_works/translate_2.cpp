@@ -100,7 +100,7 @@ float getfloatvalue2(const std::string& str) {
     return 0.0f; // Return 0.0 if the string is invalid or conversion failed
 }
 
-int getIntValue(const std::string& arg) {
+int getIntValue2(const std::string& arg) {
     int value;
     // Check if the argument is a register
     if (arg[0] == 'r' && std::isdigit(arg[1])) {  // Assuming registers are labeled like r0, r1, etc.
