@@ -62,6 +62,7 @@
     always@(posedge HCLK) begin                 //For new load
         if(set_busy) begin
             addr_ready <= 1'b1;                 //Addresss phase for load address ready
+            data_ready <= 1'b1;
             load_addr_internal <= load_addr;
             busy <= 1'b1;
         end
@@ -73,40 +74,28 @@
                    M_AHB_0_hrdata <= load_addr_internal;
                    M_AHB_0_hready <= 1'b1;
                    addr_ready <= 0;
-                   data_ready <= 1;
                 end
                 2'b11: begin  end
             endcase
         end
         //Problem: how do we know it is addr phase or data phase?
-        else if(data_ready == 1'b1 && M_AHB_0_hwrite == 1'b1) begin           //Addr phase for laod data
+        else if(data_ready == 1'b1 && M_AHB_0_hwrite == 1'b1 && M_AHB_0_haddr == 32'b1) begin           //Addr phase for laod data
             case(r_ctrl)
                 2'b00: begin end        //IDLE
                 2'b01: begin end        //BUSY
                 2'b10: begin            //nonseq 
-                   //Do nothing: because hready = 1 already 
+                   data_ready<=0;
                 end
                 2'b11: begin  end
             endcase
         end
-        else if(data_ready == 1'b1 && M_AHB_0_hwrite == 1'b1) begin           //Addr phase for laod data
-            case(r_ctrl)
-                2'b00: begin end        //IDLE
-                2'b01: begin end        //BUSY
-                2'b10: begin            //nonseq 
-                   //Do nothing: because hready = 1 already 
-                end
-                2'b11: begin  end
-            endcase
-        end
-        else if(data_ready == 1'b1 && M_AHB_0_hwrite == 1'b1) begin     //조건 뭘로해야하지?      //Data phase for laod data
+        else begin      //Data phase for load data & idle case
             case(r_ctrl)
                 2'b00: begin end        //IDLE
                 2'b01: begin end        //BUSY
                 2'b10: begin            //nonseq 
                    load_data_internal <= M_AHB_0_hwdata;
                    M_AHB_0_hready <= 1'b0;
-                   data_ready <= 0;
                    busy <= 0;
                 end
                 2'b11: begin  end
