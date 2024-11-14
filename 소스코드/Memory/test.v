@@ -22,9 +22,9 @@
 
 module test(
     input btn, 
-    input HCLK,
+    input sysclk,
     input rst_n,
-    output LED,
+    output led,
     
     //AHB interface
     input HCLK,
@@ -32,8 +32,8 @@ module test(
     input [2:0] M_AHB_0_hburst,
     input M_AHB_0_hmastlock,
     input [3:0] M_AHB_0_hprot,
-    output reg [31:0] M_AHB_0_hrdata,
-    output reg M_AHB_0_hready,
+    output [31:0] M_AHB_0_hrdata,
+    output  M_AHB_0_hready,
     output M_AHB_0_hresp,
     input [2:0] M_AHB_0_hsize,
     input [1:0] M_AHB_0_htrans,
@@ -61,7 +61,7 @@ module test(
         end
     end
     
-    assign LED = load_data[0];
+    assign led = load_data[0];
     
     
     ahb_load LOAD(

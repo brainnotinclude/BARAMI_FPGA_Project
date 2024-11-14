@@ -104,7 +104,7 @@
     end
     
     
-    always@(*) begin                 //read addr phase
+    always@(*) begin                 //mode set
         if(M_AHB_0_hwrite==1'b0) begin
             case(M_AHB_0_htrans)
                 2'b00:          //idle
@@ -122,50 +122,6 @@
         end
     end
     
-    always@(posedge HCLK) begin                 //read data pahse
-        
-    end
-    
-    //write transfer(ZYNQ->PL): receive load data
-    always@(posedge HCLK) begin
-        if(M_AHB_0_hwrite==1'b1) begin  //write address phase
-            case(M_AHB_0_htrans)
-                2'b00:          //idle
-                    w_ctrl<=2'b00;
-                2'b01:          //busy
-                    w_ctrl<=2'b01;
-                2'b10:          //nonseq
-                begin
-                    w_ctrl<=2'b10;
-                    w_ready <= 1'b1;
-                end
-                2'b11:          //seq
-                begin
-                    w_ctrl<=2'b11;
-                end
-            endcase
-        end
-    end
-    
-    //write data phase
-    always@(posedge HCLK) begin
-        if(M_AHB_0_hwrite==1'b1 && w_ready == 1'b1) begin
-            if(w_ctrl == 2'b10) begin
-            end
-            case(w_ctrl)
-                2'b00: begin end
-                2'b01: begin end
-                2'b10:
-                begin
-                    load_data_internal <= M_AHB_0_hwdata;
-                    w_ready <= 0;
-                end
-                2'b10: begin end
-            endcase
-        end
-    end
-    
-    assign load_data = load_data_internal;
     
 endmodule
 
