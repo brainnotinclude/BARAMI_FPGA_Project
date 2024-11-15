@@ -1,10 +1,9 @@
 주석: 지금 기준이 되는 레지스터의 이름을 몰라서 무식하게 add rs1 RSTA 32 이런식으로 rs1에 32 값 집어넣음. 고쳐야함.
-일단 생각해볼 테스트 안:
+예상되는 입력과 출력 결과물:
+1+1 2
+2+4 6
 
-1+1\n
-9+2
-0+1
--1+2
+
 
 일단 정한 변수명(전부 레지스터를 의미한다.):
 Iabs - I 메모리에서 입력 버퍼 위치
@@ -29,13 +28,15 @@ R14 - 비교를 위한 %의 레지스터
 R15 - 비교를 위한 \n의 레지스터 재밌는 점은 아스키코드로 10에 해당.
 RSTA - 값이 0으로 고정인 레지스터
 
-RS1 - 숫자 1의 레지스터
-RS2 - 숫자 2의 레지스터
-RS3 - 연산자의 레지스터
+RS1 - 숫자 1의 레지스터 + 출력 변환용 레지스터 3
+RS2 - 숫자 2의 레지스터 + 출력 변환용 레지스터 4
+RS3 - 연산자의 레지스터 + 출력 변환용 레지스터 5
 RS4 - 인스트럭션 동작을 위한 카운터 레지스터 카운터로 포문 돌리자
 RS5 - offset에 직접 레지스터 주소를 칠 수 없는 문제로 인한 임시주소 레지스터
 RS6 - 저장 전 비교를 위한 작업 레지스터
 RS7 - 쓰기용 카운터 레지스터
+RS2 - 출력 변환용 레지스터 1
+RS3 - 출력 변환용 레지스터 2
 RSIG1 - 점프 위치 저장 레지스터 1
 RSIG2 - 다음 수식을 처리를 위한 전체 초기화 위치 저장 레지스터 2
 
@@ -57,36 +58,38 @@ sw <rs2> <rs1> <off>
 
 //비교를 위한 레지스터 초기화
 xor RSTA RSTA RSTA
-add R0 RSTA 48
-add R1 RSTA 49
-add R2 RSTA 50
-add R3 RSTA 51
-add R4 RSTA 52
-add R5 RSTA 53
-add R6 RSTA 54
-add R7 RSTA 55
-add R8 RSTA 56
-add R9 RSTA 57
-add R10 RSTA 43
-add R11 RSTA 45
-add R12 RSTA 42
-add R13 RSTA 47
-add R14 RSTA 37
-add R15 RSTA 10
+addi R0 RSTA 48
+addi R1 RSTA 49
+addi R2 RSTA 50
+addi R3 RSTA 51
+addi R4 RSTA 52
+addi R5 RSTA 53
+addi R6 RSTA 54
+addi R7 RSTA 55
+addi R8 RSTA 56
+addi R9 RSTA 57
+addi R10 RSTA 43
+addi R11 RSTA 45
+addi R12 RSTA 42
+addi R13 RSTA 47
+addi R14 RSTA 37
+addi R15 RSTA 10
 
 //읽기/쓰기 카운터 초기화
-add RS4 RSTA 0
-add RS7 RSTA 0
+addi RS4 RSTA 0
+addi RS7 RSTA 0
 
 //초기화용 위치레지스터 저장
 auipc RSIG2 0
 
 //각 저장 레지스터 및 임시 주소 초기화
-add RS1 RSTA 0
-add RS2 RSTA 0
-add RS3 RSTA 0
-add RS5 RSTA 0
-add RS6 RSTA 0
+addi RS1 RSTA 0
+addi RS2 RSTA 0
+addi RS3 RSTA 0
+addi RS5 RSTA 0
+addi RS6 RSTA 0
+addi RS2 RSTA 0
+addi RS3 RSTA 0
 
 //메인 코드 시작
 
@@ -102,70 +105,70 @@ lw RS6 RS5 0
 
 //숫자 비교 & 처리 - 같지 않으면 건너 뛴다.
 bne RS6 R0 24
-add RS6 RSTA 0
+addi RS6 RSTA 0
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R1 24
-add RS6 RSTA 1
+addi RS6 RSTA 1
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R2 24
-add RS6 RSTA 2
+addi RS6 RSTA 2
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R3 24
-add RS6 RSTA 3
+addi RS6 RSTA 3
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R4 24
-add RS6 RSTA 4
+addi RS6 RSTA 4
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R5 24
-add RS6 RSTA 5
+addi RS6 RSTA 5
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R6 24
-add RS6 RSTA 6
+addi RS6 RSTA 6
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R7 24
-add RS6 RSTA 7
+addi RS6 RSTA 7
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R8 24
-add RS6 RSTA 8
+addi RS6 RSTA 8
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R9 24
-add RS6 RSTA 9
+addi RS6 RSTA 9
 mul RS1 R15 RS1
 add RS1 RS6 RS1
 addi RS4 RS4 1
@@ -174,7 +177,7 @@ jalr RS5 RSIG1 0
 //연산자 처리
 
 //임시주소 초기화
-add RS5 RSTA 0
+addi RS5 RSTA 0
 
 //위치 마크 초기화 후 다시 입력받음. 
 auipc RSIG1 0
@@ -183,19 +186,19 @@ lw RS6 RS5 0
 
 // 연산자 비교 - 그대로 저장
 bne RS6 R10 8
-add RS3 R10 0
+addi RS3 R10 0
 
 bne RS6 R11 8
-add RS3 R11 0
+addi RS3 R11 0
 
 bne RS6 R12 8
-add RS3 R12 0
+addi RS3 R12 0
 
 bne RS6 R13 8
-add RS3 R13 0
+addi RS3 R13 0
 
 bne RS6 R14 8
-add RS3 R14 0
+addi RS3 R14 0
 
 //카운터 처리
 addi RS4 RS4 1
@@ -207,79 +210,76 @@ lw RS6 RS5 0
 
 //숫자 비교 & 처리 - 같지 않으면 건너 뛴다.
 bne RS6 R0 24
-add RS6 RSTA 0
+addi RS6 RSTA 0
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R1 24
-add RS6 RSTA 1
+addi RS6 RSTA 1
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R2 24
-add RS6 RSTA 2
+addi RS6 RSTA 2
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R3 24
-add RS6 RSTA 3
+addi RS6 RSTA 3
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R4 24
-add RS6 RSTA 4
+addi RS6 RSTA 4
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R5 24
-add RS6 RSTA 5
+addi RS6 RSTA 5
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R6 24
-add RS6 RSTA 6
+addi RS6 RSTA 6
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R7 24
-add RS6 RSTA 7
+addi RS6 RSTA 7
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R8 24
-add RS6 RSTA 8
+addi RS6 RSTA 8
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 bne RS6 R9 24
-add RS6 RSTA 9
+addi RS6 RSTA 9
 mul RS2 R15 RS2
 add RS2 RS6 RS2
 addi RS4 RS4 1
 jalr RS5 RSIG1 0
 
 // 전체 레지스터에 값 다 정리한 후 연산 단계
-auipc RSIG1 0
-add RS5 Iabs RS4
-lw RS6 RS5 0
 
 bne RS3 R10 8
 add Result RS1 RS2
@@ -296,13 +296,45 @@ div Result RS1 RS2
 bne RS3 R14 8
 rem Result RS1 RS2
 
-//개행 인식 후 저장한 연산 결과 Output 버퍼에 전달 단계 및 초기화.
-bne RS6 R15 40
+//개행 인식 후 저장한 연산 결과 Output 버퍼에 전달 단계 및 초기화.  출력 결과 " (연산결과)"
+auipc RSIG1 0
+add RS5 Iabs RS4
+lw RS6 RS5 0
+
+bne RS6 R15 4k
+
+// 공백 입력.
+
+addi RS5 RSTA 32
 add RS6 Oabs RS7
-sw Result RS6 0
+sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 32
+addi RS1 RSTA 1
+addi RS2 RSTA 0
+addi RS3 RSTA 0
+
+// 숫자 문자열 쪼개기
+//10으로 나눠서 자릿수(RS3) 구하기 + 최고자릿수에 해당하는 10의 제곱 만들기(RS1) RS2는 임시 버퍼
+auipc RSIG1 0
+beq RS2 R0 20
+div RS2 Result R15
+addi RS3 RS3 1
+mul RS1 RS1 R15
+jalr RS5 RSIG1 0
+
+//만든 10의 제곱으로 나누기. + 끝자리만 추출&출력. + 만든 10의 제곱 한자릿수 낮추기
+auipc RSIG1 0
+beq RS1 R0 32
+div RS2 Result RS1
+rem RS2 RS2 R15
+add RS6 Oabs RS7
+sw RS2 RS6 0
+addi RS7 RS7 1
+div RS1 RS1 R15
+jalr RS5 RSIG1 0
+
+add RS5 RSTA R15
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
@@ -311,37 +343,37 @@ jalr RS5 RSIG2 0
 
 
 // 개행 인식 실패 및 수식 연산 오류 발생시 버퍼 스킵 및 에러메세지 출력 이후 개행 만나면.
-add RS5 RSTA 69
+addi RS5 RSTA 69
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 82
+addi RS5 RSTA 82
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 82
+addi RS5 RSTA 82
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 79
+addi RS5 RSTA 79
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 82
+addi RS5 RSTA 82
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 33
+addi RS5 RSTA 33
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
 
-add RS5 RSTA 32
+addi RS5 RSTA 32
 add RS6 Oabs RS7
 sw RS5 RS6 0
 addi RS7 RS7 1
