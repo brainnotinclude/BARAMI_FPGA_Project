@@ -1,0 +1,14 @@
+12:41:42 DEBUG : Logs will be stored at 'C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/IDE.log'.
+12:41:46 INFO  : Launching XSCT server: xsct.bat -n  -interactive C:\Users\Jeyun\Desktop\fpga\barami_project_2024\memory\workspace\temp_xsdb_launch_script.tcl
+12:41:46 INFO  : Registering command handlers for Vitis TCF services
+12:41:47 INFO  : Platform repository initialization has completed.
+12:41:49 INFO  : XSCT server has started successfully.
+12:41:49 INFO  : plnx-install-location is set to ''
+12:41:49 INFO  : Successfully done setting XSCT server connection channel  
+12:41:49 INFO  : Successfully done query RDI_DATADIR 
+12:41:49 INFO  : Successfully done setting workspace for the tool. 
+12:47:15 INFO  : Result from executing command 'getProjects': top
+12:47:15 INFO  : Result from executing command 'getPlatforms': xilinx_vck190_base_202220_1|C:/Xilinx/Vitis/2022.2/base_platforms/xilinx_vck190_base_202220_1/xilinx_vck190_base_202220_1.xpfm;xilinx_vck190_base_dfx_202220_1|C:/Xilinx/Vitis/2022.2/base_platforms/xilinx_vck190_base_dfx_202220_1/xilinx_vck190_base_dfx_202220_1.xpfm;xilinx_vmk180_base_202220_1|C:/Xilinx/Vitis/2022.2/base_platforms/xilinx_vmk180_base_202220_1/xilinx_vmk180_base_202220_1.xpfm;xilinx_zcu102_base_202220_1|C:/Xilinx/Vitis/2022.2/base_platforms/xilinx_zcu102_base_202220_1/xilinx_zcu102_base_202220_1.xpfm;xilinx_zcu102_base_dfx_202220_1|C:/Xilinx/Vitis/2022.2/base_platforms/xilinx_zcu102_base_dfx_202220_1/xilinx_zcu102_base_dfx_202220_1.xpfm;xilinx_zcu104_base_202220_1|C:/Xilinx/Vitis/2022.2/base_platforms/xilinx_zcu104_base_202220_1/xilinx_zcu104_base_202220_1.xpfm
+12:47:16 WARN  : An unexpected exception occurred in the module 'platform project logging'
+12:47:17 INFO  : Platform 'top' is added to custom repositories.
+12:47:23 INFO  : Platform 'top' is added to custom repositories.
