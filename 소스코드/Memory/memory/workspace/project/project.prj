@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
-<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="project" location="C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project" platform="C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/top/export/top/top.xpfm" platformUID="xilinx:::0.0(custom)" systemProject="project_system" sysConfig="top" runtime="cpp" cpu="standalone_ps7_cortexa9_0" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="647395fa556015b2c598239e5772408f">
-  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.738378073" dirty="true">
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="project" location="C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project" platform="C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/top/export/top/top.xpfm" platformUID="xilinx:::0.0(custom)" systemProject="project_system" sysConfig="top" runtime="cpp" cpu="standalone_ps7_cortexa9_0" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="1762b63d44a05a26d84c7e8e8a589ce9">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.1599475132" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.2124700905" dirty="true">
     <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
   </configuration>
-  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.1554506818" dirty="true">
-    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
-  </configuration>
-  <template appTemplateName="peripheral_tests"/>
+  <template appTemplateName="hello_world"/>
 </sdkproject:SdkProject>

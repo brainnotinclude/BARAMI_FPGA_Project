@@ -73,7 +73,7 @@ OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 4
 set_msg_config -id {HDL-1065} -limit 10000
 OPTRACE "Creating in-memory project" START { }
-create_project -in_memory -part xc7z010clg400-3
+create_project -in_memory -part xc7z010clg400-1
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
@@ -98,13 +98,23 @@ add_files C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/sou
 set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_1/bd_48ac_psr_aclk_0_board.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_1/bd_48ac_psr_aclk_0.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_5/bd_48ac_s00a2s_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_6/bd_48ac_sarn_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_7/bd_48ac_srn_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_8/bd_48ac_sawn_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_9/bd_48ac_swn_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_10/bd_48ac_sbn_0_ooc.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_11/bd_48ac_m00s2a_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_2/bd_48ac_arsw_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_3/bd_48ac_rsw_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_4/bd_48ac_awsw_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_5/bd_48ac_wsw_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_6/bd_48ac_bsw_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_10/bd_48ac_s00a2s_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_11/bd_48ac_sarn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_12/bd_48ac_srn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_13/bd_48ac_sawn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_14/bd_48ac_swn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_15/bd_48ac_sbn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_16/bd_48ac_m00s2a_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_17/bd_48ac_m00arn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_18/bd_48ac_m00rn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_19/bd_48ac_m00awn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_20/bd_48ac_m00wn_0_ooc.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/bd_0/ip/ip_21/bd_48ac_m00bn_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_smartconnect_0_0/ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_axi_ahblite_bridge_0_0/design_1_axi_ahblite_bridge_0_0_ooc.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0_board.xdc]
@@ -127,10 +137,12 @@ set_property used_in_implementation false [get_files C:/Users/Jeyun/Desktop/fpga
 read_xdc dont_touch.xdc
 set_property used_in_implementation false [get_files dont_touch.xdc]
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/utils_1/imports/synth_1/top.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top top -part xc7z010clg400-3
+synth_design -top top -part xc7z010clg400-1
 OPTRACE "synth_design" END { }
 if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
  send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"

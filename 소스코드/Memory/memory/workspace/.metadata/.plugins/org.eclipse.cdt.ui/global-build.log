@@ -1,0 +1,31 @@
+Nothing to build in platform 'top'
+
+19:12:33 **** Incremental Build of configuration Debug for project project ****
+make all 
+make --no-print-directory pre-build
+a9-linaro-pre-build-step
+' '
+make --no-print-directory main-build
+'Building file: ../src/helloworld.c'
+'Invoking: ARM v7 gcc compiler'
+arm-none-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/helloworld.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -IC:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/top/export/top/sw/top/standalone_ps7_cortexa9_0/bspinclude/include -MMD -MP -MF"src/helloworld.d" -MT"src/helloworld.o" -o "src/helloworld.o" "../src/helloworld.c"
+'Finished building: ../src/helloworld.c'
+' '
+'Building target: project.elf'
+'Invoking: ARM v7 gcc linker'
+arm-none-eabi-gcc -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -LC:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/top/export/top/sw/top/standalone_ps7_cortexa9_0/bsplib/lib -o "project.elf"  ./src/helloworld.o ./src/platform.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: project.elf'
+' '
+'Invoking: ARM v7 Print Size'
+arm-none-eabi-size project.elf  |tee "project.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  21929	   1144	  22568	  45641	   b249	project.elf
+'Finished building: project.elf.size'
+' '
+19:12:35 **** Build of configuration Debug for project project_system ****
+make all 
+Generating bif file for the system project
+generate_system_bif.bat 6383 C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/top/export/top/top.xpfm standalone_ps7_cortexa9_0 C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project_system/Debug/system.bif
+sdcard_gen --xpfm C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/top/export/top/top.xpfm --sys_config top --bif C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project_system/Debug/system.bif --bitstream C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project/_ide/bitstream/top.bit --elf C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project/Debug/project.elf,ps7_cortexa9_0
+creating BOOT.BIN using C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project/_ide/bitstream/top.bit
+Running C:/Xilinx/Vitis/2022.2/bin/bootgen  -image C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/workspace/project_system/Debug/sd_card_temp/boot.bif -w -o i BOOT.BIN

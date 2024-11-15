@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* CORE_GENERATION_INFO = "bd_48ac,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=bd_48ac,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=17,numReposBlks=13,numNonXlnxBlks=0,numHierBlks=4,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=SBD,synth_mode=Global}" *) (* HW_HANDOFF = "design_1_smartconnect_0_0.hwdef" *) 
+(* CORE_GENERATION_INFO = "bd_48ac,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=bd_48ac,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=29,numReposBlks=23,numNonXlnxBlks=0,numHierBlks=6,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=SBD,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "design_1_smartconnect_0_0.hwdef" *) 
 module bd_48ac
    (M00_AXI_araddr,
     M00_AXI_arburst,
@@ -41,6 +41,25 @@ module bd_48ac
     M00_AXI_wready,
     M00_AXI_wstrb,
     M00_AXI_wvalid,
+    M01_AXI_araddr,
+    M01_AXI_arprot,
+    M01_AXI_arready,
+    M01_AXI_arvalid,
+    M01_AXI_awaddr,
+    M01_AXI_awprot,
+    M01_AXI_awready,
+    M01_AXI_awvalid,
+    M01_AXI_bready,
+    M01_AXI_bresp,
+    M01_AXI_bvalid,
+    M01_AXI_rdata,
+    M01_AXI_rready,
+    M01_AXI_rresp,
+    M01_AXI_rvalid,
+    M01_AXI_wdata,
+    M01_AXI_wready,
+    M01_AXI_wstrb,
+    M01_AXI_wvalid,
     S00_AXI_araddr,
     S00_AXI_arburst,
     S00_AXI_arcache,
@@ -114,6 +133,25 @@ module bd_48ac
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M00_AXI WREADY" *) input M00_AXI_wready;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M00_AXI WSTRB" *) output [3:0]M00_AXI_wstrb;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M00_AXI WVALID" *) output M00_AXI_wvalid;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI ARADDR" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME M01_AXI, ADDR_WIDTH 4, ARUSER_WIDTH 0, AWUSER_WIDTH 0, BUSER_WIDTH 0, CLK_DOMAIN design_1_processing_system7_0_0_FCLK_CLK0, DATA_WIDTH 32, FREQ_HZ 50000000, HAS_BRESP 1, HAS_BURST 0, HAS_CACHE 0, HAS_LOCK 0, HAS_PROT 1, HAS_QOS 0, HAS_REGION 0, HAS_RRESP 1, HAS_WSTRB 1, ID_WIDTH 0, INSERT_VIP 0, MAX_BURST_LENGTH 1, NUM_READ_OUTSTANDING 8, NUM_READ_THREADS 1, NUM_WRITE_OUTSTANDING 8, NUM_WRITE_THREADS 1, PHASE 0.0, PROTOCOL AXI4LITE, READ_WRITE_MODE READ_WRITE, RUSER_BITS_PER_BYTE 0, RUSER_WIDTH 0, SUPPORTS_NARROW_BURST 0, WUSER_BITS_PER_BYTE 0, WUSER_WIDTH 0" *) output [3:0]M01_AXI_araddr;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI ARPROT" *) output [2:0]M01_AXI_arprot;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI ARREADY" *) input M01_AXI_arready;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI ARVALID" *) output M01_AXI_arvalid;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI AWADDR" *) output [3:0]M01_AXI_awaddr;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI AWPROT" *) output [2:0]M01_AXI_awprot;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI AWREADY" *) input M01_AXI_awready;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI AWVALID" *) output M01_AXI_awvalid;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI BREADY" *) output M01_AXI_bready;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI BRESP" *) input [1:0]M01_AXI_bresp;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI BVALID" *) input M01_AXI_bvalid;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI RDATA" *) input [31:0]M01_AXI_rdata;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI RREADY" *) output M01_AXI_rready;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI RRESP" *) input [1:0]M01_AXI_rresp;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI RVALID" *) input M01_AXI_rvalid;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI WDATA" *) output [31:0]M01_AXI_wdata;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI WREADY" *) input M01_AXI_wready;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI WSTRB" *) output [3:0]M01_AXI_wstrb;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 M01_AXI WVALID" *) output M01_AXI_wvalid;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI ARADDR" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME S00_AXI, ADDR_WIDTH 32, ARUSER_WIDTH 0, AWUSER_WIDTH 0, BUSER_WIDTH 0, CLK_DOMAIN design_1_processing_system7_0_0_FCLK_CLK0, DATA_WIDTH 32, FREQ_HZ 50000000, HAS_BRESP 1, HAS_BURST 1, HAS_CACHE 1, HAS_LOCK 1, HAS_PROT 1, HAS_QOS 1, HAS_REGION 0, HAS_RRESP 1, HAS_WSTRB 1, ID_WIDTH 12, INSERT_VIP 0, MAX_BURST_LENGTH 16, NUM_READ_OUTSTANDING 8, NUM_READ_THREADS 4, NUM_WRITE_OUTSTANDING 8, NUM_WRITE_THREADS 4, PHASE 0.0, PROTOCOL AXI3, READ_WRITE_MODE READ_WRITE, RUSER_BITS_PER_BYTE 0, RUSER_WIDTH 0, SUPPORTS_NARROW_BURST 0, WUSER_BITS_PER_BYTE 0, WUSER_WIDTH 0" *) input [31:0]S00_AXI_araddr;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI ARBURST" *) input [1:0]S00_AXI_arburst;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI ARCACHE" *) input [3:0]S00_AXI_arcache;
@@ -152,7 +190,7 @@ module bd_48ac
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI WREADY" *) output S00_AXI_wready;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI WSTRB" *) input [3:0]S00_AXI_wstrb;
   (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI WVALID" *) input S00_AXI_wvalid;
-  (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.ACLK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.ACLK, ASSOCIATED_BUSIF M00_AXI:S00_AXI, ASSOCIATED_CLKEN s_sc_aclken, CLK_DOMAIN design_1_processing_system7_0_0_FCLK_CLK0, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input aclk;
+  (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.ACLK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.ACLK, ASSOCIATED_BUSIF M00_AXI:M01_AXI:S00_AXI, ASSOCIATED_CLKEN m_sc_aclken, CLK_DOMAIN design_1_processing_system7_0_0_FCLK_CLK0, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input aclk;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.ARESETN RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.ARESETN, INSERT_VIP 0, POLARITY ACTIVE_LOW" *) input aresetn;
 
   wire [31:0]S00_AXI_1_ARADDR;
@@ -194,35 +232,61 @@ module bd_48ac
   wire [3:0]S00_AXI_1_WSTRB;
   wire S00_AXI_1_WVALID;
   wire [0:0]S_SC_AR_1_INFO;
-  wire [137:0]S_SC_AR_1_PAYLD;
+  wire [138:0]S_SC_AR_1_PAYLD;
   wire [0:0]S_SC_AR_1_RECV;
   wire S_SC_AR_1_REQ;
   wire S_SC_AR_1_SEND;
+  wire [0:0]S_SC_AR_2_INFO;
+  wire [138:0]S_SC_AR_2_PAYLD;
+  wire [0:0]S_SC_AR_2_RECV;
+  wire [0:0]S_SC_AR_2_REQ;
+  wire [0:0]S_SC_AR_2_SEND;
   wire [0:0]S_SC_AW_1_INFO;
-  wire [137:0]S_SC_AW_1_PAYLD;
+  wire [138:0]S_SC_AW_1_PAYLD;
   wire [0:0]S_SC_AW_1_RECV;
   wire S_SC_AW_1_REQ;
   wire S_SC_AW_1_SEND;
-  wire [0:0]S_SC_B_1_INFO;
+  wire [0:0]S_SC_AW_2_INFO;
+  wire [138:0]S_SC_AW_2_PAYLD;
+  wire [0:0]S_SC_AW_2_RECV;
+  wire [0:0]S_SC_AW_2_REQ;
+  wire [0:0]S_SC_AW_2_SEND;
+  wire [1:0]S_SC_B_1_INFO;
   wire [4:0]S_SC_B_1_PAYLD;
-  wire S_SC_B_1_RECV;
-  wire S_SC_B_1_REQ;
-  wire S_SC_B_1_SEND;
-  wire [0:0]S_SC_R_1_INFO;
+  wire [1:0]S_SC_B_1_RECV;
+  wire [1:0]S_SC_B_1_REQ;
+  wire [1:0]S_SC_B_1_SEND;
+  wire [0:0]S_SC_B_2_INFO;
+  wire [4:0]S_SC_B_2_PAYLD;
+  wire [0:0]S_SC_B_2_RECV;
+  wire S_SC_B_2_REQ;
+  wire S_SC_B_2_SEND;
+  wire [1:0]S_SC_R_1_INFO;
   wire [50:0]S_SC_R_1_PAYLD;
-  wire S_SC_R_1_RECV;
-  wire S_SC_R_1_REQ;
-  wire S_SC_R_1_SEND;
+  wire [1:0]S_SC_R_1_RECV;
+  wire [1:0]S_SC_R_1_REQ;
+  wire [1:0]S_SC_R_1_SEND;
+  wire [0:0]S_SC_R_2_INFO;
+  wire [50:0]S_SC_R_2_PAYLD;
+  wire [0:0]S_SC_R_2_RECV;
+  wire S_SC_R_2_REQ;
+  wire S_SC_R_2_SEND;
   wire [0:0]S_SC_W_1_INFO;
-  wire [51:0]S_SC_W_1_PAYLD;
+  wire [52:0]S_SC_W_1_PAYLD;
   wire [0:0]S_SC_W_1_RECV;
   wire S_SC_W_1_REQ;
   wire S_SC_W_1_SEND;
+  wire [0:0]S_SC_W_2_INFO;
+  wire [52:0]S_SC_W_2_PAYLD;
+  wire [0:0]S_SC_W_2_RECV;
+  wire [0:0]S_SC_W_2_REQ;
+  wire [0:0]S_SC_W_2_SEND;
   wire aclk_1;
   wire aclk_net;
   wire aresetn_1;
   wire [0:0]aresetn_2;
   wire aresetn_net;
+  wire clk_map_M00_ACLK;
   wire [31:0]m00_exit_pipeline_m_axi_ARADDR;
   wire [1:0]m00_exit_pipeline_m_axi_ARBURST;
   wire [3:0]m00_exit_pipeline_m_axi_ARCACHE;
@@ -256,6 +320,31 @@ module bd_48ac
   wire m00_exit_pipeline_m_axi_WREADY;
   wire [3:0]m00_exit_pipeline_m_axi_WSTRB;
   wire m00_exit_pipeline_m_axi_WVALID;
+  wire [0:0]m00_nodes_M_SC_AR_INFO;
+  wire [138:0]m00_nodes_M_SC_AR_PAYLD;
+  wire m00_nodes_M_SC_AR_RECV;
+  wire [0:0]m00_nodes_M_SC_AR_REQ;
+  wire [0:0]m00_nodes_M_SC_AR_SEND;
+  wire [0:0]m00_nodes_M_SC_AW_INFO;
+  wire [138:0]m00_nodes_M_SC_AW_PAYLD;
+  wire m00_nodes_M_SC_AW_RECV;
+  wire [0:0]m00_nodes_M_SC_AW_REQ;
+  wire [0:0]m00_nodes_M_SC_AW_SEND;
+  wire [0:0]m00_nodes_M_SC_B_INFO;
+  wire [4:0]m00_nodes_M_SC_B_PAYLD;
+  wire [0:0]m00_nodes_M_SC_B_RECV;
+  wire [0:0]m00_nodes_M_SC_B_REQ;
+  wire [0:0]m00_nodes_M_SC_B_SEND;
+  wire [0:0]m00_nodes_M_SC_R_INFO;
+  wire [50:0]m00_nodes_M_SC_R_PAYLD;
+  wire [0:0]m00_nodes_M_SC_R_RECV;
+  wire [0:0]m00_nodes_M_SC_R_REQ;
+  wire [0:0]m00_nodes_M_SC_R_SEND;
+  wire [0:0]m00_nodes_M_SC_W_INFO;
+  wire [52:0]m00_nodes_M_SC_W_PAYLD;
+  wire m00_nodes_M_SC_W_RECV;
+  wire [0:0]m00_nodes_M_SC_W_REQ;
+  wire [0:0]m00_nodes_M_SC_W_SEND;
   wire [31:0]m00_sc2axi_M_AXI_ARADDR;
   wire [3:0]m00_sc2axi_M_AXI_ARCACHE;
   wire [0:0]m00_sc2axi_M_AXI_ARID;
@@ -294,8 +383,7 @@ module bd_48ac
   wire [3:0]m00_sc2axi_M_AXI_WSTRB;
   wire [1023:0]m00_sc2axi_M_AXI_WUSER;
   wire m00_sc2axi_M_AXI_WVALID;
-  wire m_sc_clk_1;
-  wire [0:0]m_sc_resetn_1;
+  wire [0:0]m_axi_aresetn_1;
   wire [31:0]s00_entry_pipeline_m_axi_ARADDR;
   wire [3:0]s00_entry_pipeline_m_axi_ARCACHE;
   wire [0:0]s00_entry_pipeline_m_axi_ARID;
@@ -334,16 +422,16 @@ module bd_48ac
   wire [3:0]s00_entry_pipeline_m_axi_WSTRB;
   wire [1023:0]s00_entry_pipeline_m_axi_WUSER;
   wire s00_entry_pipeline_m_axi_WVALID;
-  wire [0:0]s00_nodes_M_SC_AR_INFO;
-  wire [137:0]s00_nodes_M_SC_AR_PAYLD;
-  wire s00_nodes_M_SC_AR_RECV;
-  wire s00_nodes_M_SC_AR_REQ;
-  wire s00_nodes_M_SC_AR_SEND;
-  wire [0:0]s00_nodes_M_SC_AW_INFO;
-  wire [137:0]s00_nodes_M_SC_AW_PAYLD;
-  wire s00_nodes_M_SC_AW_RECV;
-  wire s00_nodes_M_SC_AW_REQ;
-  wire s00_nodes_M_SC_AW_SEND;
+  wire [1:0]s00_nodes_M_SC_AR_INFO;
+  wire [138:0]s00_nodes_M_SC_AR_PAYLD;
+  wire [1:0]s00_nodes_M_SC_AR_RECV;
+  wire [1:0]s00_nodes_M_SC_AR_REQ;
+  wire [1:0]s00_nodes_M_SC_AR_SEND;
+  wire [1:0]s00_nodes_M_SC_AW_INFO;
+  wire [138:0]s00_nodes_M_SC_AW_PAYLD;
+  wire [1:0]s00_nodes_M_SC_AW_RECV;
+  wire [1:0]s00_nodes_M_SC_AW_REQ;
+  wire [1:0]s00_nodes_M_SC_AW_SEND;
   wire [0:0]s00_nodes_M_SC_B_INFO;
   wire [4:0]s00_nodes_M_SC_B_PAYLD;
   wire s00_nodes_M_SC_B_RECV;
@@ -354,11 +442,11 @@ module bd_48ac
   wire s00_nodes_M_SC_R_RECV;
   wire [0:0]s00_nodes_M_SC_R_REQ;
   wire [0:0]s00_nodes_M_SC_R_SEND;
-  wire [0:0]s00_nodes_M_SC_W_INFO;
-  wire [51:0]s00_nodes_M_SC_W_PAYLD;
-  wire s00_nodes_M_SC_W_RECV;
-  wire s00_nodes_M_SC_W_REQ;
-  wire s00_nodes_M_SC_W_SEND;
+  wire [1:0]s00_nodes_M_SC_W_INFO;
+  wire [52:0]s00_nodes_M_SC_W_PAYLD;
+  wire [1:0]s00_nodes_M_SC_W_RECV;
+  wire [1:0]s00_nodes_M_SC_W_REQ;
+  wire [1:0]s00_nodes_M_SC_W_SEND;
   wire swbd_aclk_net;
   wire [0:0]swbd_aresetn_net;
 
@@ -436,8 +524,8 @@ module bd_48ac
   assign m00_exit_pipeline_m_axi_RVALID = M00_AXI_rvalid;
   assign m00_exit_pipeline_m_axi_WREADY = M00_AXI_wready;
   clk_map_imp_1NMB928 clk_map
-       (.M00_ACLK(m_sc_clk_1),
-        .M00_ARESETN(m_sc_resetn_1),
+       (.M00_ACLK(clk_map_M00_ACLK),
+        .M00_ARESETN(m_axi_aresetn_1),
         .S00_ACLK(aclk_1),
         .S00_ARESETN(aresetn_2),
         .aclk(aclk_net),
@@ -446,8 +534,8 @@ module bd_48ac
         .swbd_aclk(swbd_aclk_net),
         .swbd_aresetn(swbd_aresetn_net));
   m00_exit_pipeline_imp_CVVFJV m00_exit_pipeline
-       (.aclk(m_sc_clk_1),
-        .aresetn(m_sc_resetn_1),
+       (.aclk(clk_map_M00_ACLK),
+        .aresetn(m_axi_aresetn_1),
         .m_axi_araddr(m00_exit_pipeline_m_axi_ARADDR),
         .m_axi_arburst(m00_exit_pipeline_m_axi_ARBURST),
         .m_axi_arcache(m00_exit_pipeline_m_axi_ARCACHE),
@@ -519,8 +607,63 @@ module bd_48ac
         .s_axi_wstrb(m00_sc2axi_M_AXI_WSTRB),
         .s_axi_wuser(m00_sc2axi_M_AXI_WUSER),
         .s_axi_wvalid(m00_sc2axi_M_AXI_WVALID));
+  m00_nodes_imp_Z1B1P3 m00_nodes
+       (.M_SC_AR_info(m00_nodes_M_SC_AR_INFO),
+        .M_SC_AR_payld(m00_nodes_M_SC_AR_PAYLD),
+        .M_SC_AR_recv(m00_nodes_M_SC_AR_RECV),
+        .M_SC_AR_req(m00_nodes_M_SC_AR_REQ),
+        .M_SC_AR_send(m00_nodes_M_SC_AR_SEND),
+        .M_SC_AW_info(m00_nodes_M_SC_AW_INFO),
+        .M_SC_AW_payld(m00_nodes_M_SC_AW_PAYLD),
+        .M_SC_AW_recv(m00_nodes_M_SC_AW_RECV),
+        .M_SC_AW_req(m00_nodes_M_SC_AW_REQ),
+        .M_SC_AW_send(m00_nodes_M_SC_AW_SEND),
+        .M_SC_B_info(m00_nodes_M_SC_B_INFO),
+        .M_SC_B_payld(m00_nodes_M_SC_B_PAYLD),
+        .M_SC_B_recv(m00_nodes_M_SC_B_RECV),
+        .M_SC_B_req(m00_nodes_M_SC_B_REQ),
+        .M_SC_B_send(m00_nodes_M_SC_B_SEND),
+        .M_SC_R_info(m00_nodes_M_SC_R_INFO),
+        .M_SC_R_payld(m00_nodes_M_SC_R_PAYLD),
+        .M_SC_R_recv(m00_nodes_M_SC_R_RECV),
+        .M_SC_R_req(m00_nodes_M_SC_R_REQ),
+        .M_SC_R_send(m00_nodes_M_SC_R_SEND),
+        .M_SC_W_info(m00_nodes_M_SC_W_INFO),
+        .M_SC_W_payld(m00_nodes_M_SC_W_PAYLD),
+        .M_SC_W_recv(m00_nodes_M_SC_W_RECV),
+        .M_SC_W_req(m00_nodes_M_SC_W_REQ),
+        .M_SC_W_send(m00_nodes_M_SC_W_SEND),
+        .S_SC_AR_info(S_SC_AR_2_INFO),
+        .S_SC_AR_payld(S_SC_AR_2_PAYLD),
+        .S_SC_AR_recv(S_SC_AR_2_RECV),
+        .S_SC_AR_req(S_SC_AR_2_REQ),
+        .S_SC_AR_send(S_SC_AR_2_SEND),
+        .S_SC_AW_info(S_SC_AW_2_INFO),
+        .S_SC_AW_payld(S_SC_AW_2_PAYLD),
+        .S_SC_AW_recv(S_SC_AW_2_RECV),
+        .S_SC_AW_req(S_SC_AW_2_REQ),
+        .S_SC_AW_send(S_SC_AW_2_SEND),
+        .S_SC_B_info(S_SC_B_2_INFO),
+        .S_SC_B_payld(S_SC_B_2_PAYLD),
+        .S_SC_B_recv(S_SC_B_2_RECV),
+        .S_SC_B_req(S_SC_B_2_REQ),
+        .S_SC_B_send(S_SC_B_2_SEND),
+        .S_SC_R_info(S_SC_R_2_INFO),
+        .S_SC_R_payld(S_SC_R_2_PAYLD),
+        .S_SC_R_recv(S_SC_R_2_RECV),
+        .S_SC_R_req(S_SC_R_2_REQ),
+        .S_SC_R_send(S_SC_R_2_SEND),
+        .S_SC_W_info(S_SC_W_2_INFO),
+        .S_SC_W_payld(S_SC_W_2_PAYLD),
+        .S_SC_W_recv(S_SC_W_2_RECV),
+        .S_SC_W_req(S_SC_W_2_REQ),
+        .S_SC_W_send(S_SC_W_2_SEND),
+        .m_axi_aclk(clk_map_M00_ACLK),
+        .m_axi_aresetn(m_axi_aresetn_1),
+        .s_axi_aclk(swbd_aclk_net),
+        .s_axi_aresetn(swbd_aresetn_net));
   bd_48ac_m00s2a_0 m00_sc2axi
-       (.aclk(m_sc_clk_1),
+       (.aclk(clk_map_M00_ACLK),
         .m_axi_araddr(m00_sc2axi_M_AXI_ARADDR),
         .m_axi_arcache(m00_sc2axi_M_AXI_ARCACHE),
         .m_axi_arid(m00_sc2axi_M_AXI_ARID),
@@ -559,31 +702,31 @@ module bd_48ac
         .m_axi_wstrb(m00_sc2axi_M_AXI_WSTRB),
         .m_axi_wuser(m00_sc2axi_M_AXI_WUSER),
         .m_axi_wvalid(m00_sc2axi_M_AXI_WVALID),
-        .m_sc_b_info(S_SC_B_1_INFO),
-        .m_sc_b_payld(S_SC_B_1_PAYLD),
-        .m_sc_b_recv(S_SC_B_1_RECV),
-        .m_sc_b_req(S_SC_B_1_REQ),
-        .m_sc_b_send(S_SC_B_1_SEND),
-        .m_sc_r_info(S_SC_R_1_INFO),
-        .m_sc_r_payld(S_SC_R_1_PAYLD),
-        .m_sc_r_recv(S_SC_R_1_RECV),
-        .m_sc_r_req(S_SC_R_1_REQ),
-        .m_sc_r_send(S_SC_R_1_SEND),
-        .s_sc_ar_info(s00_nodes_M_SC_AR_INFO),
-        .s_sc_ar_payld(s00_nodes_M_SC_AR_PAYLD),
-        .s_sc_ar_recv(s00_nodes_M_SC_AR_RECV),
-        .s_sc_ar_req(s00_nodes_M_SC_AR_REQ),
-        .s_sc_ar_send(s00_nodes_M_SC_AR_SEND),
-        .s_sc_aw_info(s00_nodes_M_SC_AW_INFO),
-        .s_sc_aw_payld(s00_nodes_M_SC_AW_PAYLD),
-        .s_sc_aw_recv(s00_nodes_M_SC_AW_RECV),
-        .s_sc_aw_req(s00_nodes_M_SC_AW_REQ),
-        .s_sc_aw_send(s00_nodes_M_SC_AW_SEND),
-        .s_sc_w_info(s00_nodes_M_SC_W_INFO),
-        .s_sc_w_payld(s00_nodes_M_SC_W_PAYLD),
-        .s_sc_w_recv(s00_nodes_M_SC_W_RECV),
-        .s_sc_w_req(s00_nodes_M_SC_W_REQ),
-        .s_sc_w_send(s00_nodes_M_SC_W_SEND));
+        .m_sc_b_info(S_SC_B_2_INFO),
+        .m_sc_b_payld(S_SC_B_2_PAYLD),
+        .m_sc_b_recv(S_SC_B_2_RECV),
+        .m_sc_b_req(S_SC_B_2_REQ),
+        .m_sc_b_send(S_SC_B_2_SEND),
+        .m_sc_r_info(S_SC_R_2_INFO),
+        .m_sc_r_payld(S_SC_R_2_PAYLD),
+        .m_sc_r_recv(S_SC_R_2_RECV),
+        .m_sc_r_req(S_SC_R_2_REQ),
+        .m_sc_r_send(S_SC_R_2_SEND),
+        .s_sc_ar_info(m00_nodes_M_SC_AR_INFO),
+        .s_sc_ar_payld(m00_nodes_M_SC_AR_PAYLD),
+        .s_sc_ar_recv(m00_nodes_M_SC_AR_RECV),
+        .s_sc_ar_req(m00_nodes_M_SC_AR_REQ),
+        .s_sc_ar_send(m00_nodes_M_SC_AR_SEND),
+        .s_sc_aw_info(m00_nodes_M_SC_AW_INFO),
+        .s_sc_aw_payld(m00_nodes_M_SC_AW_PAYLD),
+        .s_sc_aw_recv(m00_nodes_M_SC_AW_RECV),
+        .s_sc_aw_req(m00_nodes_M_SC_AW_REQ),
+        .s_sc_aw_send(m00_nodes_M_SC_AW_SEND),
+        .s_sc_w_info(m00_nodes_M_SC_W_INFO),
+        .s_sc_w_payld(m00_nodes_M_SC_W_PAYLD),
+        .s_sc_w_recv(m00_nodes_M_SC_W_RECV),
+        .s_sc_w_req(m00_nodes_M_SC_W_REQ),
+        .s_sc_w_send(m00_nodes_M_SC_W_SEND));
   bd_48ac_s00a2s_0 s00_axi2sc
        (.aclk(aclk_1),
         .m_sc_ar_info(S_SC_AR_1_INFO),
@@ -779,15 +922,81 @@ module bd_48ac
         .S_SC_W_recv(S_SC_W_1_RECV),
         .S_SC_W_req(S_SC_W_1_REQ),
         .S_SC_W_send(S_SC_W_1_SEND),
-        .m_sc_clk(m_sc_clk_1),
-        .m_sc_resetn(m_sc_resetn_1),
+        .m_sc_clk(swbd_aclk_net),
+        .m_sc_resetn(swbd_aresetn_net),
         .s_sc_clk(aclk_1),
         .s_sc_resetn(aresetn_2));
+  switchboards_imp_1MKJLH2 switchboards
+       (.M00_SC_AR_info(S_SC_AR_2_INFO),
+        .M00_SC_AR_payld(S_SC_AR_2_PAYLD),
+        .M00_SC_AR_recv(S_SC_AR_2_RECV),
+        .M00_SC_AR_req(S_SC_AR_2_REQ),
+        .M00_SC_AR_send(S_SC_AR_2_SEND),
+        .M00_SC_AW_info(S_SC_AW_2_INFO),
+        .M00_SC_AW_payld(S_SC_AW_2_PAYLD),
+        .M00_SC_AW_recv(S_SC_AW_2_RECV),
+        .M00_SC_AW_req(S_SC_AW_2_REQ),
+        .M00_SC_AW_send(S_SC_AW_2_SEND),
+        .M00_SC_B_info(S_SC_B_1_INFO),
+        .M00_SC_B_payld(S_SC_B_1_PAYLD),
+        .M00_SC_B_recv(S_SC_B_1_RECV),
+        .M00_SC_B_req(S_SC_B_1_REQ),
+        .M00_SC_B_send(S_SC_B_1_SEND),
+        .M00_SC_R_info(S_SC_R_1_INFO),
+        .M00_SC_R_payld(S_SC_R_1_PAYLD),
+        .M00_SC_R_recv(S_SC_R_1_RECV),
+        .M00_SC_R_req(S_SC_R_1_REQ),
+        .M00_SC_R_send(S_SC_R_1_SEND),
+        .M00_SC_W_info(S_SC_W_2_INFO),
+        .M00_SC_W_payld(S_SC_W_2_PAYLD),
+        .M00_SC_W_recv(S_SC_W_2_RECV),
+        .M00_SC_W_req(S_SC_W_2_REQ),
+        .M00_SC_W_send(S_SC_W_2_SEND),
+        .M01_SC_AR_recv(1'b0),
+        .M01_SC_AW_recv(1'b0),
+        .M01_SC_W_recv(1'b0),
+        .S00_SC_AR_info(s00_nodes_M_SC_AR_INFO),
+        .S00_SC_AR_payld(s00_nodes_M_SC_AR_PAYLD),
+        .S00_SC_AR_recv(s00_nodes_M_SC_AR_RECV),
+        .S00_SC_AR_req(s00_nodes_M_SC_AR_REQ),
+        .S00_SC_AR_send(s00_nodes_M_SC_AR_SEND),
+        .S00_SC_AW_info(s00_nodes_M_SC_AW_INFO),
+        .S00_SC_AW_payld(s00_nodes_M_SC_AW_PAYLD),
+        .S00_SC_AW_recv(s00_nodes_M_SC_AW_RECV),
+        .S00_SC_AW_req(s00_nodes_M_SC_AW_REQ),
+        .S00_SC_AW_send(s00_nodes_M_SC_AW_SEND),
+        .S00_SC_B_info(m00_nodes_M_SC_B_INFO),
+        .S00_SC_B_payld(m00_nodes_M_SC_B_PAYLD),
+        .S00_SC_B_recv(m00_nodes_M_SC_B_RECV),
+        .S00_SC_B_req(m00_nodes_M_SC_B_REQ),
+        .S00_SC_B_send(m00_nodes_M_SC_B_SEND),
+        .S00_SC_R_info(m00_nodes_M_SC_R_INFO),
+        .S00_SC_R_payld(m00_nodes_M_SC_R_PAYLD),
+        .S00_SC_R_recv(m00_nodes_M_SC_R_RECV),
+        .S00_SC_R_req(m00_nodes_M_SC_R_REQ),
+        .S00_SC_R_send(m00_nodes_M_SC_R_SEND),
+        .S00_SC_W_info(s00_nodes_M_SC_W_INFO),
+        .S00_SC_W_payld(s00_nodes_M_SC_W_PAYLD),
+        .S00_SC_W_recv(s00_nodes_M_SC_W_RECV),
+        .S00_SC_W_req(s00_nodes_M_SC_W_REQ),
+        .S00_SC_W_send(s00_nodes_M_SC_W_SEND),
+        .S01_SC_B_info(1'b0),
+        .S01_SC_B_payld(1'b0),
+        .S01_SC_B_req(1'b0),
+        .S01_SC_B_send(1'b0),
+        .S01_SC_R_info(1'b0),
+        .S01_SC_R_payld(1'b0),
+        .S01_SC_R_req(1'b0),
+        .S01_SC_R_send(1'b0),
+        .aclk(swbd_aclk_net),
+        .aresetn(swbd_aresetn_net));
 endmodule
 
 module clk_map_imp_1NMB928
    (M00_ACLK,
     M00_ARESETN,
+    M01_ACLK,
+    M01_ARESETN,
     S00_ACLK,
     S00_ARESETN,
     aclk,
@@ -797,6 +1006,8 @@ module clk_map_imp_1NMB928
     swbd_aresetn);
   output M00_ACLK;
   output [0:0]M00_ARESETN;
+  output M01_ACLK;
+  output [0:0]M01_ARESETN;
   output S00_ACLK;
   output [0:0]S00_ARESETN;
   input aclk;
@@ -812,6 +1023,8 @@ module clk_map_imp_1NMB928
 
   assign M00_ACLK = clk_map_aclk_net;
   assign M00_ARESETN[0] = psr_aclk_interconnect_aresetn;
+  assign M01_ACLK = clk_map_aclk_net;
+  assign M01_ARESETN[0] = psr_aclk_interconnect_aresetn;
   assign S00_ACLK = clk_map_aclk_net;
   assign S00_ARESETN[0] = psr_aclk_interconnect_aresetn;
   assign clk_map_aclk_net = aclk;
@@ -1198,6 +1411,302 @@ module m00_exit_pipeline_imp_CVVFJV
         .s_axi_wstrb(s_axi_1_WSTRB),
         .s_axi_wuser(s_axi_1_WUSER),
         .s_axi_wvalid(s_axi_1_WVALID));
+endmodule
+
+module m00_nodes_imp_Z1B1P3
+   (M_SC_AR_info,
+    M_SC_AR_payld,
+    M_SC_AR_recv,
+    M_SC_AR_req,
+    M_SC_AR_send,
+    M_SC_AW_info,
+    M_SC_AW_payld,
+    M_SC_AW_recv,
+    M_SC_AW_req,
+    M_SC_AW_send,
+    M_SC_B_info,
+    M_SC_B_payld,
+    M_SC_B_recv,
+    M_SC_B_req,
+    M_SC_B_send,
+    M_SC_R_info,
+    M_SC_R_payld,
+    M_SC_R_recv,
+    M_SC_R_req,
+    M_SC_R_send,
+    M_SC_W_info,
+    M_SC_W_payld,
+    M_SC_W_recv,
+    M_SC_W_req,
+    M_SC_W_send,
+    S_SC_AR_info,
+    S_SC_AR_payld,
+    S_SC_AR_recv,
+    S_SC_AR_req,
+    S_SC_AR_send,
+    S_SC_AW_info,
+    S_SC_AW_payld,
+    S_SC_AW_recv,
+    S_SC_AW_req,
+    S_SC_AW_send,
+    S_SC_B_info,
+    S_SC_B_payld,
+    S_SC_B_recv,
+    S_SC_B_req,
+    S_SC_B_send,
+    S_SC_R_info,
+    S_SC_R_payld,
+    S_SC_R_recv,
+    S_SC_R_req,
+    S_SC_R_send,
+    S_SC_W_info,
+    S_SC_W_payld,
+    S_SC_W_recv,
+    S_SC_W_req,
+    S_SC_W_send,
+    m_axi_aclk,
+    m_axi_aresetn,
+    s_axi_aclk,
+    s_axi_aresetn);
+  output [0:0]M_SC_AR_info;
+  output [138:0]M_SC_AR_payld;
+  input [0:0]M_SC_AR_recv;
+  output [0:0]M_SC_AR_req;
+  output [0:0]M_SC_AR_send;
+  output [0:0]M_SC_AW_info;
+  output [138:0]M_SC_AW_payld;
+  input [0:0]M_SC_AW_recv;
+  output [0:0]M_SC_AW_req;
+  output [0:0]M_SC_AW_send;
+  output [0:0]M_SC_B_info;
+  output [4:0]M_SC_B_payld;
+  input [0:0]M_SC_B_recv;
+  output [0:0]M_SC_B_req;
+  output [0:0]M_SC_B_send;
+  output [0:0]M_SC_R_info;
+  output [50:0]M_SC_R_payld;
+  input [0:0]M_SC_R_recv;
+  output [0:0]M_SC_R_req;
+  output [0:0]M_SC_R_send;
+  output [0:0]M_SC_W_info;
+  output [52:0]M_SC_W_payld;
+  input [0:0]M_SC_W_recv;
+  output [0:0]M_SC_W_req;
+  output [0:0]M_SC_W_send;
+  input [0:0]S_SC_AR_info;
+  input [138:0]S_SC_AR_payld;
+  output [0:0]S_SC_AR_recv;
+  input [0:0]S_SC_AR_req;
+  input [0:0]S_SC_AR_send;
+  input [0:0]S_SC_AW_info;
+  input [138:0]S_SC_AW_payld;
+  output [0:0]S_SC_AW_recv;
+  input [0:0]S_SC_AW_req;
+  input [0:0]S_SC_AW_send;
+  input [0:0]S_SC_B_info;
+  input [4:0]S_SC_B_payld;
+  output [0:0]S_SC_B_recv;
+  input [0:0]S_SC_B_req;
+  input [0:0]S_SC_B_send;
+  input [0:0]S_SC_R_info;
+  input [50:0]S_SC_R_payld;
+  output [0:0]S_SC_R_recv;
+  input [0:0]S_SC_R_req;
+  input [0:0]S_SC_R_send;
+  input [0:0]S_SC_W_info;
+  input [52:0]S_SC_W_payld;
+  output [0:0]S_SC_W_recv;
+  input [0:0]S_SC_W_req;
+  input [0:0]S_SC_W_send;
+  input m_axi_aclk;
+  input m_axi_aresetn;
+  input s_axi_aclk;
+  input s_axi_aresetn;
+
+  wire [0:0]S_SC_AR_1_INFO;
+  wire [138:0]S_SC_AR_1_PAYLD;
+  wire [0:0]S_SC_AR_1_RECV;
+  wire [0:0]S_SC_AR_1_REQ;
+  wire [0:0]S_SC_AR_1_SEND;
+  wire [0:0]S_SC_AW_1_INFO;
+  wire [138:0]S_SC_AW_1_PAYLD;
+  wire [0:0]S_SC_AW_1_RECV;
+  wire [0:0]S_SC_AW_1_REQ;
+  wire [0:0]S_SC_AW_1_SEND;
+  wire [0:0]S_SC_B_1_INFO;
+  wire [4:0]S_SC_B_1_PAYLD;
+  wire [0:0]S_SC_B_1_RECV;
+  wire [0:0]S_SC_B_1_REQ;
+  wire [0:0]S_SC_B_1_SEND;
+  wire [0:0]S_SC_R_1_INFO;
+  wire [50:0]S_SC_R_1_PAYLD;
+  wire [0:0]S_SC_R_1_RECV;
+  wire [0:0]S_SC_R_1_REQ;
+  wire [0:0]S_SC_R_1_SEND;
+  wire [0:0]S_SC_W_1_INFO;
+  wire [52:0]S_SC_W_1_PAYLD;
+  wire [0:0]S_SC_W_1_RECV;
+  wire [0:0]S_SC_W_1_REQ;
+  wire [0:0]S_SC_W_1_SEND;
+  wire [0:0]m00_ar_node_M_SC_INFO;
+  wire [138:0]m00_ar_node_M_SC_PAYLD;
+  wire [0:0]m00_ar_node_M_SC_RECV;
+  wire [0:0]m00_ar_node_M_SC_REQ;
+  wire [0:0]m00_ar_node_M_SC_SEND;
+  wire [0:0]m00_aw_node_M_SC_INFO;
+  wire [138:0]m00_aw_node_M_SC_PAYLD;
+  wire [0:0]m00_aw_node_M_SC_RECV;
+  wire [0:0]m00_aw_node_M_SC_REQ;
+  wire [0:0]m00_aw_node_M_SC_SEND;
+  wire [0:0]m00_b_node_M_SC_INFO;
+  wire [4:0]m00_b_node_M_SC_PAYLD;
+  wire [0:0]m00_b_node_M_SC_RECV;
+  wire [0:0]m00_b_node_M_SC_REQ;
+  wire [0:0]m00_b_node_M_SC_SEND;
+  wire [0:0]m00_r_node_M_SC_INFO;
+  wire [50:0]m00_r_node_M_SC_PAYLD;
+  wire [0:0]m00_r_node_M_SC_RECV;
+  wire [0:0]m00_r_node_M_SC_REQ;
+  wire [0:0]m00_r_node_M_SC_SEND;
+  wire [0:0]m00_w_node_M_SC_INFO;
+  wire [52:0]m00_w_node_M_SC_PAYLD;
+  wire [0:0]m00_w_node_M_SC_RECV;
+  wire [0:0]m00_w_node_M_SC_REQ;
+  wire [0:0]m00_w_node_M_SC_SEND;
+  wire m_axi_aclk_1;
+  wire m_axi_aresetn_1;
+  wire s_axi_aclk_1;
+  wire s_axi_aresetn_1;
+
+  assign M_SC_AR_info[0] = m00_ar_node_M_SC_INFO;
+  assign M_SC_AR_payld[138:0] = m00_ar_node_M_SC_PAYLD;
+  assign M_SC_AR_req[0] = m00_ar_node_M_SC_REQ;
+  assign M_SC_AR_send[0] = m00_ar_node_M_SC_SEND;
+  assign M_SC_AW_info[0] = m00_aw_node_M_SC_INFO;
+  assign M_SC_AW_payld[138:0] = m00_aw_node_M_SC_PAYLD;
+  assign M_SC_AW_req[0] = m00_aw_node_M_SC_REQ;
+  assign M_SC_AW_send[0] = m00_aw_node_M_SC_SEND;
+  assign M_SC_B_info[0] = m00_b_node_M_SC_INFO;
+  assign M_SC_B_payld[4:0] = m00_b_node_M_SC_PAYLD;
+  assign M_SC_B_req[0] = m00_b_node_M_SC_REQ;
+  assign M_SC_B_send[0] = m00_b_node_M_SC_SEND;
+  assign M_SC_R_info[0] = m00_r_node_M_SC_INFO;
+  assign M_SC_R_payld[50:0] = m00_r_node_M_SC_PAYLD;
+  assign M_SC_R_req[0] = m00_r_node_M_SC_REQ;
+  assign M_SC_R_send[0] = m00_r_node_M_SC_SEND;
+  assign M_SC_W_info[0] = m00_w_node_M_SC_INFO;
+  assign M_SC_W_payld[52:0] = m00_w_node_M_SC_PAYLD;
+  assign M_SC_W_req[0] = m00_w_node_M_SC_REQ;
+  assign M_SC_W_send[0] = m00_w_node_M_SC_SEND;
+  assign S_SC_AR_1_INFO = S_SC_AR_info[0];
+  assign S_SC_AR_1_PAYLD = S_SC_AR_payld[138:0];
+  assign S_SC_AR_1_REQ = S_SC_AR_req[0];
+  assign S_SC_AR_1_SEND = S_SC_AR_send[0];
+  assign S_SC_AR_recv[0] = S_SC_AR_1_RECV;
+  assign S_SC_AW_1_INFO = S_SC_AW_info[0];
+  assign S_SC_AW_1_PAYLD = S_SC_AW_payld[138:0];
+  assign S_SC_AW_1_REQ = S_SC_AW_req[0];
+  assign S_SC_AW_1_SEND = S_SC_AW_send[0];
+  assign S_SC_AW_recv[0] = S_SC_AW_1_RECV;
+  assign S_SC_B_1_INFO = S_SC_B_info[0];
+  assign S_SC_B_1_PAYLD = S_SC_B_payld[4:0];
+  assign S_SC_B_1_REQ = S_SC_B_req[0];
+  assign S_SC_B_1_SEND = S_SC_B_send[0];
+  assign S_SC_B_recv[0] = S_SC_B_1_RECV;
+  assign S_SC_R_1_INFO = S_SC_R_info[0];
+  assign S_SC_R_1_PAYLD = S_SC_R_payld[50:0];
+  assign S_SC_R_1_REQ = S_SC_R_req[0];
+  assign S_SC_R_1_SEND = S_SC_R_send[0];
+  assign S_SC_R_recv[0] = S_SC_R_1_RECV;
+  assign S_SC_W_1_INFO = S_SC_W_info[0];
+  assign S_SC_W_1_PAYLD = S_SC_W_payld[52:0];
+  assign S_SC_W_1_REQ = S_SC_W_req[0];
+  assign S_SC_W_1_SEND = S_SC_W_send[0];
+  assign S_SC_W_recv[0] = S_SC_W_1_RECV;
+  assign m00_ar_node_M_SC_RECV = M_SC_AR_recv[0];
+  assign m00_aw_node_M_SC_RECV = M_SC_AW_recv[0];
+  assign m00_b_node_M_SC_RECV = M_SC_B_recv[0];
+  assign m00_r_node_M_SC_RECV = M_SC_R_recv[0];
+  assign m00_w_node_M_SC_RECV = M_SC_W_recv[0];
+  assign m_axi_aclk_1 = m_axi_aclk;
+  assign m_axi_aresetn_1 = m_axi_aresetn;
+  assign s_axi_aclk_1 = s_axi_aclk;
+  assign s_axi_aresetn_1 = s_axi_aresetn;
+  bd_48ac_m00arn_0 m00_ar_node
+       (.m_sc_aclk(m_axi_aclk_1),
+        .m_sc_aresetn(m_axi_aresetn_1),
+        .m_sc_info(m00_ar_node_M_SC_INFO),
+        .m_sc_payld(m00_ar_node_M_SC_PAYLD),
+        .m_sc_recv(m00_ar_node_M_SC_RECV),
+        .m_sc_req(m00_ar_node_M_SC_REQ),
+        .m_sc_send(m00_ar_node_M_SC_SEND),
+        .s_sc_aclk(s_axi_aclk_1),
+        .s_sc_aresetn(s_axi_aresetn_1),
+        .s_sc_info(S_SC_AR_1_INFO),
+        .s_sc_payld(S_SC_AR_1_PAYLD),
+        .s_sc_recv(S_SC_AR_1_RECV),
+        .s_sc_req(S_SC_AR_1_REQ),
+        .s_sc_send(S_SC_AR_1_SEND));
+  bd_48ac_m00awn_0 m00_aw_node
+       (.m_sc_aclk(m_axi_aclk_1),
+        .m_sc_aresetn(m_axi_aresetn_1),
+        .m_sc_info(m00_aw_node_M_SC_INFO),
+        .m_sc_payld(m00_aw_node_M_SC_PAYLD),
+        .m_sc_recv(m00_aw_node_M_SC_RECV),
+        .m_sc_req(m00_aw_node_M_SC_REQ),
+        .m_sc_send(m00_aw_node_M_SC_SEND),
+        .s_sc_aclk(s_axi_aclk_1),
+        .s_sc_aresetn(s_axi_aresetn_1),
+        .s_sc_info(S_SC_AW_1_INFO),
+        .s_sc_payld(S_SC_AW_1_PAYLD),
+        .s_sc_recv(S_SC_AW_1_RECV),
+        .s_sc_req(S_SC_AW_1_REQ),
+        .s_sc_send(S_SC_AW_1_SEND));
+  bd_48ac_m00bn_0 m00_b_node
+       (.m_sc_aclk(s_axi_aclk_1),
+        .m_sc_aresetn(s_axi_aresetn_1),
+        .m_sc_info(m00_b_node_M_SC_INFO),
+        .m_sc_payld(m00_b_node_M_SC_PAYLD),
+        .m_sc_recv(m00_b_node_M_SC_RECV),
+        .m_sc_req(m00_b_node_M_SC_REQ),
+        .m_sc_send(m00_b_node_M_SC_SEND),
+        .s_sc_aclk(m_axi_aclk_1),
+        .s_sc_aresetn(m_axi_aresetn_1),
+        .s_sc_info(S_SC_B_1_INFO),
+        .s_sc_payld(S_SC_B_1_PAYLD),
+        .s_sc_recv(S_SC_B_1_RECV),
+        .s_sc_req(S_SC_B_1_REQ),
+        .s_sc_send(S_SC_B_1_SEND));
+  bd_48ac_m00rn_0 m00_r_node
+       (.m_sc_aclk(s_axi_aclk_1),
+        .m_sc_aresetn(s_axi_aresetn_1),
+        .m_sc_info(m00_r_node_M_SC_INFO),
+        .m_sc_payld(m00_r_node_M_SC_PAYLD),
+        .m_sc_recv(m00_r_node_M_SC_RECV),
+        .m_sc_req(m00_r_node_M_SC_REQ),
+        .m_sc_send(m00_r_node_M_SC_SEND),
+        .s_sc_aclk(m_axi_aclk_1),
+        .s_sc_aresetn(m_axi_aresetn_1),
+        .s_sc_info(S_SC_R_1_INFO),
+        .s_sc_payld(S_SC_R_1_PAYLD),
+        .s_sc_recv(S_SC_R_1_RECV),
+        .s_sc_req(S_SC_R_1_REQ),
+        .s_sc_send(S_SC_R_1_SEND));
+  bd_48ac_m00wn_0 m00_w_node
+       (.m_sc_aclk(m_axi_aclk_1),
+        .m_sc_aresetn(m_axi_aresetn_1),
+        .m_sc_info(m00_w_node_M_SC_INFO),
+        .m_sc_payld(m00_w_node_M_SC_PAYLD),
+        .m_sc_recv(m00_w_node_M_SC_RECV),
+        .m_sc_req(m00_w_node_M_SC_REQ),
+        .m_sc_send(m00_w_node_M_SC_SEND),
+        .s_sc_aclk(s_axi_aclk_1),
+        .s_sc_aresetn(s_axi_aresetn_1),
+        .s_sc_info(S_SC_W_1_INFO),
+        .s_sc_payld(S_SC_W_1_PAYLD),
+        .s_sc_recv(S_SC_W_1_RECV),
+        .s_sc_req(S_SC_W_1_REQ),
+        .s_sc_send(S_SC_W_1_SEND));
 endmodule
 
 module s00_entry_pipeline_imp_1C3JDRS
@@ -1909,16 +2418,16 @@ module s00_nodes_imp_1FAO4F6
     m_sc_resetn,
     s_sc_clk,
     s_sc_resetn);
-  output [0:0]M_SC_AR_info;
-  output [137:0]M_SC_AR_payld;
-  input M_SC_AR_recv;
-  output M_SC_AR_req;
-  output M_SC_AR_send;
-  output [0:0]M_SC_AW_info;
-  output [137:0]M_SC_AW_payld;
-  input M_SC_AW_recv;
-  output M_SC_AW_req;
-  output M_SC_AW_send;
+  output [1:0]M_SC_AR_info;
+  output [138:0]M_SC_AR_payld;
+  input [1:0]M_SC_AR_recv;
+  output [1:0]M_SC_AR_req;
+  output [1:0]M_SC_AR_send;
+  output [1:0]M_SC_AW_info;
+  output [138:0]M_SC_AW_payld;
+  input [1:0]M_SC_AW_recv;
+  output [1:0]M_SC_AW_req;
+  output [1:0]M_SC_AW_send;
   output [0:0]M_SC_B_info;
   output [4:0]M_SC_B_payld;
   input [0:0]M_SC_B_recv;
@@ -1929,33 +2438,33 @@ module s00_nodes_imp_1FAO4F6
   input [0:0]M_SC_R_recv;
   output [0:0]M_SC_R_req;
   output [0:0]M_SC_R_send;
-  output [0:0]M_SC_W_info;
-  output [51:0]M_SC_W_payld;
-  input M_SC_W_recv;
-  output M_SC_W_req;
-  output M_SC_W_send;
+  output [1:0]M_SC_W_info;
+  output [52:0]M_SC_W_payld;
+  input [1:0]M_SC_W_recv;
+  output [1:0]M_SC_W_req;
+  output [1:0]M_SC_W_send;
   input [0:0]S_SC_AR_info;
-  input [137:0]S_SC_AR_payld;
+  input [138:0]S_SC_AR_payld;
   output [0:0]S_SC_AR_recv;
   input [0:0]S_SC_AR_req;
   input [0:0]S_SC_AR_send;
   input [0:0]S_SC_AW_info;
-  input [137:0]S_SC_AW_payld;
+  input [138:0]S_SC_AW_payld;
   output [0:0]S_SC_AW_recv;
   input [0:0]S_SC_AW_req;
   input [0:0]S_SC_AW_send;
-  input [0:0]S_SC_B_info;
+  input [1:0]S_SC_B_info;
   input [4:0]S_SC_B_payld;
-  output S_SC_B_recv;
-  input S_SC_B_req;
-  input S_SC_B_send;
-  input [0:0]S_SC_R_info;
+  output [1:0]S_SC_B_recv;
+  input [1:0]S_SC_B_req;
+  input [1:0]S_SC_B_send;
+  input [1:0]S_SC_R_info;
   input [50:0]S_SC_R_payld;
-  output S_SC_R_recv;
-  input S_SC_R_req;
-  input S_SC_R_send;
+  output [1:0]S_SC_R_recv;
+  input [1:0]S_SC_R_req;
+  input [1:0]S_SC_R_send;
   input [0:0]S_SC_W_info;
-  input [51:0]S_SC_W_payld;
+  input [52:0]S_SC_W_payld;
   output [0:0]S_SC_W_recv;
   input [0:0]S_SC_W_req;
   input [0:0]S_SC_W_send;
@@ -1965,42 +2474,42 @@ module s00_nodes_imp_1FAO4F6
   input s_sc_resetn;
 
   wire [0:0]S_SC_AR_1_INFO;
-  wire [137:0]S_SC_AR_1_PAYLD;
+  wire [138:0]S_SC_AR_1_PAYLD;
   wire [0:0]S_SC_AR_1_RECV;
   wire [0:0]S_SC_AR_1_REQ;
   wire [0:0]S_SC_AR_1_SEND;
   wire [0:0]S_SC_AW_1_INFO;
-  wire [137:0]S_SC_AW_1_PAYLD;
+  wire [138:0]S_SC_AW_1_PAYLD;
   wire [0:0]S_SC_AW_1_RECV;
   wire [0:0]S_SC_AW_1_REQ;
   wire [0:0]S_SC_AW_1_SEND;
-  wire [0:0]S_SC_B_1_INFO;
+  wire [1:0]S_SC_B_1_INFO;
   wire [4:0]S_SC_B_1_PAYLD;
-  wire [0:0]S_SC_B_1_RECV;
-  wire S_SC_B_1_REQ;
-  wire S_SC_B_1_SEND;
-  wire [0:0]S_SC_R_1_INFO;
+  wire [1:0]S_SC_B_1_RECV;
+  wire [1:0]S_SC_B_1_REQ;
+  wire [1:0]S_SC_B_1_SEND;
+  wire [1:0]S_SC_R_1_INFO;
   wire [50:0]S_SC_R_1_PAYLD;
-  wire [0:0]S_SC_R_1_RECV;
-  wire S_SC_R_1_REQ;
-  wire S_SC_R_1_SEND;
+  wire [1:0]S_SC_R_1_RECV;
+  wire [1:0]S_SC_R_1_REQ;
+  wire [1:0]S_SC_R_1_SEND;
   wire [0:0]S_SC_W_1_INFO;
-  wire [51:0]S_SC_W_1_PAYLD;
+  wire [52:0]S_SC_W_1_PAYLD;
   wire [0:0]S_SC_W_1_RECV;
   wire [0:0]S_SC_W_1_REQ;
   wire [0:0]S_SC_W_1_SEND;
   wire m_sc_clk_1;
   wire m_sc_resetn_1;
-  wire [0:0]s00_ar_node_M_SC_INFO;
-  wire [137:0]s00_ar_node_M_SC_PAYLD;
-  wire s00_ar_node_M_SC_RECV;
-  wire [0:0]s00_ar_node_M_SC_REQ;
-  wire [0:0]s00_ar_node_M_SC_SEND;
-  wire [0:0]s00_aw_node_M_SC_INFO;
-  wire [137:0]s00_aw_node_M_SC_PAYLD;
-  wire s00_aw_node_M_SC_RECV;
-  wire [0:0]s00_aw_node_M_SC_REQ;
-  wire [0:0]s00_aw_node_M_SC_SEND;
+  wire [1:0]s00_ar_node_M_SC_INFO;
+  wire [138:0]s00_ar_node_M_SC_PAYLD;
+  wire [1:0]s00_ar_node_M_SC_RECV;
+  wire [1:0]s00_ar_node_M_SC_REQ;
+  wire [1:0]s00_ar_node_M_SC_SEND;
+  wire [1:0]s00_aw_node_M_SC_INFO;
+  wire [138:0]s00_aw_node_M_SC_PAYLD;
+  wire [1:0]s00_aw_node_M_SC_RECV;
+  wire [1:0]s00_aw_node_M_SC_REQ;
+  wire [1:0]s00_aw_node_M_SC_SEND;
   wire [0:0]s00_b_node_M_SC_INFO;
   wire [4:0]s00_b_node_M_SC_PAYLD;
   wire [0:0]s00_b_node_M_SC_RECV;
@@ -2011,22 +2520,22 @@ module s00_nodes_imp_1FAO4F6
   wire [0:0]s00_r_node_M_SC_RECV;
   wire [0:0]s00_r_node_M_SC_REQ;
   wire [0:0]s00_r_node_M_SC_SEND;
-  wire [0:0]s00_w_node_M_SC_INFO;
-  wire [51:0]s00_w_node_M_SC_PAYLD;
-  wire s00_w_node_M_SC_RECV;
-  wire [0:0]s00_w_node_M_SC_REQ;
-  wire [0:0]s00_w_node_M_SC_SEND;
+  wire [1:0]s00_w_node_M_SC_INFO;
+  wire [52:0]s00_w_node_M_SC_PAYLD;
+  wire [1:0]s00_w_node_M_SC_RECV;
+  wire [1:0]s00_w_node_M_SC_REQ;
+  wire [1:0]s00_w_node_M_SC_SEND;
   wire s_sc_clk_1;
   wire s_sc_resetn_1;
 
-  assign M_SC_AR_info[0] = s00_ar_node_M_SC_INFO;
-  assign M_SC_AR_payld[137:0] = s00_ar_node_M_SC_PAYLD;
-  assign M_SC_AR_req = s00_ar_node_M_SC_REQ;
-  assign M_SC_AR_send = s00_ar_node_M_SC_SEND;
-  assign M_SC_AW_info[0] = s00_aw_node_M_SC_INFO;
-  assign M_SC_AW_payld[137:0] = s00_aw_node_M_SC_PAYLD;
-  assign M_SC_AW_req = s00_aw_node_M_SC_REQ;
-  assign M_SC_AW_send = s00_aw_node_M_SC_SEND;
+  assign M_SC_AR_info[1:0] = s00_ar_node_M_SC_INFO;
+  assign M_SC_AR_payld[138:0] = s00_ar_node_M_SC_PAYLD;
+  assign M_SC_AR_req[1:0] = s00_ar_node_M_SC_REQ;
+  assign M_SC_AR_send[1:0] = s00_ar_node_M_SC_SEND;
+  assign M_SC_AW_info[1:0] = s00_aw_node_M_SC_INFO;
+  assign M_SC_AW_payld[138:0] = s00_aw_node_M_SC_PAYLD;
+  assign M_SC_AW_req[1:0] = s00_aw_node_M_SC_REQ;
+  assign M_SC_AW_send[1:0] = s00_aw_node_M_SC_SEND;
   assign M_SC_B_info[0] = s00_b_node_M_SC_INFO;
   assign M_SC_B_payld[4:0] = s00_b_node_M_SC_PAYLD;
   assign M_SC_B_req[0] = s00_b_node_M_SC_REQ;
@@ -2035,42 +2544,42 @@ module s00_nodes_imp_1FAO4F6
   assign M_SC_R_payld[50:0] = s00_r_node_M_SC_PAYLD;
   assign M_SC_R_req[0] = s00_r_node_M_SC_REQ;
   assign M_SC_R_send[0] = s00_r_node_M_SC_SEND;
-  assign M_SC_W_info[0] = s00_w_node_M_SC_INFO;
-  assign M_SC_W_payld[51:0] = s00_w_node_M_SC_PAYLD;
-  assign M_SC_W_req = s00_w_node_M_SC_REQ;
-  assign M_SC_W_send = s00_w_node_M_SC_SEND;
+  assign M_SC_W_info[1:0] = s00_w_node_M_SC_INFO;
+  assign M_SC_W_payld[52:0] = s00_w_node_M_SC_PAYLD;
+  assign M_SC_W_req[1:0] = s00_w_node_M_SC_REQ;
+  assign M_SC_W_send[1:0] = s00_w_node_M_SC_SEND;
   assign S_SC_AR_1_INFO = S_SC_AR_info[0];
-  assign S_SC_AR_1_PAYLD = S_SC_AR_payld[137:0];
+  assign S_SC_AR_1_PAYLD = S_SC_AR_payld[138:0];
   assign S_SC_AR_1_REQ = S_SC_AR_req[0];
   assign S_SC_AR_1_SEND = S_SC_AR_send[0];
   assign S_SC_AR_recv[0] = S_SC_AR_1_RECV;
   assign S_SC_AW_1_INFO = S_SC_AW_info[0];
-  assign S_SC_AW_1_PAYLD = S_SC_AW_payld[137:0];
+  assign S_SC_AW_1_PAYLD = S_SC_AW_payld[138:0];
   assign S_SC_AW_1_REQ = S_SC_AW_req[0];
   assign S_SC_AW_1_SEND = S_SC_AW_send[0];
   assign S_SC_AW_recv[0] = S_SC_AW_1_RECV;
-  assign S_SC_B_1_INFO = S_SC_B_info[0];
+  assign S_SC_B_1_INFO = S_SC_B_info[1:0];
   assign S_SC_B_1_PAYLD = S_SC_B_payld[4:0];
-  assign S_SC_B_1_REQ = S_SC_B_req;
-  assign S_SC_B_1_SEND = S_SC_B_send;
-  assign S_SC_B_recv = S_SC_B_1_RECV;
-  assign S_SC_R_1_INFO = S_SC_R_info[0];
+  assign S_SC_B_1_REQ = S_SC_B_req[1:0];
+  assign S_SC_B_1_SEND = S_SC_B_send[1:0];
+  assign S_SC_B_recv[1:0] = S_SC_B_1_RECV;
+  assign S_SC_R_1_INFO = S_SC_R_info[1:0];
   assign S_SC_R_1_PAYLD = S_SC_R_payld[50:0];
-  assign S_SC_R_1_REQ = S_SC_R_req;
-  assign S_SC_R_1_SEND = S_SC_R_send;
-  assign S_SC_R_recv = S_SC_R_1_RECV;
+  assign S_SC_R_1_REQ = S_SC_R_req[1:0];
+  assign S_SC_R_1_SEND = S_SC_R_send[1:0];
+  assign S_SC_R_recv[1:0] = S_SC_R_1_RECV;
   assign S_SC_W_1_INFO = S_SC_W_info[0];
-  assign S_SC_W_1_PAYLD = S_SC_W_payld[51:0];
+  assign S_SC_W_1_PAYLD = S_SC_W_payld[52:0];
   assign S_SC_W_1_REQ = S_SC_W_req[0];
   assign S_SC_W_1_SEND = S_SC_W_send[0];
   assign S_SC_W_recv[0] = S_SC_W_1_RECV;
   assign m_sc_clk_1 = m_sc_clk;
   assign m_sc_resetn_1 = m_sc_resetn;
-  assign s00_ar_node_M_SC_RECV = M_SC_AR_recv;
-  assign s00_aw_node_M_SC_RECV = M_SC_AW_recv;
+  assign s00_ar_node_M_SC_RECV = M_SC_AR_recv[1:0];
+  assign s00_aw_node_M_SC_RECV = M_SC_AW_recv[1:0];
   assign s00_b_node_M_SC_RECV = M_SC_B_recv[0];
   assign s00_r_node_M_SC_RECV = M_SC_R_recv[0];
-  assign s00_w_node_M_SC_RECV = M_SC_W_recv;
+  assign s00_w_node_M_SC_RECV = M_SC_W_recv[1:0];
   assign s_sc_clk_1 = s_sc_clk;
   assign s_sc_resetn_1 = s_sc_resetn;
   bd_48ac_sarn_0 s00_ar_node
@@ -2148,4 +2657,380 @@ module s00_nodes_imp_1FAO4F6
         .s_sc_recv(S_SC_W_1_RECV),
         .s_sc_req(S_SC_W_1_REQ),
         .s_sc_send(S_SC_W_1_SEND));
+endmodule
+
+module switchboards_imp_1MKJLH2
+   (M00_SC_AR_info,
+    M00_SC_AR_payld,
+    M00_SC_AR_recv,
+    M00_SC_AR_req,
+    M00_SC_AR_send,
+    M00_SC_AW_info,
+    M00_SC_AW_payld,
+    M00_SC_AW_recv,
+    M00_SC_AW_req,
+    M00_SC_AW_send,
+    M00_SC_B_info,
+    M00_SC_B_payld,
+    M00_SC_B_recv,
+    M00_SC_B_req,
+    M00_SC_B_send,
+    M00_SC_R_info,
+    M00_SC_R_payld,
+    M00_SC_R_recv,
+    M00_SC_R_req,
+    M00_SC_R_send,
+    M00_SC_W_info,
+    M00_SC_W_payld,
+    M00_SC_W_recv,
+    M00_SC_W_req,
+    M00_SC_W_send,
+    M01_SC_AR_info,
+    M01_SC_AR_payld,
+    M01_SC_AR_recv,
+    M01_SC_AR_req,
+    M01_SC_AR_send,
+    M01_SC_AW_info,
+    M01_SC_AW_payld,
+    M01_SC_AW_recv,
+    M01_SC_AW_req,
+    M01_SC_AW_send,
+    M01_SC_W_info,
+    M01_SC_W_payld,
+    M01_SC_W_recv,
+    M01_SC_W_req,
+    M01_SC_W_send,
+    S00_SC_AR_info,
+    S00_SC_AR_payld,
+    S00_SC_AR_recv,
+    S00_SC_AR_req,
+    S00_SC_AR_send,
+    S00_SC_AW_info,
+    S00_SC_AW_payld,
+    S00_SC_AW_recv,
+    S00_SC_AW_req,
+    S00_SC_AW_send,
+    S00_SC_B_info,
+    S00_SC_B_payld,
+    S00_SC_B_recv,
+    S00_SC_B_req,
+    S00_SC_B_send,
+    S00_SC_R_info,
+    S00_SC_R_payld,
+    S00_SC_R_recv,
+    S00_SC_R_req,
+    S00_SC_R_send,
+    S00_SC_W_info,
+    S00_SC_W_payld,
+    S00_SC_W_recv,
+    S00_SC_W_req,
+    S00_SC_W_send,
+    S01_SC_B_info,
+    S01_SC_B_payld,
+    S01_SC_B_recv,
+    S01_SC_B_req,
+    S01_SC_B_send,
+    S01_SC_R_info,
+    S01_SC_R_payld,
+    S01_SC_R_recv,
+    S01_SC_R_req,
+    S01_SC_R_send,
+    aclk,
+    aresetn);
+  output [0:0]M00_SC_AR_info;
+  output [138:0]M00_SC_AR_payld;
+  input [0:0]M00_SC_AR_recv;
+  output [0:0]M00_SC_AR_req;
+  output [0:0]M00_SC_AR_send;
+  output [0:0]M00_SC_AW_info;
+  output [138:0]M00_SC_AW_payld;
+  input [0:0]M00_SC_AW_recv;
+  output [0:0]M00_SC_AW_req;
+  output [0:0]M00_SC_AW_send;
+  output [1:0]M00_SC_B_info;
+  output [4:0]M00_SC_B_payld;
+  input [1:0]M00_SC_B_recv;
+  output [1:0]M00_SC_B_req;
+  output [1:0]M00_SC_B_send;
+  output [1:0]M00_SC_R_info;
+  output [50:0]M00_SC_R_payld;
+  input [1:0]M00_SC_R_recv;
+  output [1:0]M00_SC_R_req;
+  output [1:0]M00_SC_R_send;
+  output [0:0]M00_SC_W_info;
+  output [52:0]M00_SC_W_payld;
+  input [0:0]M00_SC_W_recv;
+  output [0:0]M00_SC_W_req;
+  output [0:0]M00_SC_W_send;
+  output M01_SC_AR_info;
+  output M01_SC_AR_payld;
+  input M01_SC_AR_recv;
+  output M01_SC_AR_req;
+  output M01_SC_AR_send;
+  output M01_SC_AW_info;
+  output M01_SC_AW_payld;
+  input M01_SC_AW_recv;
+  output M01_SC_AW_req;
+  output M01_SC_AW_send;
+  output M01_SC_W_info;
+  output M01_SC_W_payld;
+  input M01_SC_W_recv;
+  output M01_SC_W_req;
+  output M01_SC_W_send;
+  input [1:0]S00_SC_AR_info;
+  input [138:0]S00_SC_AR_payld;
+  output [1:0]S00_SC_AR_recv;
+  input [1:0]S00_SC_AR_req;
+  input [1:0]S00_SC_AR_send;
+  input [1:0]S00_SC_AW_info;
+  input [138:0]S00_SC_AW_payld;
+  output [1:0]S00_SC_AW_recv;
+  input [1:0]S00_SC_AW_req;
+  input [1:0]S00_SC_AW_send;
+  input [0:0]S00_SC_B_info;
+  input [4:0]S00_SC_B_payld;
+  output [0:0]S00_SC_B_recv;
+  input [0:0]S00_SC_B_req;
+  input [0:0]S00_SC_B_send;
+  input [0:0]S00_SC_R_info;
+  input [50:0]S00_SC_R_payld;
+  output [0:0]S00_SC_R_recv;
+  input [0:0]S00_SC_R_req;
+  input [0:0]S00_SC_R_send;
+  input [1:0]S00_SC_W_info;
+  input [52:0]S00_SC_W_payld;
+  output [1:0]S00_SC_W_recv;
+  input [1:0]S00_SC_W_req;
+  input [1:0]S00_SC_W_send;
+  input S01_SC_B_info;
+  input S01_SC_B_payld;
+  output S01_SC_B_recv;
+  input S01_SC_B_req;
+  input S01_SC_B_send;
+  input S01_SC_R_info;
+  input S01_SC_R_payld;
+  output S01_SC_R_recv;
+  input S01_SC_R_req;
+  input S01_SC_R_send;
+  input aclk;
+  input aresetn;
+
+  wire [1:0]S00_SC_AR_1_INFO;
+  wire [138:0]S00_SC_AR_1_PAYLD;
+  wire [1:0]S00_SC_AR_1_RECV;
+  wire [1:0]S00_SC_AR_1_REQ;
+  wire [1:0]S00_SC_AR_1_SEND;
+  wire [1:0]S00_SC_AW_1_INFO;
+  wire [138:0]S00_SC_AW_1_PAYLD;
+  wire [1:0]S00_SC_AW_1_RECV;
+  wire [1:0]S00_SC_AW_1_REQ;
+  wire [1:0]S00_SC_AW_1_SEND;
+  wire [0:0]S00_SC_B_1_INFO;
+  wire [4:0]S00_SC_B_1_PAYLD;
+  wire [0:0]S00_SC_B_1_RECV;
+  wire [0:0]S00_SC_B_1_REQ;
+  wire [0:0]S00_SC_B_1_SEND;
+  wire [0:0]S00_SC_R_1_INFO;
+  wire [50:0]S00_SC_R_1_PAYLD;
+  wire [0:0]S00_SC_R_1_RECV;
+  wire [0:0]S00_SC_R_1_REQ;
+  wire [0:0]S00_SC_R_1_SEND;
+  wire [1:0]S00_SC_W_1_INFO;
+  wire [52:0]S00_SC_W_1_PAYLD;
+  wire [1:0]S00_SC_W_1_RECV;
+  wire [1:0]S00_SC_W_1_REQ;
+  wire [1:0]S00_SC_W_1_SEND;
+  wire S01_SC_B_1_INFO;
+  wire S01_SC_B_1_PAYLD;
+  wire [1:1]S01_SC_B_1_RECV;
+  wire S01_SC_B_1_REQ;
+  wire S01_SC_B_1_SEND;
+  wire S01_SC_R_1_INFO;
+  wire S01_SC_R_1_PAYLD;
+  wire [1:1]S01_SC_R_1_RECV;
+  wire S01_SC_R_1_REQ;
+  wire S01_SC_R_1_SEND;
+  wire aclk_1;
+  wire [0:0]ar_switchboard_M00_SC_INFO;
+  wire [138:0]ar_switchboard_M00_SC_PAYLD;
+  wire [0:0]ar_switchboard_M00_SC_RECV;
+  wire [0:0]ar_switchboard_M00_SC_REQ;
+  wire [0:0]ar_switchboard_M00_SC_SEND;
+  wire [1:1]ar_switchboard_M01_SC_INFO;
+  wire [277:139]ar_switchboard_M01_SC_PAYLD;
+  wire ar_switchboard_M01_SC_RECV;
+  wire [1:1]ar_switchboard_M01_SC_REQ;
+  wire [1:1]ar_switchboard_M01_SC_SEND;
+  wire [0:0]aw_switchboard_M00_SC_INFO;
+  wire [138:0]aw_switchboard_M00_SC_PAYLD;
+  wire [0:0]aw_switchboard_M00_SC_RECV;
+  wire [0:0]aw_switchboard_M00_SC_REQ;
+  wire [0:0]aw_switchboard_M00_SC_SEND;
+  wire [1:1]aw_switchboard_M01_SC_INFO;
+  wire [277:139]aw_switchboard_M01_SC_PAYLD;
+  wire aw_switchboard_M01_SC_RECV;
+  wire [1:1]aw_switchboard_M01_SC_REQ;
+  wire [1:1]aw_switchboard_M01_SC_SEND;
+  wire [1:0]b_switchboard_M00_SC_INFO;
+  wire [4:0]b_switchboard_M00_SC_PAYLD;
+  wire [1:0]b_switchboard_M00_SC_RECV;
+  wire [1:0]b_switchboard_M00_SC_REQ;
+  wire [1:0]b_switchboard_M00_SC_SEND;
+  wire [1:0]r_switchboard_M00_SC_INFO;
+  wire [50:0]r_switchboard_M00_SC_PAYLD;
+  wire [1:0]r_switchboard_M00_SC_RECV;
+  wire [1:0]r_switchboard_M00_SC_REQ;
+  wire [1:0]r_switchboard_M00_SC_SEND;
+  wire [0:0]w_switchboard_M00_SC_INFO;
+  wire [52:0]w_switchboard_M00_SC_PAYLD;
+  wire [0:0]w_switchboard_M00_SC_RECV;
+  wire [0:0]w_switchboard_M00_SC_REQ;
+  wire [0:0]w_switchboard_M00_SC_SEND;
+  wire [1:1]w_switchboard_M01_SC_INFO;
+  wire [105:53]w_switchboard_M01_SC_PAYLD;
+  wire w_switchboard_M01_SC_RECV;
+  wire [1:1]w_switchboard_M01_SC_REQ;
+  wire [1:1]w_switchboard_M01_SC_SEND;
+
+  assign M00_SC_AR_info[0] = ar_switchboard_M00_SC_INFO;
+  assign M00_SC_AR_payld[138:0] = ar_switchboard_M00_SC_PAYLD;
+  assign M00_SC_AR_req[0] = ar_switchboard_M00_SC_REQ;
+  assign M00_SC_AR_send[0] = ar_switchboard_M00_SC_SEND;
+  assign M00_SC_AW_info[0] = aw_switchboard_M00_SC_INFO;
+  assign M00_SC_AW_payld[138:0] = aw_switchboard_M00_SC_PAYLD;
+  assign M00_SC_AW_req[0] = aw_switchboard_M00_SC_REQ;
+  assign M00_SC_AW_send[0] = aw_switchboard_M00_SC_SEND;
+  assign M00_SC_B_info[1:0] = b_switchboard_M00_SC_INFO;
+  assign M00_SC_B_payld[4:0] = b_switchboard_M00_SC_PAYLD;
+  assign M00_SC_B_req[1:0] = b_switchboard_M00_SC_REQ;
+  assign M00_SC_B_send[1:0] = b_switchboard_M00_SC_SEND;
+  assign M00_SC_R_info[1:0] = r_switchboard_M00_SC_INFO;
+  assign M00_SC_R_payld[50:0] = r_switchboard_M00_SC_PAYLD;
+  assign M00_SC_R_req[1:0] = r_switchboard_M00_SC_REQ;
+  assign M00_SC_R_send[1:0] = r_switchboard_M00_SC_SEND;
+  assign M00_SC_W_info[0] = w_switchboard_M00_SC_INFO;
+  assign M00_SC_W_payld[52:0] = w_switchboard_M00_SC_PAYLD;
+  assign M00_SC_W_req[0] = w_switchboard_M00_SC_REQ;
+  assign M00_SC_W_send[0] = w_switchboard_M00_SC_SEND;
+  assign M01_SC_AR_info = ar_switchboard_M01_SC_INFO;
+  assign M01_SC_AR_payld = ar_switchboard_M01_SC_PAYLD[139];
+  assign M01_SC_AR_req = ar_switchboard_M01_SC_REQ;
+  assign M01_SC_AR_send = ar_switchboard_M01_SC_SEND;
+  assign M01_SC_AW_info = aw_switchboard_M01_SC_INFO;
+  assign M01_SC_AW_payld = aw_switchboard_M01_SC_PAYLD[139];
+  assign M01_SC_AW_req = aw_switchboard_M01_SC_REQ;
+  assign M01_SC_AW_send = aw_switchboard_M01_SC_SEND;
+  assign M01_SC_W_info = w_switchboard_M01_SC_INFO;
+  assign M01_SC_W_payld = w_switchboard_M01_SC_PAYLD[53];
+  assign M01_SC_W_req = w_switchboard_M01_SC_REQ;
+  assign M01_SC_W_send = w_switchboard_M01_SC_SEND;
+  assign S00_SC_AR_1_INFO = S00_SC_AR_info[1:0];
+  assign S00_SC_AR_1_PAYLD = S00_SC_AR_payld[138:0];
+  assign S00_SC_AR_1_REQ = S00_SC_AR_req[1:0];
+  assign S00_SC_AR_1_SEND = S00_SC_AR_send[1:0];
+  assign S00_SC_AR_recv[1:0] = S00_SC_AR_1_RECV;
+  assign S00_SC_AW_1_INFO = S00_SC_AW_info[1:0];
+  assign S00_SC_AW_1_PAYLD = S00_SC_AW_payld[138:0];
+  assign S00_SC_AW_1_REQ = S00_SC_AW_req[1:0];
+  assign S00_SC_AW_1_SEND = S00_SC_AW_send[1:0];
+  assign S00_SC_AW_recv[1:0] = S00_SC_AW_1_RECV;
+  assign S00_SC_B_1_INFO = S00_SC_B_info[0];
+  assign S00_SC_B_1_PAYLD = S00_SC_B_payld[4:0];
+  assign S00_SC_B_1_REQ = S00_SC_B_req[0];
+  assign S00_SC_B_1_SEND = S00_SC_B_send[0];
+  assign S00_SC_B_recv[0] = S00_SC_B_1_RECV;
+  assign S00_SC_R_1_INFO = S00_SC_R_info[0];
+  assign S00_SC_R_1_PAYLD = S00_SC_R_payld[50:0];
+  assign S00_SC_R_1_REQ = S00_SC_R_req[0];
+  assign S00_SC_R_1_SEND = S00_SC_R_send[0];
+  assign S00_SC_R_recv[0] = S00_SC_R_1_RECV;
+  assign S00_SC_W_1_INFO = S00_SC_W_info[1:0];
+  assign S00_SC_W_1_PAYLD = S00_SC_W_payld[52:0];
+  assign S00_SC_W_1_REQ = S00_SC_W_req[1:0];
+  assign S00_SC_W_1_SEND = S00_SC_W_send[1:0];
+  assign S00_SC_W_recv[1:0] = S00_SC_W_1_RECV;
+  assign S01_SC_B_1_INFO = S01_SC_B_info;
+  assign S01_SC_B_1_PAYLD = S01_SC_B_payld;
+  assign S01_SC_B_1_REQ = S01_SC_B_req;
+  assign S01_SC_B_1_SEND = S01_SC_B_send;
+  assign S01_SC_B_recv = S01_SC_B_1_RECV;
+  assign S01_SC_R_1_INFO = S01_SC_R_info;
+  assign S01_SC_R_1_PAYLD = S01_SC_R_payld;
+  assign S01_SC_R_1_REQ = S01_SC_R_req;
+  assign S01_SC_R_1_SEND = S01_SC_R_send;
+  assign S01_SC_R_recv = S01_SC_R_1_RECV;
+  assign aclk_1 = aclk;
+  assign ar_switchboard_M00_SC_RECV = M00_SC_AR_recv[0];
+  assign ar_switchboard_M01_SC_RECV = M01_SC_AR_recv;
+  assign aw_switchboard_M00_SC_RECV = M00_SC_AW_recv[0];
+  assign aw_switchboard_M01_SC_RECV = M01_SC_AW_recv;
+  assign b_switchboard_M00_SC_RECV = M00_SC_B_recv[1:0];
+  assign r_switchboard_M00_SC_RECV = M00_SC_R_recv[1:0];
+  assign w_switchboard_M00_SC_RECV = M00_SC_W_recv[0];
+  assign w_switchboard_M01_SC_RECV = M01_SC_W_recv;
+  bd_48ac_arsw_0 ar_switchboard
+       (.aclk(aclk_1),
+        .aclken(1'b1),
+        .m_sc_info({ar_switchboard_M01_SC_INFO,ar_switchboard_M00_SC_INFO}),
+        .m_sc_payld({ar_switchboard_M01_SC_PAYLD,ar_switchboard_M00_SC_PAYLD}),
+        .m_sc_recv({ar_switchboard_M01_SC_RECV,ar_switchboard_M00_SC_RECV}),
+        .m_sc_req({ar_switchboard_M01_SC_REQ,ar_switchboard_M00_SC_REQ}),
+        .m_sc_send({ar_switchboard_M01_SC_SEND,ar_switchboard_M00_SC_SEND}),
+        .s_sc_info(S00_SC_AR_1_INFO),
+        .s_sc_payld(S00_SC_AR_1_PAYLD),
+        .s_sc_recv(S00_SC_AR_1_RECV),
+        .s_sc_req(S00_SC_AR_1_REQ),
+        .s_sc_send(S00_SC_AR_1_SEND));
+  bd_48ac_awsw_0 aw_switchboard
+       (.aclk(aclk_1),
+        .aclken(1'b1),
+        .m_sc_info({aw_switchboard_M01_SC_INFO,aw_switchboard_M00_SC_INFO}),
+        .m_sc_payld({aw_switchboard_M01_SC_PAYLD,aw_switchboard_M00_SC_PAYLD}),
+        .m_sc_recv({aw_switchboard_M01_SC_RECV,aw_switchboard_M00_SC_RECV}),
+        .m_sc_req({aw_switchboard_M01_SC_REQ,aw_switchboard_M00_SC_REQ}),
+        .m_sc_send({aw_switchboard_M01_SC_SEND,aw_switchboard_M00_SC_SEND}),
+        .s_sc_info(S00_SC_AW_1_INFO),
+        .s_sc_payld(S00_SC_AW_1_PAYLD),
+        .s_sc_recv(S00_SC_AW_1_RECV),
+        .s_sc_req(S00_SC_AW_1_REQ),
+        .s_sc_send(S00_SC_AW_1_SEND));
+  bd_48ac_bsw_0 b_switchboard
+       (.aclk(aclk_1),
+        .aclken(1'b1),
+        .m_sc_info(b_switchboard_M00_SC_INFO),
+        .m_sc_payld(b_switchboard_M00_SC_PAYLD),
+        .m_sc_recv(b_switchboard_M00_SC_RECV),
+        .m_sc_req(b_switchboard_M00_SC_REQ),
+        .m_sc_send(b_switchboard_M00_SC_SEND),
+        .s_sc_info({S01_SC_B_1_INFO,S00_SC_B_1_INFO}),
+        .s_sc_payld({S01_SC_B_1_PAYLD,S01_SC_B_1_PAYLD,S01_SC_B_1_PAYLD,S01_SC_B_1_PAYLD,S01_SC_B_1_PAYLD,S00_SC_B_1_PAYLD}),
+        .s_sc_recv({S01_SC_B_1_RECV,S00_SC_B_1_RECV}),
+        .s_sc_req({S01_SC_B_1_REQ,S00_SC_B_1_REQ}),
+        .s_sc_send({S01_SC_B_1_SEND,S00_SC_B_1_SEND}));
+  bd_48ac_rsw_0 r_switchboard
+       (.aclk(aclk_1),
+        .aclken(1'b1),
+        .m_sc_info(r_switchboard_M00_SC_INFO),
+        .m_sc_payld(r_switchboard_M00_SC_PAYLD),
+        .m_sc_recv(r_switchboard_M00_SC_RECV),
+        .m_sc_req(r_switchboard_M00_SC_REQ),
+        .m_sc_send(r_switchboard_M00_SC_SEND),
+        .s_sc_info({S01_SC_R_1_INFO,S00_SC_R_1_INFO}),
+        .s_sc_payld({S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S01_SC_R_1_PAYLD,S00_SC_R_1_PAYLD}),
+        .s_sc_recv({S01_SC_R_1_RECV,S00_SC_R_1_RECV}),
+        .s_sc_req({S01_SC_R_1_REQ,S00_SC_R_1_REQ}),
+        .s_sc_send({S01_SC_R_1_SEND,S00_SC_R_1_SEND}));
+  bd_48ac_wsw_0 w_switchboard
+       (.aclk(aclk_1),
+        .aclken(1'b1),
+        .m_sc_info({w_switchboard_M01_SC_INFO,w_switchboard_M00_SC_INFO}),
+        .m_sc_payld({w_switchboard_M01_SC_PAYLD,w_switchboard_M00_SC_PAYLD}),
+        .m_sc_recv({w_switchboard_M01_SC_RECV,w_switchboard_M00_SC_RECV}),
+        .m_sc_req({w_switchboard_M01_SC_REQ,w_switchboard_M00_SC_REQ}),
+        .m_sc_send({w_switchboard_M01_SC_SEND,w_switchboard_M00_SC_SEND}),
+        .s_sc_info(S00_SC_W_1_INFO),
+        .s_sc_payld(S00_SC_W_1_PAYLD),
+        .s_sc_recv(S00_SC_W_1_RECV),
+        .s_sc_req(S00_SC_W_1_REQ),
+        .s_sc_send(S00_SC_W_1_SEND));
 endmodule

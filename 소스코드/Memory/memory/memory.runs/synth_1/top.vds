@@ -2,8 +2,8 @@
 # Vivado v2022.2 (64-bit)
 # SW Build 3671981 on Fri Oct 14 05:00:03 MDT 2022
 # IP Build 3669848 on Fri Oct 14 08:30:02 MDT 2022
-# Start of session at: Fri Nov 15 12:13:39 2024
-# Process ID: 34080
+# Start of session at: Fri Nov 15 19:56:10 2024
+# Process ID: 51572
 # Current directory: C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1
 # Command line: vivado.exe -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file: C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/top.vds
@@ -11,42 +11,66 @@
 # Running On: DESKTOP-O6GVJKR, OS: Windows, CPU Frequency: 3686 MHz, CPU Physical cores: 10, Host memory: 16908 MB
 #-----------------------------------------------------------
 source top.tcl -notrace
+create_project: Time (s): cpu = 00:00:01 ; elapsed = 00:00:05 . Memory (MB): peak = 1000.543 ; gain = 117.457
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2022.2/data/ip'.
-Command: synth_design -top top -part xc7z010clg400-3
+WARNING: [BD 41-1661] One or more IPs have been locked in the design 'design_1.bd'. Please run report_ip_status for more details and recommendations on how to fix this issue.
+List of locked IPs:
+design_1_axi_ahblite_bridge_0_0
+design_1_processing_system7_0_0
+design_1_smartconnect_0_0
+design_1_rst_ps7_0_50M_0
+
+Command: read_checkpoint -auto_incremental -incremental C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/utils_1/imports/synth_1/top.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/utils_1/imports/synth_1/top.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top top -part xc7z010clg400-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010'
-INFO: [Device 21-403] Loading part xc7z010clg400-3
+INFO: [Device 21-403] Loading part xc7z010clg400-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 40460
+INFO: [Synth 8-7075] Helper process launched with PID 8252
 INFO: [Synth 8-11241] undeclared symbol 'REGCCE', assumed default net type 'wire' [C:/Xilinx/Vivado/2022.2/data/verilog/src/unimacro/BRAM_SINGLE_MACRO.v:2170]
 INFO: [Synth 8-11241] undeclared symbol 'busy', assumed default net type 'wire' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/sources_1/new/test.v:86]
 INFO: [Synth 8-11241] undeclared symbol 'rst_n_load', assumed default net type 'wire' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/sources_1/new/top.v:106]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1843.953 ; gain = 407.977
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:04 . Memory (MB): peak = 1852.699 ; gain = 408.949
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'top' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/sources_1/new/top.v:23]
 INFO: [Synth 8-6157] synthesizing module 'design_1_wrapper' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:12]
 INFO: [Synth 8-6157] synthesizing module 'design_1' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:12]
-INFO: [Synth 8-6157] synthesizing module 'design_1_axi_ahblite_bridge_0_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_axi_ahblite_bridge_0_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_ahblite_bridge_0_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_axi_ahblite_bridge_0_0_stub.v:5]
-INFO: [Synth 8-6157] synthesizing module 'design_1_processing_system7_0_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_processing_system7_0_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_processing_system7_0_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_processing_system7_0_0_stub.v:5]
-INFO: [Synth 8-6157] synthesizing module 'design_1_rst_ps7_0_50M_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_rst_ps7_0_50M_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_rst_ps7_0_50M_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_rst_ps7_0_50M_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_ahblite_bridge_0_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_axi_ahblite_bridge_0_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_ahblite_bridge_0_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_axi_ahblite_bridge_0_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'design_1_processing_system7_0_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_processing_system7_0_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_processing_system7_0_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_processing_system7_0_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'design_1_rst_ps7_0_50M_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_rst_ps7_0_50M_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_rst_ps7_0_50M_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_rst_ps7_0_50M_0_stub.v:5]
 WARNING: [Synth 8-7071] port 'mb_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:306]
 WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:306]
 WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:306]
 WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:306]
 WARNING: [Synth 8-7023] instance 'rst_ps7_0_50M' of module 'design_1_rst_ps7_0_50M_0' has 10 connections declared, but only 6 given [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:306]
-INFO: [Synth 8-6157] synthesizing module 'design_1_smartconnect_0_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_smartconnect_0_0_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'design_1_smartconnect_0_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-34080-DESKTOP-O6GVJKR/realtime/design_1_smartconnect_0_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'design_1_smartconnect_0_0' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_smartconnect_0_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_smartconnect_0_0' (0#1) [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/.Xil/Vivado-51572-DESKTOP-O6GVJKR/realtime/design_1_smartconnect_0_0_stub.v:5]
 WARNING: [Synth 8-7071] port 'M00_AXI_awqos' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
 WARNING: [Synth 8-7071] port 'M00_AXI_arqos' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
-WARNING: [Synth 8-7023] instance 'smartconnect_0' of module 'design_1_smartconnect_0_0' has 73 connections declared, but only 71 given [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_awaddr' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_awprot' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_awvalid' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_wdata' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_wstrb' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_wvalid' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_bready' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_araddr' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_arprot' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_arvalid' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7071] port 'M01_AXI_rready' of module 'design_1_smartconnect_0_0' is unconnected for instance 'smartconnect_0' [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
+WARNING: [Synth 8-7023] instance 'smartconnect_0' of module 'design_1_smartconnect_0_0' has 92 connections declared, but only 79 given [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:313]
 INFO: [Synth 8-6155] done synthesizing module 'design_1' (0#1) [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/synth/design_1.v:12]
 INFO: [Synth 8-6155] done synthesizing module 'design_1_wrapper' (0#1) [c:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:12]
 INFO: [Synth 8-6157] synthesizing module 'test' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/sources_1/new/test.v:23]
@@ -142,18 +166,18 @@ WARNING: [Synth 8-7129] Port led[2] in module top is either unconnected or has n
 WARNING: [Synth 8-7129] Port led[1] in module top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port rst_n in module top is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1941.109 ; gain = 505.133
+Finished RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:05 . Memory (MB): peak = 1949.914 ; gain = 506.164
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1941.109 ; gain = 505.133
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 1949.914 ; gain = 506.164
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 1941.109 ; gain = 505.133
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 1949.914 ; gain = 506.164
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.013 . Memory (MB): peak = 1941.109 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.011 . Memory (MB): peak = 1949.914 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -176,21 +200,23 @@ Parsing XDC File [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.
 Finished Parsing XDC File [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/dont_touch.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2014.398 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2008.293 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 2014.398 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.012 . Memory (MB): peak = 2008.293 ; gain = 0.000
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-11241] undeclared symbol 'REGCCE', assumed default net type 'wire' [C:/Xilinx/Vivado/2022.2/data/verilog/src/unimacro/BRAM_SINGLE_MACRO.v:2170]
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Constraint Validation : Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
-Loading part: xc7z010clg400-3
+Loading part: xc7z010clg400-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -461,11 +487,11 @@ Applied set_property KEEP_HIERARCHY = SOFT for zynq_module/design_1_i/smartconne
 Applied set_property KEEP_HIERARCHY = SOFT for zynq_module/design_1_i/axi_ahblite_bridge_0. (constraint file  auto generated constraint).
 Applied set_property KEEP_HIERARCHY = SOFT for zynq_module/design_1_i/rst_ps7_0_50M. (constraint file  auto generated constraint).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-327] inferring latch for variable 'r_ctrl_reg' [C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.srcs/sources_1/new/ahb_load_store.v:111]
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -502,25 +528,25 @@ WARNING: [Synth 8-7129] Port rst_n in module top is either unconnected or has no
 WARNING: [Synth 8-3332] Sequential element (test/LOAD/r_ctrl_reg[1]) is unused and will be removed from module top.
 WARNING: [Synth 8-3332] Sequential element (test/LOAD/r_ctrl_reg[0]) is unused and will be removed from module top.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:06 ; elapsed = 00:00:12 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:16 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:16 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Timing Optimization : Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:07 ; elapsed = 00:00:16 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Technology Mapping : Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -538,37 +564,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished IO Insertion : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -595,24 +621,24 @@ Report Cell Usage:
 |5     |OBUFT                         |     4|
 +------+------------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 2008.293 ; gain = 564.543
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 10 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:06 ; elapsed = 00:00:17 . Memory (MB): peak = 2014.398 ; gain = 505.133
-Synthesis Optimization Complete : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 2014.398 ; gain = 578.422
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:20 . Memory (MB): peak = 2008.293 ; gain = 506.164
+Synthesis Optimization Complete : Time (s): cpu = 00:00:02 ; elapsed = 00:00:22 . Memory (MB): peak = 2008.293 ; gain = 564.543
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.015 . Memory (MB): peak = 2014.398 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 2008.293 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2014.398 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2008.293 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete, checksum: 44ea7797
+Synth Design complete, checksum: a9e6bc5b
 INFO: [Common 17-83] Releasing license: Synthesis
-38 Infos, 107 Warnings, 0 Critical Warnings and 0 Errors encountered.
+44 Infos, 119 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:09 ; elapsed = 00:00:23 . Memory (MB): peak = 2014.398 ; gain = 975.543
+synth_design: Time (s): cpu = 00:00:03 ; elapsed = 00:00:27 . Memory (MB): peak = 2008.293 ; gain = 947.801
 INFO: [Common 17-1381] The checkpoint 'C:/Users/Jeyun/Desktop/fpga/barami_project_2024/memory/memory.runs/synth_1/top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Fri Nov 15 12:14:12 2024...
+INFO: [Common 17-206] Exiting Vivado at Fri Nov 15 19:56:51 2024...
